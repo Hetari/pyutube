@@ -1,4 +1,5 @@
 import re
+import inquirer
 import requests
 import os
 from yaspin import yaspin
@@ -57,3 +58,26 @@ def is_youtube_link(link):
 
     # If match is found for video or playlist, return True, otherwise return False
     return bool(video_match) or bool(playlist_match)
+
+
+def file_type() -> dict:
+    questions = [
+        inquirer.List(
+            "file_type",
+            message="Do you want to download this link audio or video?",
+            choices=['audio', 'video'],
+        ),
+    ]
+    return inquirer.prompt(questions)
+
+
+def ask_resolution() -> dict:
+    questions = [
+        inquirer.List(
+            "resolution",
+            message="Choose the resolution you want to download",
+            choices=["144p", "240p", "360p", "480p",
+                     "720p", "1080p", "2k", "4k"],
+        ),
+    ]
+    return inquirer.prompt(questions)

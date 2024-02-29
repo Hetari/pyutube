@@ -3,3 +3,4 @@ click
 rich
 yaspin
 pytube
+inquirer

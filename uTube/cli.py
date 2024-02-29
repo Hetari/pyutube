@@ -6,9 +6,12 @@ from .utils import (
     welcome,
     clear,
     is_internet_available,
+    is_youtube_link,
+    file_type,
+    ask_resolution,
 )
 
-from .downloader import download_vide
+from .downloader import download_video
 
 import typer
 import rich
@@ -27,7 +30,17 @@ def download(url: str = typer.Argument(...)):
     clear()
     if is_internet_available():
         console.print("✅ There is internet connection", style="info")
+        console.print()
 
-        download_vide(url)
+        if is_valid_link := is_youtube_link(url):
+            file = file_type()
+            if file["file_type"] == "audio":
+                # download_vide(url, "audio")
+                ...
+            else:
+                quality = ask_resolution()
+                download_video(url, quality)
+        else:
+            console.print("❌ Invalid link", style="danger")
     else:
         console.print("❗ No internet connection", style="danger")
