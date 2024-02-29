@@ -1,3 +1,4 @@
 # List of dependencies
 click
 rich
+yaspin
