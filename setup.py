@@ -6,8 +6,8 @@ setup(
     packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'uTube=uTube:cli',
-            'utube=uTube:cli',
+            'uTube=uTube:cli.app',
+            'utube=uTube:cli.app',
         ],
     },
 )
