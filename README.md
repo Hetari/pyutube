@@ -8,11 +8,11 @@ it is written in [Python](https://www.python.org/), [Pytube](https://pytube.io/)
 
 it is cross-platform (Windows, Mac, Linux) and can be used in any terminal.
 
-> [!note] This project is still in development.
+> **Note:** This project is still in development.
 
 ## Inspiration
 
-This project was inspired by [uTube](https://raw.githubusercontent.com/omer73364/uTube/) by [omer73364](https://github.com/omer73364) 🤩
+This project was inspired by [uTube](https://github.com/omer73364/uTube/) by [omer73364](https://github.com/omer73364) 🤩
 
 ## Features
 
