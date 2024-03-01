@@ -3,6 +3,7 @@ from .utils import (
     __app_name__,
     __version__,
     console,
+    error_console,
     welcome,
     clear,
     is_internet_available,
@@ -43,4 +44,4 @@ def download(url: str = typer.Argument(...)):
         else:
             console.print("❌ Invalid link", style="danger")
     else:
-        console.print("❗ No internet connection", style="danger")
+        error_console.print("❗ No internet connection", style="danger")
