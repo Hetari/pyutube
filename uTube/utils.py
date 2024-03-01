@@ -19,6 +19,7 @@ custom_theme = Theme({
 })
 
 console = Console()
+error_console = Console(stderr=True, style="red")
 console = Console(theme=custom_theme)
 
 
@@ -80,4 +81,36 @@ def ask_resolution() -> dict:
                      "720p", "1080p", "2k", "4k"],
         ),
     ]
-    return inquirer.prompt(questions)
+    return inquirer.prompt(questions)["resolution"]
+
+
+def sanitize_filename(filename: str) -> str:
+    # Replace invalid characters with underscores
+    return re.sub(r'[<>:"/\\|?*]', '_', filename)
+
+
+def ask_rename_file(filename: str) -> str:
+    console.print(
+        f"'{filename}' is already exists, do you want to:", style="info")
+    questions = [
+        inquirer.List(
+            "rename",
+            message="Do you want to",
+            choices=['Rename it', 'Overwrite it', "Cancel"],
+        ),
+    ]
+    return inquirer.prompt(questions)["rename"]
+
+
+def rename_file(filename: str, new_filename: str) -> str:
+    try:
+        if not new_filename.endswith(os.path.splitext(filename)[1]):
+            new_filename += f".{filename.split('.')[-1]}"
+    except IndexError as error:
+        error_console.print(error)
+    return new_filename
+
+
+# if __name__ == "__main__":
+#     #     # print(ask_rename_file("Yo"))
+#     print(rename_file("123423215.wav.mov", "123ssd"))
