@@ -1,47 +1,62 @@
 # Logic for downloading YouTube videos
+from functools import wraps
 import os
-import pytube
 from pytube import YouTube
-from rich.progress import track
+from pytube.cli import on_progress
+from utils import (
+    console,
+    error_console,
+    sanitize_filename,
+    ask_rename_file,
+    rename_file
+)
 
 PATH = os.getcwd()
 
 
 def download_video(url, quality='720p', path=PATH):
     youtube = YouTube(
-        url, use_oauth=False, allow_oauth_cache=True
+        url, use_oauth=False, allow_oauth_cache=True, on_progress_callback=on_progress
     )
 
     video = youtube.streams.filter(
-        res=quality, progressive=True).first()
+        res=quality, progressive=True)
+
+    video = video.first()
 
     try:
         if video:
-            title = youtube.title
+            print(f"Downloading {quality} stream...")
+            title = sanitize_filename(youtube.title)
             filename = f"{title} - {quality}.mp4"
-            if os.path.isfile(os.path.join(path, filename)):
-                print(f"File {filename} already exists, do you want to:")
-                print("[r]ename, [o]verwrite or [c]ancel?")
-                choice = input()
 
-                if choice.lower() == 'r':
-                    filename = input(f"{filename} Rename to: ")
+            if os.path.isfile(os.path.join(path, filename)):
+                choice = ask_rename_file(filename)
+                if choice.lower().startswith('r'):
+                    new_name = input(f"{filename} Rename to: ")
+                    filename = rename_file(filename, new_name)
+                    if not filename:
+                        error_console.print("Invalid filename")
+                        return False
+
                 elif choice.lower() != 'o':
-                    print("Download canceled")
-                    return
+                    console.print("Download canceled", style="info")
+                    return False
 
             video.download(output_path=path, filename=filename)
-            print("Download successful!")
         else:
-            print(f"No {quality} stream available for the video.")
+            error_console.print(
+                f"No {quality} stream available for the video.")
+            return False
     except Exception as error:
-        print(f"Error: {error}")
+        error_console.print(f"Error: {error}")
+        return False
 
-
-def on_progress():
-    ...
+    return True
 
 
 if __name__ == '__main__':
     url = "https://www.youtube.com/watch?v=N3CALZudhkI"
+    # url = "https://www.youtube.com/watch?v=lukT_WB5IB0"
     download_video(url)
+    # test_download("https://www.youtube.com/watch?v=N3CALZudhkI")
