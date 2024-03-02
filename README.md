@@ -8,7 +8,7 @@ it is written in [Python](https://www.python.org/), [Pytube](https://pytube.io/)
 
 it is cross-platform (Windows, Mac, Linux) and can be used in any terminal.
 
-> [!note] This project is still in development.
+> **Note:** This project is still in development.
 
 ## Inspiration
 
@@ -75,6 +75,8 @@ pip3 install dist/uTube-1.0.tar.gz
 > In some cases, the package will not install. You may have to add the flag `-H` into the pip command. and if this case, you can use `pip3 install -H dist/uTube-1.0.tar.gz` instead of `pip3 install dist/uTube-1.0.tar.gz`
 >
 > and if this not working, and you on `Linux` or `Mac`, try the command with `sudo`.
+
+Then you can use it in your `Terminal`.
 
 ## Usage
 
