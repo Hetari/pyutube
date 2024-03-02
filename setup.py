@@ -21,6 +21,7 @@ setup(
             "utube=uTube:cli.app",
         ],
     },
+    long_description=open("README.md").read(),
     python_requires=">=3.6",
     readme="README.md",
 )
