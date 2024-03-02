@@ -31,14 +31,10 @@ def clear():
         os.system("clear")
 
 
-def welcome():
-    console.print(f"Welcome to {__app_name__} v {__version__}", style="info")
-
-
 @yaspin(text="Checking internet connection", color="blue", spinner=Spinners.earth)
 def is_internet_available():
     try:
-        requests.get("http://www.google.com", timeout=3)
+        requests.get("http://www.google.com", timeout=5)
         return True
     except requests.ConnectionError:
         return False
@@ -69,7 +65,7 @@ def file_type() -> dict:
             choices=['audio', 'video'],
         ),
     ]
-    return inquirer.prompt(questions)
+    return inquirer.prompt(questions)["file_type"]
 
 
 def ask_resolution() -> dict:
