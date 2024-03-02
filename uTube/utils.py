@@ -6,6 +6,7 @@ from yaspin import yaspin
 from yaspin.spinners import Spinners
 from rich.console import Console
 from rich.theme import Theme
+from rich.color import Color
 
 
 __app_name__: str = "uTube"
@@ -24,7 +25,6 @@ console = Console(theme=custom_theme)
 
 
 def clear():
-    print(os.name)
     if os.name == "nt":
         os.system("cls")
     else:
@@ -111,6 +111,5 @@ def rename_file(filename: str, new_filename: str) -> str:
     return new_filename
 
 
-# if __name__ == "__main__":
-#     #     # print(ask_rename_file("Yo"))
-#     print(rename_file("123423215.wav.mov", "123ssd"))
+def is_file_exists(path: str, filename):
+    return os.path.isfile(os.path.join(path, filename))

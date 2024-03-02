@@ -6,3 +6,4 @@ rich
 yaspin
 pytube
 inquirer
+termcolor
