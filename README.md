@@ -21,13 +21,14 @@ This project was inspired by [uTube](https://github.com/omer73364/uTube/) by [om
 
 ## TODO
 
+- [x] Support downloading sounds (mp3 format).
+- [x] Supports all available video formats and qualities.
 - [ ] Support shorts.
+- [ ] Support if there is no specified quality, download the close it one.
 - [ ] Supports downloading playlists.
-- [ ] Supports all available video formats and qualities.
-- [ ] Support downloading sounds (mp3 format).
 - [ ] Playlists organized to folders by their names.
 - [ ] Playlists videos organized and add numbers to their names to make them organized.
-- [ ] Publish on PyPI.
+- [x] Publish on PyPI.
 - [ ] Any features that you/me can think of.
 
 ## Installation
@@ -86,9 +87,16 @@ Here examples of uses:
 
 **- Download videos by `3` steps:**
 
-1.  `utube download https://www.youtube.com/watch?v=N3CALZudhkI`.
+1.  `utube https://www.youtube.com/watch?v=N3CALZudhkI`.
 2.  Choose video or audio format. (right now only video is supported)
-3.  Choose the resolution you want to download.
+3.  Choose the resolution if it a video you want to download.
+
+| ![enter image description here](images/image1.png) | ![enter image description here](images/image2.png) |
+| -------------------------------------------------- | -------------------------------------------------- |
+
+<div style="text-align: center;">
+    <img src="images/image4.png" />
+</div>
 
 ## Contributing
 
@@ -98,3 +106,4 @@ please follow the [contributing guidelines](CONTRIBUTING.md)
 ## License
 
 This project is licensed under the [MIT License](http://choosealicense.com/licenses/mit/).
+![alt text](image.png)
