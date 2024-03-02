@@ -96,8 +96,3 @@ def download_video(url, quality='720p', path=PATH, is_audio=False):
         return False
 
     return True
-
-
-if __name__ == '__main__':
-    url = "https://www.youtube.com/watch?v=N3CALZudhkI"
-    download_video(url, is_audio=True)
