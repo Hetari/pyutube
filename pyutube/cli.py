@@ -14,7 +14,6 @@ from .utils import (
 from .downloader import download_video
 
 import typer
-import rich
 
 
 app = typer.Typer()

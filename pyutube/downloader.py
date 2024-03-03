@@ -1,4 +1,3 @@
-# Logic for downloading YouTube videos
 import os
 from yaspin import yaspin
 from yaspin.spinners import Spinners
