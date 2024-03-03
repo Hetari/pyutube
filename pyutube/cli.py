@@ -1,4 +1,5 @@
 # Command-line interface logic
+import os
 from .utils import (
     __app_name__,
     __version__,
@@ -20,20 +21,29 @@ app = typer.Typer()
 
 
 @app.command(name="download", help="Download a YouTube video")
-def download(url: str = typer.Argument(...)):
+def download(
+    url: str = typer.Argument(..., help="YouTube video URL"),
+    path: str = typer.Argument(os.getcwd(), help="Path to save video"),
+):
     clear()
-    if is_internet_available():
-        console.print("✅ There is internet connection", style="info")
-        console.print()
-
-        if is_valid_link := is_youtube_link(url):
-            file = file_type()
-            if file == "audio":
-                download_video(url, is_audio=True)
-            else:
-                quality = ask_resolution()
-                download_video(url, quality)
-        else:
-            console.print("❌ Invalid link", style="danger")
-    else:
+    if not is_internet_available():
         error_console.print("❗ No internet connection")
+        return
+
+    console.print("✅ There is internet connection", style="info")
+    console.print()
+
+    if is_valid_link := not is_youtube_link(url):
+        console.print("❌ Invalid link", style="danger")
+        return
+
+    file = file_type().lower()
+
+    match file:
+        case "audio":
+            download_video(url=url, path=path, is_audio=True,)
+        case "video":
+            quality = ask_resolution()
+            download_video(url=url, quality=quality, path=path)
+        case "cancel the download":
+            return

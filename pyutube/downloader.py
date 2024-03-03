@@ -13,8 +13,6 @@ from .utils import (
     is_file_exists,
 )
 
-PATH = os.getcwd()
-
 
 @yaspin(text=colored("Searching for the video", "green"), color="green", spinner=Spinners.point)
 def video_search(url: str):
@@ -42,7 +40,7 @@ def save_file(video, path, filename):
     video.download(output_path=path, filename=filename)
 
 
-def download_video(url, quality='720p', path=PATH, is_audio=False):
+def download_video(url, path, quality='720p', is_audio=False):
     try:
         video = video_search(url)
     except Exception as error:

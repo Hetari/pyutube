@@ -61,8 +61,8 @@ def file_type() -> dict:
     questions = [
         inquirer.List(
             "file_type",
-            message="Do you want to download this link audio or video?",
-            choices=['audio', 'video'],
+            message="Choose the file type you want to download",
+            choices=['Audio', 'Video', "Cancel the download"],
         ),
     ]
     return inquirer.prompt(questions)["file_type"]
