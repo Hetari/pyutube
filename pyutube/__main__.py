@@ -1,4 +1,4 @@
-from uTube.cli import app
+from pyutube.cli import app
 
 
 app()
