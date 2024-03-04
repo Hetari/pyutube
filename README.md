@@ -14,20 +14,22 @@ This project was inspired by [uTube](https://github.com/omer73364/uTube/) by [om
 
 ## Features
 
-- User friendly CLI interface.
-- Download single YouTube video
+- User-friendly CLI interface.
+- Download a single YouTube video
 
 ## TODO
 
+- [x] Publish on PyPI.
 - [x] Support downloading sounds (mp3 format).
 - [x] Supports all available video formats and qualities.
+- [x] Support if there is no specified quality, download the close it one.
 - [ ] Support shorts.
-- [ ] Support if there is no specified quality, download the close it one.
 - [ ] Supports downloading playlists.
-- [ ] Playlists organized to folders by their names.
-- [ ] Playlists videos organized and add numbers to their names to make them organized.
-- [x] Publish on PyPI.
-- [ ] Any features that you/me can think of.
+- [ ] Playlists organized into folders by their names.
+- [ ] Adding numbers playlist videos to their names to make them organized.
+- [ ] Add convert videos into mp3 format.
+- [ ] GUI app.
+- [ ] Any features that you/I can think of.
 
 ## Installation
 
@@ -73,7 +75,7 @@ pip3 install dist/*
 >
 > In some cases, the package will not install. You may have to add the flag `-H` into the pip command. and if this case, you can use `pip3 install -H dist/uTube-1.0.tar.gz` instead of `pip3 install dist/uTube-1.0.tar.gz`
 >
-> and if this not working, and you on `Linux` or `Mac`, try the command with `sudo`.
+> and if this not working, and you are on `Linux` or `Mac`, try the command with `sudo`.
 
 Then you can use it in your `Terminal`.
 
