@@ -111,4 +111,4 @@ please follow the [contributing guidelines](https://github.com/Hetari/pyutube/bl
 
 ## License
 
-This project is licensed under the [MIT License](http://choosealicense.com/licenses/mit/).
+This project is licensed under the [MIT License](https://github.com/Hetari/pyutube/blob/main/LICENSE.md).
