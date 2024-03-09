@@ -1,8 +1,6 @@
 # Command-line interface logic
 import os
 from .utils import (
-    __app_name__,
-    __version__,
     console,
     error_console,
     clear,

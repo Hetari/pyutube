@@ -8,9 +8,6 @@ from rich.console import Console
 from rich.theme import Theme
 
 
-__app_name__: str = "pyutube"
-__version__: str = "1.0.0"
-
 # Set up the console
 custom_theme = Theme({
     "info": "#64b0f2",
