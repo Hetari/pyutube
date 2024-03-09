@@ -6,7 +6,6 @@ from yaspin import yaspin
 from yaspin.spinners import Spinners
 from rich.console import Console
 from rich.theme import Theme
-from rich.color import Color
 
 
 __app_name__: str = "pyutube"
@@ -50,7 +49,9 @@ def is_internet_available() -> bool:
         bool: the request status (True if available, False if not).
     """
     try:
-        requests.get("http://www.google.com", timeout=5)
+        result = requests.get(
+            "https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwi01K6f_-eEAxWnRKQEHYC3AxkQPAgJ", timeout=5)
+        print(f"{result=}")
         return True
     except requests.ConnectionError:
         return False
@@ -92,6 +93,7 @@ def file_type() -> str:
     Returns:
         str: The chosen file type as a string.
     """
+    # make the console font to red
     questions = [
         inquirer.List(
             "file_type",
@@ -99,7 +101,19 @@ def file_type() -> str:
             choices=['Audio', 'Video', "Cancel the download"],
         ),
     ]
-    return inquirer.prompt(questions)["file_type"]
+
+    try:
+        answer = inquirer.prompt(questions)["file_type"]
+
+    # TypeError: 'NoneType' object is not subscriptable
+
+    except TypeError as error:
+        return "Aborted"
+
+    except Exception as error:
+        error_console.print(f"Error: {error}")
+
+    return answer
 
 
 def ask_resolution() -> str:
@@ -117,10 +131,20 @@ def ask_resolution() -> str:
             "resolution",
             message="Choose the resolution you want to download",
             choices=["144p", "240p", "360p", "480p",
-                     "720p", "1080p"],
+                     "720p", "1080p", "Cancel the download"],
         ),
     ]
-    return inquirer.prompt(questions)["resolution"]
+
+    try:
+        answer = inquirer.prompt(questions)["resolution"]
+
+    except TypeError as error:
+        return "Aborted"
+
+    except Exception as error:
+        error_console.print(f"Error: {error}")
+
+    return answer
 
 
 def ask_rename_file(filename: str) -> str:
@@ -177,7 +201,7 @@ def rename_file(filename: str, new_filename: str) -> str:
         if not new_filename.endswith(os.path.splitext(filename)[1]):
             new_filename += f".{filename.split('.')[-1]}"
     except IndexError as error:
-        error_console.print(error)
+        error_console.print(f"Error: {error}")
     return new_filename
 
 
@@ -193,3 +217,7 @@ def is_file_exists(path: str, filename: str) -> bool:
         bool: True if the file exists, False otherwise.
     """
     return os.path.isfile(os.path.join(path, filename))
+
+
+if __name__ == "__main__":
+    print(is_internet_available())

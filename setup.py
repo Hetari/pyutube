@@ -34,7 +34,6 @@ setup(
     entry_points={
         "console_scripts": [
             "pyutube=pyutube:cli.app",  # Command to run the application
-            "utube=pyutube:cli.app",    # Alternative command
         ],
     },
 

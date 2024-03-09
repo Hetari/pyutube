@@ -10,7 +10,7 @@ it is cross-platform (Windows, Mac, Linux) and can be used in any terminal.
 
 ## Inspiration
 
-This project was inspired by [uTube](https://github.com/omer73364/uTube/) by [omer73364](https://github.com/omer73364) 🤩
+This project was inspired by [PyUtube](https://github.com/omer73364/uTube/) by [omer73364](https://github.com/omer73364) 🤩
 
 ## Features
 
@@ -73,7 +73,7 @@ pip3 install dist/*
 
 > **Warning:**
 >
-> In some cases, the package will not install. You may have to add the flag `-H` into the pip command. and if this case, you can use `pip3 install -H dist/uTube-1.0.tar.gz` instead of `pip3 install dist/uTube-1.0.tar.gz`
+> In some cases, the package will not install. You may have to add the flag `-H` into the pip command. and if this case, you can use `pip3 install -H dist/*` instead of `pip3 install dist/*`
 >
 > and if this not working, and you are on `Linux` or `Mac`, try the command with `sudo`.
 
@@ -81,26 +81,29 @@ Then you can use it in your `Terminal`.
 
 ## Usage
 
-uTube is very easy to use, just type `utube` on your **terminal** or **cmd** then you can use it.
+uTube is very easy to use, just type `pyutube` on your **terminal** or **cmd** then you can use it.
 
 Here examples of uses:
 
 **- Download videos by `3` steps:**
 
-1.  `utube https://www.youtube.com/watch?v=N3CALZudhkI [the_download_path]`.
+1.  `pyutube https://www.youtube.com/watch?v=N3CALZudhkI [the_download_path]`.
 2.  Choose video or audio format. (right now only video is supported)
 3.  Choose the resolution if it a video you want to download.
 
 `the_download_path` is an optional input, the default is the `terminal` path
 
-| ![enter image description here](pyutube/images/image1.png) | ![enter image description here](pyutube/images/image2.png) |
-| ---------------------------------------------------------- | ---------------------------------------------------------- |
-
 <div style="text-align: center;">
-    <img src="pyutube/images/image3.png" />
+    <img src="pyutube/images/image1.png" />
+    <br />
+    <br />
+    <img src="pyutube/images/image2.png" />
     <br />
     <br />
     <img src="pyutube/images/image3.png" />
+    <br />
+    <br />
+    <img src="pyutube/images/image4.png" />
 
 </div>
 

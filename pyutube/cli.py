@@ -11,7 +11,7 @@ from .utils import (
     file_type,
     ask_resolution,
 )
-from .downloader import download_video
+from .downloader import Downloader
 import typer
 
 
@@ -21,7 +21,8 @@ app = typer.Typer()
 
 @app.command(name="download", help="Download a YouTube video")
 def download(
-    url: str = typer.Argument(..., help="YouTube video URL"),
+    url: str = typer.Argument(
+        "https://www.youtube.com/watch?v=N3CALZudhkI", help="YouTube video URL"),
     path: str = typer.Argument(os.getcwd(), help="Path to save video"),
 ):
     """
@@ -53,12 +54,22 @@ def download(
     # Determine the file type to download, is it audio or video?
     file = file_type().lower()
 
-    # Choose download option based on file type
-    match file:
-        case "audio":
-            download_video(url=url, path=path, is_audio=True,)
-        case "video":
-            quality = ask_resolution()
-            download_video(url=url, quality=quality, path=path)
-        case "cancel the download":
-            return
+    if file.startswith("abort"):
+        return
+
+    elif file.startswith("cancel"):
+        error_console.print("❗ Cancel the download...")
+        return
+
+    quality = ask_resolution() if file.startswith("video") else ""
+
+    if quality.lower().startswith("cancel"):
+        return
+
+    downloader = Downloader(
+        url=url, path=path, quality=quality, is_audio=file.startswith("audio"),
+    )
+
+    downloader.download_video()
+
+    del downloader
