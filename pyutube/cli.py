@@ -19,8 +19,7 @@ app = typer.Typer()
 
 @app.command(name="download", help="Download a YouTube video")
 def download(
-    url: str = typer.Argument(
-        "https://www.youtube.com/watch?v=N3CALZudhkI", help="YouTube video URL"),
+    url: str = typer.Argument(..., help="YouTube video URL"),
     path: str = typer.Argument(os.getcwd(), help="Path to save video"),
 ):
     """
@@ -62,6 +61,7 @@ def download(
     quality = ask_resolution() if file.startswith("video") else ""
 
     if quality.lower().startswith("cancel"):
+        error_console.print("❗ Cancel the download...")
         return
 
     downloader = Downloader(

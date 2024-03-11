@@ -46,9 +46,8 @@ def is_internet_available() -> bool:
         bool: the request status (True if available, False if not).
     """
     try:
-        result = requests.get(
+        requests.get(
             "https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwi01K6f_-eEAxWnRKQEHYC3AxkQPAgJ", timeout=5)
-        print(f"{result=}")
         return True
     except requests.ConnectionError:
         return False
