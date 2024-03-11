@@ -3,7 +3,7 @@ from yaspin.spinners import Spinners
 from pytube import YouTube
 from pytube.cli import on_progress
 from termcolor import colored
-from .utils import (
+from pyutube.utils import (
     console,
     error_console,
     sanitize_filename,
@@ -136,6 +136,8 @@ class Downloader:
 
         if self.is_audio:
             video = self.get_audio_streams(video)
+        elif self.is_short:
+            video = self.get_video_streams(video, "480p")
         else:
             video = self.get_video_streams(video, self.quality)
 

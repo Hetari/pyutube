@@ -44,29 +44,37 @@ def download(
     console.print()
 
     # Check if the link is valid youtube link
-    if is_valid_link := not is_youtube_link(url):
+    is_valid_link = is_youtube_link(url)
+
+    if not is_valid_link[0]:
         console.print("❌ Invalid link", style="danger")
         return
 
-    # Determine the file type to download, is it audio or video?
-    file = file_type().lower()
+    if is_valid_link[0] and is_valid_link[1].lower() == "video":
+        # Determine the file type to download, is it audio or video?
+        file = file_type().lower()
 
-    if file.startswith("abort"):
-        return
+        if file.startswith("abort"):
+            return
 
-    elif file.startswith("cancel"):
-        error_console.print("❗ Cancel the download...")
-        return
+        elif file.startswith("cancel"):
+            error_console.print("❗ Cancel the download...")
+            return
 
-    quality = ask_resolution() if file.startswith("video") else ""
+        quality = ask_resolution()
 
-    if quality.lower().startswith("cancel"):
-        error_console.print("❗ Cancel the download...")
-        return
+        if quality.lower().startswith("cancel"):
+            error_console.print("❗ Cancel the download...")
+            return
 
-    downloader = Downloader(
-        url=url, path=path, quality=quality, is_audio=file.startswith("audio"),
-    )
+        downloader = Downloader(
+            url=url, path=path, quality=quality, is_audio=file.startswith(
+                "audio"),
+        )
+
+    elif is_valid_link[0] and is_valid_link[1].lower() == "short":
+        downloader = Downloader(
+            url=url, path=path, quality="480p", is_short=True)
 
     downloader.download_video()
 

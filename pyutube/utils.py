@@ -53,29 +53,53 @@ def is_internet_available() -> bool:
         return False
 
 
-def is_youtube_link(link: str) -> bool:
+def is_youtube_link(link: str) -> tuple[bool, str]:
     """
-    Check if the given link is a YouTube video or playlist link.
+    Check if the given link is a YouTube video, playlist, or shorts link.
+
+    Args:
+        link (str): The link to be checked.
+
+    Returns:
+        tuple[bool, str]: True if the link is a YouTube video, playlist, or shorts link,
+        False otherwise. The second item of the tuple indicates the type of link found:
+        'video', 'playlist', or 'shorts'.
+    """
+    is_video = is_youtube_video(link)
+    is_short = is_youtube_shorts(link)
+
+    return (is_video, "video") if is_video else (is_short, "short") if is_short else (False, "unknown")
+
+
+def is_youtube_shorts(link: str) -> bool:
+    """
+    Check if the given link is a YouTube shorts link.
 
     Args:
         link: The link to be checked.
 
     Returns:
-        bool: True if the link is a YouTube video or playlist link, False otherwise.
+        bool: True if the link is a YouTube shorts link, False otherwise.
     """
-    # Regular expression pattern to match YouTube video URLs
-    youtube_pattern = r"(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})"
+    # shorts_pattern = r"(?:https?:\/\/)?(?:www\.)?youtube\.com\/shorts\/([a-zA-Z0-9_-]+)"
+    shorts_pattern = r"(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|shorts\/|watch\?.*?v=))(?:(?:[^\/\n\s]+\/)?)([a-zA-Z0-9_-]+)"
+    shorts_match = re.match(shorts_pattern, link)
+    return bool(shorts_match)
 
-    # Regular expression pattern to match YouTube playlist URLs
-    # playlist_pattern = r"(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:playlist|watch)\?(?:.*&)?list=([a-zA-Z0-9_-]+)"
 
-    # Match the pattern against the link for video
-    video_match = re.match(youtube_pattern, link)
+def is_youtube_video(link: str) -> bool:
+    """
+    Check if the given link is a YouTube video.
 
-    # Match the pattern against the link for playlist
-    # playlist_match = re.match(playlist_pattern, link)
+    Args:
+        link: The link to be checked.
 
-    # If match is found for video or playlist, return True, otherwise return False
+    Returns:
+        bool: True if the link is a YouTube video, False otherwise.
+    """
+    video_pattern = r"(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})"
+
+    video_match = re.match(video_pattern, link)
     return bool(video_match)
 
 
