@@ -1,5 +1,5 @@
 import pytest
-from uTube.utils import is_youtube_link
+from pyutube.utils import is_youtube_video
 
 # Parametrized test cases for happy path, edge cases, and error cases
 
@@ -15,15 +15,9 @@ from uTube.utils import is_youtube_link
     ("youtu.be/dQw4w9WgXcQ", True, "happy_short_no_protocol"),
     ("https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=100s",
      True, "happy_starts_at_100s"),
-    ("https://www.youtube.com/playlist?list=PLMC9KNkIncKtPzgY-5rmhvj7fax8fdxoj",
-     True, "happy_playlist"),
 
     ("https://www.youtube.com/watch?v=dQw4w9WgXcQ", True, "video_id_standard"),
     ("https://youtu.be/dQw4w9WgXcQ", True, "video_id_short"),
-    ("https://www.youtube.com/watch?list=PLA7no0L9zTk4Qp6LlDjFVCetW-sFw9r5I",
-     True, "playlist_standard"),
-    ("https://www.youtube.com/playlist?list=PLA7no0L9zTk4Qp6LlDjFVCetW-sFw9r5I",
-     True, "playlist_full"),
     ("http://www.youtube.com/watch?v=dQw4w9WgXcQ", True, "video_id_http"),
     ("www.youtube.com/watch?v=dQw4w9WgXcQ", True, "video_id_no_protocol"),
     ("youtube.com/watch?v=dQw4w9WgXcQ", True, "video_id_no_subdomain"),
@@ -40,7 +34,7 @@ from uTube.utils import is_youtube_link
 
     ("", False, "empty_string"),
     ("https://www.youtube.com/watch?v=", False, "video_id_empty"),
-    ("https://www.youtube.com/playlist?list=", False, "playlist_id_empty"),
+    # ("https://www.youtube.com/playlist?list=", False, "playlist_id_empty"),
     ("https://www.youtu.be/", False, "short_domain_no_id"),
     ("https://youtube.com/watch?v=dQw4w9WgXcQ&feature=share",
      True, "video_id_with_query"),
@@ -64,13 +58,11 @@ from uTube.utils import is_youtube_link
     ("https://www.youtub.com/watch?v=dQw4w9WgXcQ", False, "typo_in_domain"),
     ("https://www.youtube.com/watch?feature=share&v=dQw4w9WgXcQ",
      True, "video_id_with_other_query_first"),
-    ("https://www.youtube.com/playlist?feature=share&list=PLA7no0L9zTk4Qp6LlDjFVCetW-sFw9r5I",
-     True, "playlist_with_other_query_first"),
 
 ])
 def test_is_youtube_link(link, expected_result, test_id):
     # Act
-    result = is_youtube_link(link)
+    result = is_youtube_video(link)
 
     # Assert
     assert result == expected_result, f"Test failed for test_id: {test_id}"
