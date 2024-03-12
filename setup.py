@@ -11,7 +11,7 @@ setup(
     name="pyutube",
 
     # Version of the package
-    version="1.0.1",
+    version="1.1.0",
 
     # Required dependencies
     install_requires=[
