@@ -81,17 +81,21 @@ Then you can use it in your `Terminal`.
 
 ## Usage
 
-uTube is very easy to use, just type `pyutube` on your **terminal** or **cmd** then you can use it.
+Pyutube is very easy to use, just type `pyutube` on your **terminal** or **cmd** then you can use it.
 
 Here examples of uses:
 
-**- Download videos by `3` steps:**
+> **Note:** `[the_download_path]` is an optional input, the default value is the `terminal` path.
 
-1.  `pyutube https://www.youtube.com/watch?v=N3CALZudhkI [the_download_path]`.
-2.  Choose video or audio format. (right now only video is supported)
+### **- Download videos or audios by `1` step:**
+
+1. `pyutube short_link [the_download_path]`
+
+### **- Download videos or audios by `2` or `3` steps:**
+
+1.  `pyutube video_link [the_download_path]`.
+2.  Choose video or audio format. If you choose an audio format, it will download it immediately 🔥.
 3.  Choose the resolution if it a video you want to download.
-
-`the_download_path` is an optional input, the default is the `terminal` path
 
 <div style="text-align: center;">
     <img src="pyutube/images/image1.png" />
