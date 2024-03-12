@@ -23,7 +23,7 @@ This project was inspired by [PyUtube](https://github.com/omer73364/uTube/) by [
 - [x] Support downloading sounds (mp3 format).
 - [x] Supports all available video formats and qualities.
 - [x] Support if there is no specified quality, download the close it one.
-- [ ] Support shorts.
+- [x] Support shorts.
 - [ ] Supports downloading playlists.
 - [ ] Playlists organized into folders by their names.
 - [ ] Adding numbers playlist videos to their names to make them organized.
