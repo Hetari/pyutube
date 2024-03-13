@@ -7,6 +7,8 @@ from yaspin.spinners import Spinners
 from rich.console import Console
 from rich.theme import Theme
 
+ABORTED_PREFIX = "aborted"
+CANCEL_PREFIX = "cancel"
 
 # Set up the console
 custom_theme = Theme({
@@ -50,6 +52,8 @@ def is_internet_available() -> bool:
             "https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwi01K6f_-eEAxWnRKQEHYC3AxkQPAgJ", timeout=5)
         return True
     except requests.ConnectionError:
+        return False
+    except requests.ReadTimeout:
         return False
 
 
@@ -239,5 +243,64 @@ def is_file_exists(path: str, filename: str) -> bool:
     return os.path.isfile(os.path.join(path, filename))
 
 
-if __name__ == "__main__":
-    print(is_internet_available())
+def check_internet_connection() -> bool:
+    """
+    Checks if an internet connection is available.
+
+    Returns:
+        bool: True if internet connection is available, False otherwise.
+    """
+    if not is_internet_available():
+        error_console.print("❗ No internet connection")
+        return False
+    else:
+        console.print("✅ There is internet connection", style="info")
+        console.print()
+        return True
+
+
+def validate_link(url: str) -> tuple[bool, str]:
+    """
+    Validates the given YouTube video URL.
+
+    Args:
+        url (str): The URL of the YouTube video.
+
+    Returns:
+        Tuple[bool, str]: A tuple containing a boolean indicating if the link is valid
+        and a string indicating the type of the link (video or short).
+    """
+    is_valid_link, link_type = is_youtube_link(url)
+    if not is_valid_link:
+        console.print("❌ Invalid link", style="danger")
+
+    return is_valid_link, link_type.lower()
+
+
+def handle_video_link(url: str, path: str) -> None:
+    """
+    Handles video link scenario.
+
+    Args:
+        url (str): The URL of the YouTube video.
+        path (str): The path to save the video.
+
+    Returns:
+        None
+    """
+    file_type_choice = file_type().lower()
+    is_audio = file_type_choice.startswith("audio")
+
+    if file_type_choice.startswith(CANCEL_PREFIX):
+        error_console.print("❗ Cancel the download...")
+    elif file_type_choice.startswith(ABORTED_PREFIX):
+        return
+
+    quality_choice = ask_resolution().lower()
+
+    if quality_choice.startswith(CANCEL_PREFIX):
+        error_console.print("❗ Cancel the download...")
+    elif quality_choice.startswith(ABORTED_PREFIX):
+        return
+
+    return url, path, quality_choice, is_audio

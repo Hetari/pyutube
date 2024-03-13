@@ -3,7 +3,7 @@ from yaspin.spinners import Spinners
 from pytube import YouTube
 from pytube.cli import on_progress
 from termcolor import colored
-from pyutube.utils import (
+from .utils import (
     console,
     error_console,
     sanitize_filename,
@@ -186,3 +186,23 @@ class Downloader:
 
         # Return True upon successful download.
         return True
+
+
+def download(url: str, path: str, quality_choice: str, is_audio: bool) -> None:
+    """
+    Downloads the YouTube video based on the provided parameters.
+
+    Args:
+        url (str): The URL of the YouTube video.
+        path (str): The path to save the video.
+        quality_choice (str): The chosen quality for the video.
+        is_audio (bool): Whether the download is for audio.
+
+    Returns:
+        None
+    """
+    downloader = Downloader(
+        url=url, path=path, quality=quality_choice, is_audio=is_audio,
+    )
+    downloader.download_video()
+    del downloader
