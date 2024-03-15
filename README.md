@@ -15,20 +15,19 @@ This project was inspired by [PyUtube](https://github.com/omer73364/uTube/) by [
 ## Features
 
 - User-friendly CLI interface.
-- Download a single YouTube video
+- Download a single YouTube in video format or audio.
+- Download YouTube shorts.
 
 ## TODO
 
 - [x] Publish on PyPI.
 - [x] Support downloading sounds (mp3 format).
-- [x] Supports all available video formats and qualities.
-- [x] Support if there is no specified quality, download the close it one.
+- [x] Supports all available video resolutions.
 - [x] Support shorts.
 - [ ] Supports downloading playlists.
 - [ ] Playlists organized into folders by their names.
-- [ ] Adding numbers playlist videos to their names to make them organized.
 - [ ] Add convert videos into mp3 format.
-- [ ] GUI app.
+- [ ] GUI app (nah! Not yet).
 - [ ] Any features that you/I can think of.
 
 ## Installation
