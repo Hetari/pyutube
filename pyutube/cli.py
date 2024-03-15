@@ -16,7 +16,8 @@ app = typer.Typer()
 @app.command(name="download", help="Download a YouTube video")
 def pyutube(
     url: str = typer.Argument(..., help="YouTube video URL"),
-    path: str = typer.Argument(os.getcwd(), help="Path to save video"),
+    path: str = typer.Argument(
+        os.getcwd(), help="Path to save video [default: <current directory>]"),
 ):
     """
     Downloads a YouTube video.

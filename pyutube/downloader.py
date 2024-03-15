@@ -87,8 +87,7 @@ class Downloader:
         Returns:
             The first audio stream found in the video.
         """
-        return video.streams.filter(
-            only_audio=True).order_by('mime_type').first()
+        return video.streams.filter(only_audio=True).order_by('mime_type').first()
 
     @yaspin(text=colored("Saving the file...", "cyan"), spinner=Spinners.smiley)
     def save_file(self, video: YouTube, path: str, filename: str) -> None:
@@ -124,19 +123,19 @@ class Downloader:
             return False
 
         if self.is_audio:
-            video = self.get_audio_streams(video)
-        elif self.is_short:
-            video = self.get_video_streams(video, self.quality)
+            file = self.get_audio_streams(video)
         else:
-            video = self.get_selected_video_stream(video)
+            # shorts and videos
+            streams = self.get_selected_stream(video)
+            file = self.get_video_streams(video, self.quality, streams)
 
-        if not video:
+        if not file:
             error_console.print(
                 "Something went wrong while downloading the video.")
             return False
 
         # Generate filename with title, quality, and file extension
-        filename = self.generate_filename(video)
+        filename = self.generate_filename(file)
 
         # If file with the same name already exists in the path
         if is_file_exists(self.path, filename):
@@ -144,7 +143,7 @@ class Downloader:
             if not cancel:
                 return False
         try:
-            self.save_file(video, self.path, filename)
+            self.save_file(file, self.path, filename)
 
         except Exception as error:
             error_console.print(f"Error: {error}")
@@ -168,7 +167,7 @@ class Downloader:
         console.print(f"Title: {video.title}\n", style="info")
         return video
 
-    def get_selected_video_stream(self, video):
+    def get_selected_stream(self, video):
         """
         Get the selected video stream based on user preference.
 
@@ -177,7 +176,7 @@ class Downloader:
         """
         resolutions, streams = self.get_available_resolutions(video)
         self.quality = ask_resolution(resolutions)
-        return self.get_video_streams(video, self.quality, streams)
+        return streams
 
     def generate_filename(self, video):
         """
