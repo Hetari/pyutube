@@ -8,16 +8,17 @@ from .utils import (
     error_console,
     sanitize_filename,
     ask_rename_file,
+    ask_resolution,
     rename_file,
     is_file_exists,
 )
 
 
 class Downloader:
-    def __init__(self, url: str, path: str, quality: str, is_audio: bool = False, is_playlist: bool = False, is_short: bool = False):
+    def __init__(self, url: str, path: str, is_audio: bool = False, is_playlist: bool = False, is_short: bool = False):
         self.url = url
         self.path = path
-        self.quality = quality
+        self.quality = "720p"
         self.is_audio = is_audio
         self.is_playlist = is_playlist
         self.is_short = is_short
@@ -42,8 +43,24 @@ class Downloader:
             on_progress_callback=on_progress,
         )
 
+    @yaspin(text=colored("getting video headers ", "green") + colored("(means the video won't be downloaded)", "yellow"), spinner=Spinners.point)
+    def get_available_resolutions(self, video: YouTube) -> set:
+        """
+        Get a set of all available resolutions for the video.
+
+        Args:
+            video: The video to retrieve available resolutions from.
+
+        Returns:
+            set: A set containing all available resolutions.
+        """
+        available_streams = video.streams.filter(progressive=True)
+        return {
+            stream.resolution for stream in available_streams if stream.resolution
+        }, available_streams
+
     @yaspin(text=colored("Downloading the video...", "green"), color="green", spinner=Spinners.dots13)
-    def get_video_streams(self, video: YouTube, quality: str) -> YouTube:
+    def get_video_streams(self, video: YouTube, quality: str, streams: YouTube.streams) -> YouTube:
         """
         Downloads the video streams based on the specified quality.
         If the specified quality is not available, it selects the nearest quality.
@@ -55,25 +72,9 @@ class Downloader:
         Returns:
             The video stream with the specified quality, or the best available stream if no match is found.
         """
-        available_streams = video.streams.filter(
-            progressive=True).order_by('resolution')
+        available_streams = streams.order_by('resolution')
 
-        # Check if the desired quality is available
-        if quality in [stream.resolution for stream in available_streams]:
-            return available_streams.get_by_resolution(quality)
-
-        # If the desired quality is not available, find the nearest quality
-        # finding the closest resolution to the desired quality
-        nearest_quality = None
-        min_diff = float('inf')
-
-        for stream in available_streams:
-            diff = abs(int(stream.resolution[:-1]) - int(quality[:-1]))
-            if diff < min_diff:
-                min_diff = diff
-                nearest_quality = stream.resolution
-
-        return available_streams.get_by_resolution(nearest_quality)
+        return available_streams.get_by_resolution(quality) or available_streams.first()
 
     @yaspin(text=colored("Downloading the audio...", "green"), color="green", spinner=Spinners.dots13)
     def get_audio_streams(self, video: YouTube) -> YouTube:
@@ -117,8 +118,42 @@ class Downloader:
         Returns:
             bool: True if the video is downloaded successfully, False otherwise.
         """
+        video = self.search_process()
+
+        if not video:
+            return False
+
+        if self.is_audio:
+            video = self.get_audio_streams(video)
+        elif self.is_short:
+            video = self.get_video_streams(video, self.quality)
+        else:
+            video = self.get_selected_video_stream(video)
+
+        if not video:
+            error_console.print(
+                "Something went wrong while downloading the video.")
+            return False
+
+        # Generate filename with title, quality, and file extension
+        filename = self.generate_filename(video)
+
+        # If file with the same name already exists in the path
+        if is_file_exists(self.path, filename):
+            cancel = self.handle_existing_file(filename)
+            if not cancel:
+                return False
         try:
-            # Search for the video
+            self.save_file(video, self.path, filename)
+
+        except Exception as error:
+            error_console.print(f"Error: {error}")
+            return False
+
+        return True
+
+    def search_process(self) -> YouTube:
+        try:
             video = self.video_search(self.url)
         except Exception as error:
             error_console.print(f"Error: {error}")
@@ -126,69 +161,65 @@ class Downloader:
 
         # If video is not found
         if not video:
-            if not self.is_audio:
-                error_console.print(
-                    f"No {quality} stream available for the video.")
-            else:
-                error_console.print(
-                    "No audio stream available for the video.")
-            return False
-
-        if self.is_audio:
-            video = self.get_audio_streams(video)
-        elif self.is_short:
-            video = self.get_video_streams(video, "480p")
-        else:
-            video = self.get_video_streams(video, self.quality)
-
-        # If video stream is not available, imagine that
-        if not video:
             error_console.print(
-                f"No {quality} stream available for the video.")
+                f"No {'audio' if self.is_audio else 'video'} stream available for the video.")
             return False
 
-        # Set quality to 'audio' if downloading as audio, otherwise use the video resolution.
+        console.print(f"Title: {video.title}\n", style="info")
+        return video
+
+    def get_selected_video_stream(self, video):
+        """
+        Get the selected video stream based on user preference.
+
+        Returns:
+            YouTube: The selected video stream.
+        """
+        resolutions, streams = self.get_available_resolutions(video)
+        self.quality = ask_resolution(resolutions)
+        return self.get_video_streams(video, self.quality, streams)
+
+    def generate_filename(self, video):
+        """
+        Generate a filename for the downloaded video.
+
+        Returns:
+            str: The generated filename.
+        """
         quality = 'audio' if self.is_audio else video.resolution
-
-        # Sanitize video title for use as filename
         title = sanitize_filename(video.title)
+        return f"{title} - {quality}.{'mp3' if self.is_audio else video.mime_type.split('/')[1]}"
 
-        # Generate filename with title, quality, and file extension
-        filename = f"{title} - {quality}.{'mp3' if self.is_audio else video.mime_type.split('/')[1]}"
+    def handle_existing_file(self, filename):
+        """
+        Handle the case where a file with the same name already exists.
 
-        # If file with the same name already exists in the path
-        if is_file_exists(self.path, filename):
-            # Ask user if they want to rename the file, overwrite it, or cancel the download process
-            choice = ask_rename_file(filename).lower()
-
-            # If user chooses to rename, prompt for new filename
-            if choice.startswith('rename'):
-                # Color the filename text so it's easier to read in the terminal
-                text = colored(filename, 'yellow')
-                new_name = input(f"Rename {text} to: ")
-                filename = rename_file(filename, new_name)
-
-                if not filename:
-                    error_console.print("Invalid filename")
-                    return False
-
-            # If user chooses to cancel download
-            elif choice.startswith('c'):
-                console.print("Download canceled", style="info")
-                return False
-        try:
-            # Attempt to save the video to the specified path with the generated filename
-            self.save_file(video, self.path, filename)
-
-        except Exception as error:
-            error_console.print(f"Error: {error}")
+        Returns:
+            str: The user's choice.
+        """
+        choice = ask_rename_file(filename).lower()
+        if choice.startswith('rename'):
+            filename = self.prompt_new_filename(filename)
+            if not filename:
+                error_console.print("Invalid filename")
+            return False
+        elif choice.startswith('cancel'):
+            console.print("Download canceled", style="info")
             return False
 
-        # Return True upon successful download.
-        return True
+    def prompt_new_filename(self, filename):
+        """
+        Prompt the user for a new filename.
+
+        Returns:
+            str: The new filename.
+        """
+        text = colored(filename, 'yellow')
+        new_name = input(f"Rename {text} to: ")
+        return rename_file(filename, new_name)
 
 
-def download(url: str, path: str, quality_choice: str, is_audio: bool) -> None:
+def download(url: str, path: str, is_audio: bool) -> None:
     """
     Downloads the YouTube video based on the provided parameters.
 
@@ -202,7 +233,7 @@ def download(url: str, path: str, quality_choice: str, is_audio: bool) -> None:
         None
     """
     downloader = Downloader(
-        url=url, path=path, quality=quality_choice, is_audio=is_audio,
+        url=url, path=path, is_audio=is_audio,
     )
     downloader.download_video()
     del downloader

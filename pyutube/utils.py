@@ -7,6 +7,7 @@ from yaspin.spinners import Spinners
 from rich.console import Console
 from rich.theme import Theme
 
+
 ABORTED_PREFIX = "aborted"
 CANCEL_PREFIX = "cancel"
 
@@ -48,12 +49,20 @@ def is_internet_available() -> bool:
         bool: the request status (True if available, False if not).
     """
     try:
-        requests.get(
-            "https://www.google.com/webhp?hl=en&sa=X&ved=0ahUKEwi01K6f_-eEAxWnRKQEHYC3AxkQPAgJ", timeout=5)
+        requests.get("https://www.google.com", timeout=5)
         return True
     except requests.ConnectionError:
         return False
     except requests.ReadTimeout:
+        return False
+    except requests.HTTPError:
+        return False
+    except requests.TooManyRedirects:
+        return False
+    except requests.RequestException:
+        return False
+    except Exception as error:
+        error_console.print(f"Error: {error}")
         return False
 
 
@@ -140,22 +149,22 @@ def file_type() -> str:
     return answer
 
 
-def ask_resolution() -> str:
+def ask_resolution(resolutions: set) -> str:
     """
     Prompts the user to choose a resolution for download and returns the chosen resolution as a string.
 
     Args:
-        None
+        resolutions (set): The set of available resolutions.
 
     Returns:
         str: The chosen resolution as a string.
     """
+    resolution_choices = list(resolutions) + ["Cancel the download"]
     questions = [
         inquirer.List(
             "resolution",
             message="Choose the resolution you want to download",
-            choices=["144p", "240p", "360p", "480p",
-                     "720p", "1080p", "Cancel the download"],
+            choices=resolution_choices,
         ),
     ]
 
@@ -243,6 +252,7 @@ def is_file_exists(path: str, filename: str) -> bool:
     return os.path.isfile(os.path.join(path, filename))
 
 
+# main utils
 def check_internet_connection() -> bool:
     """
     Checks if an internet connection is available.
@@ -296,11 +306,8 @@ def handle_video_link(url: str, path: str) -> None:
     elif file_type_choice.startswith(ABORTED_PREFIX):
         return
 
-    quality_choice = ask_resolution().lower()
+    return url, path, is_audio
 
-    if quality_choice.startswith(CANCEL_PREFIX):
-        error_console.print("❗ Cancel the download...")
-    elif quality_choice.startswith(ABORTED_PREFIX):
-        return
 
-    return url, path, quality_choice, is_audio
+if __name__ == "__main__":
+    ask_resolution({"720p", "480p", "360p", "240p", "144p"})

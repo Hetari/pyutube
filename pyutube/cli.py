@@ -14,7 +14,7 @@ app = typer.Typer()
 
 
 @app.command(name="download", help="Download a YouTube video")
-def download_video_async(
+def pyutube(
     url: str = typer.Argument(..., help="YouTube video URL"),
     path: str = typer.Argument(os.getcwd(), help="Path to save video"),
 ):
@@ -40,12 +40,11 @@ def download_video_async(
 
     if link_type == "video":
         try:
-            url, path, quality_choice, is_audio = handle_video_link(url, path)
+            url, path, is_audio = handle_video_link(url, path)
         except TypeError:
             return
 
-        download(url, path, quality_choice, is_audio)
+        download(url, path, is_audio)
 
     elif link_type == "short":
-        quality_choice = "720p"
-        download(url, path, quality_choice, is_audio)
+        download(url, path, is_audio)
