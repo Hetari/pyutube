@@ -1,6 +1,6 @@
 # Pyutube Changelog
 
-## 1.1.1
+## 1.1.2
 
 - Fix: Show only available resolutions.
 

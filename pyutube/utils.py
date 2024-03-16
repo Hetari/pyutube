@@ -110,10 +110,26 @@ def is_youtube_video(link: str) -> bool:
     Returns:
         bool: True if the link is a YouTube video, False otherwise.
     """
-    video_pattern = r"(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})"
+    # video_pattern = re.compile(
+    #     r'(?:https?://)?(?:www\.)?(?:youtube\.com/(?:(?:watch\?v=)|(?:embed/))|youtu\.be/)([a-zA-Z0-9_-]{11})')
 
-    video_match = re.match(video_pattern, link)
-    return bool(video_match)
+    video_pattern = re.compile(
+        r'(?:https?://)?(?:www\.)?(?:youtube\.com/(?:(?:watch\?v=)|(?:embed/))|youtu\.be/|youtube.com/share\?v=)([a-zA-Z0-9_-]{11})')
+
+    return bool(video_pattern.match(link))
+
+
+def is_youtube_video_id(video_id: str) -> bool:
+    """
+    Check if the given string is a valid YouTube video ID.
+
+    Args:
+        video_id: The string to be checked.
+
+    Returns:
+        bool: True if the string is a valid YouTube video ID, False otherwise.
+    """
+    return len(video_id) == 11 and all(c in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-" for c in video_id)
 
 
 def file_type() -> str:
@@ -177,7 +193,7 @@ def ask_resolution(resolutions: set) -> str:
     except Exception as error:
         error_console.print(f"Error: {error}")
 
-    return answer
+    return answer.lower()
 
 
 def ask_rename_file(filename: str) -> str:
@@ -307,7 +323,3 @@ def handle_video_link(url: str, path: str) -> None:
         return
 
     return url, path, is_audio
-
-
-if __name__ == "__main__":
-    ask_resolution({"720p", "480p", "360p", "240p", "144p"})

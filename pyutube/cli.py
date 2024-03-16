@@ -3,6 +3,7 @@ import typer
 from .utils import (
     clear,
     check_internet_connection,
+    is_youtube_video_id,
     validate_link,
     handle_video_link,
 )
@@ -10,14 +11,18 @@ from .downloader import download
 
 
 # Create CLI app
-app = typer.Typer()
+app = typer.Typer(add_completion=False)
 
 
 @app.command(name="download", help="Download a YouTube video")
 def pyutube(
-    url: str = typer.Argument(..., help="YouTube video URL"),
+    url: str = typer.Argument(
+        ...,
+        help="YouTube URL",
+        show_default=False),
     path: str = typer.Argument(
-        os.getcwd(), help="Path to save video [default: <current directory>]"),
+        os.getcwd(),
+        help="Path to save video [default: <current directory>]",  show_default=False),
 ):
     """
     Downloads a YouTube video.
@@ -33,6 +38,9 @@ def pyutube(
 
     if not check_internet_connection():
         return
+
+    if is_youtube_video_id(url):
+        url = f"https://www.youtube.com/watch?v={url}"
 
     is_valid_link, link_type = validate_link(url)
 

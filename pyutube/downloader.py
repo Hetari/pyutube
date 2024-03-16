@@ -43,7 +43,7 @@ class Downloader:
             on_progress_callback=on_progress,
         )
 
-    @yaspin(text=colored("getting video headers ", "green") + colored("(means the video won't be downloaded)", "yellow"), spinner=Spinners.point)
+    @yaspin(text=colored("getting video headers ", "green") + colored("(means the video won't be fully downloaded)", "yellow"), spinner=Spinners.point)
     def get_available_resolutions(self, video: YouTube) -> set:
         """
         Get a set of all available resolutions for the video.
@@ -55,9 +55,10 @@ class Downloader:
             set: A set containing all available resolutions.
         """
         available_streams = video.streams.filter(progressive=True)
-        return {
+        resolutions = {
             stream.resolution for stream in available_streams if stream.resolution
-        }, available_streams
+        }
+        return resolutions, available_streams
 
     @yaspin(text=colored("Downloading the video...", "green"), color="green", spinner=Spinners.dots13)
     def get_video_streams(self, video: YouTube, quality: str, streams: YouTube.streams) -> YouTube:
@@ -127,6 +128,9 @@ class Downloader:
         else:
             # shorts and videos
             streams = self.get_selected_stream(video)
+            if not streams:
+                error_console.print("❗ Cancel the download...")
+                return
             file = self.get_video_streams(video, self.quality, streams)
 
         if not file:
@@ -139,8 +143,8 @@ class Downloader:
 
         # If file with the same name already exists in the path
         if is_file_exists(self.path, filename):
-            cancel = self.handle_existing_file(filename)
-            if not cancel:
+            filename = self.handle_existing_file(filename)
+            if not filename:
                 return False
         try:
             self.save_file(file, self.path, filename)
@@ -176,7 +180,8 @@ class Downloader:
         """
         resolutions, streams = self.get_available_resolutions(video)
         self.quality = ask_resolution(resolutions)
-        return streams
+
+        return [] if self.quality.startswith("cancel") else streams
 
     def generate_filename(self, video):
         """
@@ -201,10 +206,12 @@ class Downloader:
             filename = self.prompt_new_filename(filename)
             if not filename:
                 error_console.print("Invalid filename")
-            return False
+                return False
+            return filename
         elif choice.startswith('cancel'):
             console.print("Download canceled", style="info")
             return False
+        return True
 
     def prompt_new_filename(self, filename):
         """
