@@ -1,6 +1,15 @@
 # Pyutube Changelog
 
-# 1.1.3
+## 1.1.4
+
+- Edit filename template
+
+  the new defult filename template is:
+  `%name% - %resolution% _-_%video_id%.%ext%`
+
+  > Note: This is the only filename template in the moment, we consider to add more in the future. (but not now)
+
+## 1.1.3
 
 - Add New feature:
 

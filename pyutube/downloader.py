@@ -22,6 +22,7 @@ class Downloader:
         self.is_audio = is_audio
         self.is_playlist = is_playlist
         self.is_short = is_short
+        self.video_id = None
 
     @yaspin(text=colored("Searching for the video", "green"), color="green", spinner=Spinners.point)
     def video_search(self, url: str) -> YouTube:
@@ -123,6 +124,8 @@ class Downloader:
         if not video:
             return False
 
+        self.video_id = video.video_id
+
         if self.is_audio:
             file = self.get_audio_streams(video)
         else:
@@ -139,7 +142,7 @@ class Downloader:
             return False
 
         # Generate filename with title, quality, and file extension
-        filename = self.generate_filename(file)
+        filename = self.generate_filename(file, self.video_id)
 
         # If file with the same name already exists in the path
         if is_file_exists(self.path, filename):
@@ -183,7 +186,7 @@ class Downloader:
 
         return [] if self.quality.startswith("cancel") else streams
 
-    def generate_filename(self, video):
+    def generate_filename(self, video, video_id):
         """
         Generate a filename for the downloaded video.
 
@@ -192,7 +195,7 @@ class Downloader:
         """
         quality = 'audio' if self.is_audio else video.resolution
         title = sanitize_filename(video.title)
-        return f"{title} - {quality}.{'mp3' if self.is_audio else video.mime_type.split('/')[1]}"
+        return f"{title} - {quality}_-_{video_id}.{'mp3' if self.is_audio else video.mime_type.split('/')[1]}"
 
     def handle_existing_file(self, filename):
         """
