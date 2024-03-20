@@ -11,10 +11,19 @@ from .downloader import download
 
 
 # Create CLI app
-app = typer.Typer(add_completion=False)
+app = typer.Typer(
+    name="pyutube",
+    add_completion=False,
+    help="Awesome CLI to download YouTube videos(as video or audio)/shorts from the terminal",
+    rich_markup_mode="rich",
+)
 
 
-@app.command(name="download", help="Download a YouTube video")
+@app.command(
+    name="download",
+    help="Download a [red]YouTube[/red] videos (as video or audio), shorts, (playlists soon as possible).",
+    epilog="Made with ❤️ By Ebraheem. Find me on GitHub: [link=https://github.com/Hetari]click here @Hetari[/link]"
+)
 def pyutube(
     url: str = typer.Argument(
         ...,

@@ -319,6 +319,7 @@ def handle_video_link(url: str, path: str) -> None:
 
     if file_type_choice.startswith(CANCEL_PREFIX):
         error_console.print("❗ Cancel the download...")
+        return
     elif file_type_choice.startswith(ABORTED_PREFIX):
         return
 
