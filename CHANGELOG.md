@@ -1,5 +1,13 @@
 # Pyutube Changelog
 
+## 1.1.5
+
+- Fix: big resolution fixing
+
+  Now you can download any resolution you want from all available resolution.
+
+- Fix: Speed up the download process.
+
 ## 1.1.4
 
 - Edit filename template
