@@ -94,6 +94,8 @@ pyutube YOUTUBE_LINK [PATH]
 #### Options
 
 - `-v` or `--version`: Show the version number.
+- `-a` or `--audio`: Download only audio immediately without asking (video or audio).
+- `-f` or `--footage`: Download only video immediately without asking (video or audio).
 
 ## Examples
 
@@ -111,6 +113,19 @@ pyutube -v
 
 2. Then choose the format of the download, video or audio.
 3. Choose the resolution if it a video you want to download, otherwise chose audio and it will download it immediately 🔥.
+
+### **- Download audios immediately:**
+
+1. `pyutube <YOUTUBE_LINK | VIDEO_ID | SHORT_LINK> [the_download_path*] -a`
+
+and that's it 🎉.
+
+### **- Download videos immediately:**
+
+1. `pyutube <YOUTUBE_LINK | VIDEO_ID | SHORT_LINK> [the_download_path*] -f`
+2. Choose the resolution.
+
+see the video and relax 🎉.
 
 <div style="text-align: center;">
     <img src="pyutube/images/image1.png" />

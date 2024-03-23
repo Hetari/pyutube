@@ -37,6 +37,12 @@ def pyutube(
     path: str = typer.Argument(
         os.getcwd(),
         help="Path to save video [cyan]default: <current directory>[/cyan]",  show_default=False),
+    audio: bool = typer.Option(
+        False, "-a", "--audio", help="Download only audio"
+    ),
+    video: bool = typer.Option(
+        False, "-f", "--footage", help="Download only video"
+    ),
     version: bool = typer.Option(
         False, "-v", "--version", help="Show the version number"),
 ):
@@ -69,18 +75,19 @@ def pyutube(
     if not is_valid_link:
         return
 
-    if link_type == "video":
+    if audio:
+        download(url, path, is_audio=True)
+
+    elif video or link_type == "short":
+        download(url, path, is_audio=False)
+
+    elif link_type == "video":
+        # ask if the user wants to download audio, or video?
         try:
-            url, path, is_audio = handle_video_link(url, path)
+            is_audio = handle_video_link(url, path)
         except TypeError:
             return
-
         download(url, path, is_audio)
-        console.print("✅ Download completed", style="info")
-
-    elif link_type == "short":
-        download(url, path, is_audio=False)
-        console.print("✅ Download completed", style="info")
 
     else:
         error_console.print("❗ Unsupported link type.")

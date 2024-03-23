@@ -325,4 +325,4 @@ def handle_video_link(url: str, path: str) -> None:
     elif file_type_choice.startswith(ABORTED_PREFIX):
         return
 
-    return url, path, is_audio
+    return is_audio

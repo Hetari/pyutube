@@ -281,6 +281,7 @@ class Downloader:
             error_console.print(f"Error: {error}")
             return False
 
+        console.print("✅ Download completed", style="info")
         return True
 
 
