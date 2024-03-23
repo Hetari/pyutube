@@ -10,7 +10,7 @@ it is cross-platform (Windows, Mac, Linux) and can be used in any terminal.
 
 ## Inspiration
 
-This project was inspired by [PyUtube](https://github.com/omer73364/uTube/) by [omer73364](https://github.com/omer73364) 🤩
+This project was inspired by [Utube](https://github.com/omer73364/uTube/) by [omer73364](https://github.com/omer73364) 🤩
 
 ## Features
 
@@ -72,29 +72,45 @@ pip3 install dist/*
 
 > **Warning:**
 >
-> In some cases, the package will not install. You may have to add the flag `-H` into the pip command. and if this case, you can use `pip3 install -H dist/*` instead of `pip3 install dist/*`
->
-> and if this not working, and you are on `Linux` or `Mac`, try the command with `sudo`.
+> In some cases, the package will not install. You may have to add the flag `-H` into the pip command. and if this case, you can use `sudo pip3 install dist/*` instead of `pip3 install dist/*`
 
 Then you can use it in your `Terminal`.
 
 ## Usage
 
-Pyutube is very easy to use, just type `pyutube` on your **terminal** or **cmd** then you can use it.
+Pyutube is very easy to use, here examples of uses:
 
-Here examples of uses:
+```bash
+pyutube YOUTUBE_LINK [PATH]
+```
 
-> **Note:** `[the_download_path]` is an optional input, the default value is the `terminal` path.
+> **Note:** `[PATH]` is an optional input, the default value is the `terminal` path where the CLI is running (the current working directory).
 
-### **- Download videos or audios by `1` step:**
+#### Arguments
 
-1. `pyutube short_link [the_download_path]`
+- `URL`: The `URL` of the YouTube video. This argument is required.
+- `PATH`: The `path` to save the video. Defaults to the current working directory.
 
-### **- Download videos or audios by `2` or `3` steps:**
+#### Options
 
-1.  `pyutube video_link [the_download_path]`.
-2.  Choose video or audio format. If you choose an audio format, it will download it immediately 🔥.
-3.  Choose the resolution if it a video you want to download.
+- `-v` or `--version`: Show the version number.
+
+## Examples
+
+### **- Show version:**
+
+```bash
+pyutube -v
+```
+
+### **- Download shorts, videos or audios:**
+
+1. `pyutube <YOUTUBE_LINK | VIDEO_ID | SHORT_LINK> [the_download_path*]`
+
+   > Don't forget, the path is optional.
+
+2. Then choose the format of the download, video or audio.
+3. Choose the resolution if it a video you want to download, otherwise chose audio and it will download it immediately 🔥.
 
 <div style="text-align: center;">
     <img src="pyutube/images/image1.png" />

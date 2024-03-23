@@ -1,12 +1,15 @@
-import ffmpeg
-import os
-import subprocess
 from yaspin import yaspin
 from yaspin.spinners import Spinners
 from pytube import YouTube
 from pytube.cli import on_progress
 from termcolor import colored
+import ffmpeg
+
+import os
+import subprocess
+
 from .utils import (
+    clear,
     console,
     error_console,
     sanitize_filename,
@@ -75,7 +78,7 @@ class Downloader:
         return resolutions, available_streams, audio_stream
 
     @yaspin(text=colored("Downloading the video...", "green"), color="green", spinner=Spinners.dots13)
-    def get_video_streams(self, video: YouTube, quality: str, streams: YouTube.streams) -> YouTube:
+    def get_video_streams(self, quality: str, streams: YouTube.streams) -> YouTube:
         """
         Downloads the video streams based on the specified quality.
         If the specified quality is not available, it selects the nearest quality.
@@ -117,66 +120,7 @@ class Downloader:
         """
         video.download(output_path=path, filename=filename)
 
-    def download_video(self):
-        """
-        Download a video from a given URL to a specified path.
-
-        Args:
-            url: The URL of the video.
-            path: The path to save the downloaded video.
-            quality: The quality of the video, default is '720p'.
-            is_audio: Flag indicating if the video should be downloaded as audio, default is False.
-
-        Returns:
-            bool: True if the video is downloaded successfully, False otherwise.
-        """
-        video = self.search_process()
-
-        if not video:
-            return False
-
-        video_id = video.video_id
-
-        if self.is_audio:
-            footage = self.get_audio_streams(video)
-        else:
-            # shorts and videos
-            streams, video_audio = self.get_selected_stream(video)
-
-            if not streams:
-                error_console.print("❗ Cancel the download...")
-                return
-            footage = self.get_video_streams(video, self.quality, streams)
-
-            # Generate filename with title, quality, and file extension
-            self.is_audio = True
-            audio_filename = self.generate_filename(video_audio, video_id)
-            self.is_audio = False
-
-        if not footage:
-            error_console.print(
-                "Something went wrong while downloading the video.")
-            return False
-
-        video_filename = self.generate_filename(footage, video_id)
-
-        # If file with the same name already exists in the path
-        if is_file_exists(self.path, video_filename):
-            video_filename = self.handle_existing_file(video_filename)
-            if not video_filename:
-                return False
-        try:
-            self.save_file(footage, self.path, video_filename)
-            if not self.is_audio:
-                self.save_file(video_audio, self.path, audio_filename)
-                self.merging(video_filename, audio_filename, video_id)
-
-        except Exception as error:
-            error_console.print(f"Error: {error}")
-            return False
-
-        return True
-
+    # Helper functions for the Downloader class
     def search_process(self) -> YouTube:
         try:
             video = self.video_search(self.url)
@@ -278,6 +222,67 @@ class Downloader:
             else:
                 print("Merged video file not found in the output directory.")
 
+    def download_video(self):
+        """
+        Download a video from a given URL to a specified path.
+
+        Args:
+            url: The URL of the video.
+            path: The path to save the downloaded video.
+            quality: The quality of the video, default is '720p'.
+            is_audio: Flag indicating if the video should be downloaded as audio, default is False.
+
+        Returns:
+            bool: True if the video is downloaded successfully, False otherwise.
+        """
+        video = self.search_process()
+
+        if not video:
+            return False
+
+        video_id = video.video_id
+
+        if self.is_audio:
+            footage = self.get_audio_streams(video)
+
+        else:
+            # shorts and videos
+            streams, video_audio = self.get_selected_stream(video)
+
+            if not streams:
+                error_console.print("❗ Cancel the download...")
+                return
+            footage = self.get_video_streams(self.quality, streams)
+
+            # Generate filename with title, quality, and file extension
+            self.is_audio = True
+            audio_filename = self.generate_filename(video_audio, video_id)
+            self.is_audio = False
+
+        if not footage:
+            error_console.print(
+                "Something went wrong while downloading the video.")
+            return False
+
+        video_filename = self.generate_filename(footage, video_id)
+
+        # If file with the same name already exists in the path
+        if is_file_exists(self.path, video_filename):
+            video_filename = self.handle_existing_file(video_filename)
+            if not video_filename:
+                return False
+        try:
+            self.save_file(footage, self.path, video_filename)
+            if not self.is_audio:
+                self.save_file(video_audio, self.path, audio_filename)
+                self.merging(video_filename, audio_filename, video_id)
+
+        except Exception as error:
+            error_console.print(f"Error: {error}")
+            return False
+
+        return True
+
 
 def download(url: str, path: str, is_audio: bool) -> None:
     """
@@ -297,9 +302,3 @@ def download(url: str, path: str, is_audio: bool) -> None:
     )
     downloader.download_video()
     del downloader
-
-
-if __name__ == "__main__":
-    d = Downloader("", os.getcwd())
-    d.merging("Fast Whoosh Sound Effect - 144p.mp4",
-              "Fast Whoosh Sound Effect - audio.mp3", "videoId")

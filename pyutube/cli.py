@@ -1,7 +1,12 @@
 import os
+
 import typer
+
 from .utils import (
+    __version__,
     clear,
+    error_console,
+    console,
     check_internet_connection,
     is_youtube_video_id,
     validate_link,
@@ -22,16 +27,18 @@ app = typer.Typer(
 @app.command(
     name="download",
     help="Download a [red]YouTube[/red] videos (as video or audio), shorts, (playlists soon as possible).",
-    epilog="Made with ❤️ By Ebraheem. Find me on GitHub: [link=https://github.com/Hetari]click here @Hetari[/link]"
+    epilog="Made with ❤️  By Ebraheem. Find me on GitHub: [link=https://github.com/Hetari]click here @Hetari[/link]",
 )
 def pyutube(
     url: str = typer.Argument(
-        ...,
-        help="YouTube URL",
+        None,
+        help="YouTube URL [red]required[/red]",
         show_default=False),
     path: str = typer.Argument(
         os.getcwd(),
-        help="Path to save video [default: <current directory>]",  show_default=False),
+        help="Path to save video [cyan]default: <current directory>[/cyan]",  show_default=False),
+    version: bool = typer.Option(
+        False, "-v", "--version", help="Show the version number"),
 ):
     """
     Downloads a YouTube video.
@@ -40,9 +47,15 @@ def pyutube(
         url (str): The URL of the YouTube video.
         path (str): The path to save the video. Defaults to the current working directory.
 
-    Returns:
-        None
     """
+    if version:
+        console.print(f"Pyutube {__version__}")
+        return
+
+    if url is None:
+        error_console.print("❗ Missing argument 'URL'.")
+        return
+
     clear()
 
     if not check_internet_connection():
@@ -63,6 +76,14 @@ def pyutube(
             return
 
         download(url, path, is_audio)
+        console.print("✅ Download completed", style="info")
 
     elif link_type == "short":
-        download(url, path, is_audio)
+        download(url, path, is_audio=False)
+        console.print("✅ Download completed", style="info")
+
+    else:
+        error_console.print("❗ Unsupported link type.")
+        return False
+
+    return True

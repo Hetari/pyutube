@@ -1,13 +1,15 @@
-import re
 import inquirer
 import requests
-import os
 from yaspin import yaspin
 from yaspin.spinners import Spinners
 from rich.console import Console
 from rich.theme import Theme
 
+import re
+import os
 
+
+__version__ = "1.1.5"
 ABORTED_PREFIX = "aborted"
 CANCEL_PREFIX = "cancel"
 
