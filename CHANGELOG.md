@@ -1,5 +1,12 @@
 # Pyutube Changelog
 
+## 1.1.6
+
+- Added: Ability to show the tool version with the `-v` or `--version` option.
+- Added: Support for downloading only audio with the `-a` or `--audio` option.
+- Added: Support for downloading only video with the `-f` or `--footage` option.
+- Changed: Updated the documentation
+
 ## 1.1.5
 
 - Fix: big resolution fixing

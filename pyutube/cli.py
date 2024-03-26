@@ -75,7 +75,7 @@ def pyutube(
     if not is_valid_link:
         return
 
-    if audio:
+    elif audio:
         download(url, path, is_audio=True)
 
     elif video or link_type == "short":

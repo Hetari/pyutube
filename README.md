@@ -72,13 +72,13 @@ pip3 install dist/*
 
 > **Warning:**
 >
-> In some cases, the package will not install. You may have to add the flag `-H` into the pip command. and if this case, you can use `sudo pip3 install dist/*` instead of `pip3 install dist/*`
+> In some cases, the package will not install. You may have to run superuser in your **OS**, for MacOS and Linux, you can write `sudo` with pip command like `sudo pip3 install dist/*`.
 
-Then you can use it in your `Terminal`.
+Then you can use it in your `Terminal` 🥳.
 
 ## Usage
 
-Pyutube is very easy to use, here examples of uses:
+Pyutube is very easy to use, you can write `pyutube --help` to understand it well, and here are some examples:
 
 ```bash
 pyutube YOUTUBE_LINK [PATH]
@@ -88,14 +88,18 @@ pyutube YOUTUBE_LINK [PATH]
 
 #### Arguments
 
-- `URL`: The `URL` of the YouTube video. This argument is required.
-- `PATH`: The `path` to save the video. Defaults to the current working directory.
+| Arguments | Description                                                                                                          |
+| --------- | -------------------------------------------------------------------------------------------------------------------- |
+| `URL`     | The `URL` of the YouTube video. This argument is <span style="color:red">[Required]</span>.                          |
+| `PATH`    | The `path` to save the video. Defaults to the current working directory. <span style="color:green">[Optional]</span> |
 
 #### Options
 
-- `-v` or `--version`: Show the version number.
-- `-a` or `--audio`: Download only audio immediately without asking (video or audio).
-- `-f` or `--footage`: Download only video immediately without asking (video or audio).
+| Option                                              | Description                                                      |
+| --------------------------------------------------- | ---------------------------------------------------------------- |
+| `-v` <span style="color:cyan">or</span> `--version` | Show the version number.                                         |
+| `-a` <span style="color:cyan">or</span> `--audio`   | Download only audio immediately without asking (video or audio). |
+| `-f` <span style="color:cyan">or</span> `--footage` | Download only video immediately without asking (video or audio). |
 
 ## Examples
 
