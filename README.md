@@ -1,5 +1,7 @@
 # YouTube Downloader CLI
 
+<p style="font-size: 18px; font-weight: bold; padding:10px; text-align: center;">Enjoying my project? Show your appreciation by starring it on GitHub!</p>
+
 ## Description
 
 This is a command-line tool to download YouTube videos from the `Terminal`, written under [Pytube](https://pytube.io/).
