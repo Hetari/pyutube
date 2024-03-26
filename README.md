@@ -1,10 +1,10 @@
 # YouTube Downloader CLI
 
-<p style="font-size: 18px; font-weight: bold; padding:10px; text-align: center;">Enjoying my project? Show your appreciation by starring it on GitHub!</p>
+Enjoying my project? Please show your appreciation by starring it on GitHub! ⭐
 
 ## Description
 
-This is a command-line tool to download YouTube videos from the `Terminal`, written under [Pytube](https://pytube.io/).
+This command-line tool downloads YouTube videos from the `Terminal`, written under [Pytube](https://pytube.io/).
 
 it is cross-platform (Windows, Mac, Linux) and can be used in any terminal.
 
@@ -28,8 +28,7 @@ This project was inspired by [Utube](https://github.com/omer73364/uTube/) by [om
 - [x] Support shorts.
 - [ ] Supports downloading playlists.
 - [ ] Playlists organized into folders by their names.
-- [ ] Add convert videos into mp3 format.
-- [ ] GUI app (nah! Not yet).
+- [ ] GUI app (not yet).
 - [ ] Any features that you/I can think of.
 
 ## Installation
@@ -80,7 +79,7 @@ Then you can use it in your `Terminal`.
 
 ## Usage
 
-Pyutube is very easy to use, here examples of uses:
+Pyutube is very easy to use, here are examples of its uses:
 
 ```bash
 pyutube YOUTUBE_LINK [PATH]
@@ -107,14 +106,14 @@ pyutube YOUTUBE_LINK [PATH]
 pyutube -v
 ```
 
-### **- Download shorts, videos or audios:**
+### **- Download shorts, videos, or audio:**
 
 1. `pyutube <YOUTUBE_LINK | VIDEO_ID | SHORT_LINK> [the_download_path*]`
 
    > Don't forget, the path is optional.
 
 2. Then choose the format of the download, video or audio.
-3. Choose the resolution if it a video you want to download, otherwise chose audio and it will download it immediately 🔥.
+3. Choose the resolution if it is a video you want to download, otherwise choose audio and it will download it immediately 🔥.
 
 ### **- Download audios immediately:**
 
@@ -145,7 +144,7 @@ see the video and relax 🎉.
 
 ## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+Pull requests are welcome. For major changes, please open an issue first to discuss what you want to change.
 please follow the [contributing guidelines](https://github.com/Hetari/pyutube/blob/main/CONTRIBUTING.md)
 
 ## License
