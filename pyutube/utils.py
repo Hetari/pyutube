@@ -167,7 +167,7 @@ def file_type() -> str:
     return answer
 
 
-def ask_resolution(resolutions: set) -> str:
+def ask_resolution(resolutions: set, sizes) -> str:
     """
     Prompts the user to choose a resolution for download and returns the chosen resolution as a string.
 
@@ -177,7 +177,14 @@ def ask_resolution(resolutions: set) -> str:
     Returns:
         str: The chosen resolution as a string.
     """
-    resolution_choices = list(resolutions) + ["Cancel the download"]
+    # Create a dictionary to relate each size with its resolution
+    size_resolution_mapping = dict(zip(resolutions, sizes))
+
+    # Generate the choices for the user prompt
+    resolution_choices = [
+        f"{size} ~= {resolution}" for size, resolution in size_resolution_mapping.items()
+    ] + ["Cancel the download"]
+
     questions = [
         inquirer.List(
             "resolution",
@@ -195,7 +202,8 @@ def ask_resolution(resolutions: set) -> str:
     except Exception as error:
         error_console.print(f"Error: {error}")
 
-    return answer.lower()
+     # Extract the resolution part from the user's choice
+    return answer.split(" ~= ")[0]
 
 
 def ask_rename_file(filename: str) -> str:

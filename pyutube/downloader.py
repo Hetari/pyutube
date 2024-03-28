@@ -68,14 +68,21 @@ class Downloader:
         audio_stream = streams.filter(
             only_audio=True).order_by('mime_type').first()
 
-        resolutions = {
-            stream.resolution for stream in available_streams if stream.resolution
-        }
+        resolutions_with_sizes = self.get_video_resolutions_sizes(
+            available_streams, audio_stream
+        )
 
-        # sort resolutions
-        resolutions = sorted(resolutions, key=lambda x: int(x.split("p")[0]))
+        resolutions_with_sizes = sorted(
+            resolutions_with_sizes, key=lambda x: int(
+                x[0][:-1]) if x[0][:-1].isdigit() else float('inf')
+        )
 
-        return resolutions, available_streams, audio_stream
+        # Separate resolutions and sizes without using two loops
+        resolutions, sizes = zip(*resolutions_with_sizes)
+        resolutions = list(resolutions)
+        sizes = list(sizes)
+
+        return resolutions, sizes, available_streams, audio_stream
 
     @yaspin(text=colored("Downloading the video...", "green"), color="green", spinner=Spinners.dots13)
     def get_video_streams(self, quality: str, streams: YouTube.streams) -> YouTube:
@@ -144,9 +151,9 @@ class Downloader:
         Returns:
             YouTube: The selected video stream.
         """
-        resolutions, streams, video_audio = self.get_available_resolutions(
+        resolutions, sizes,  streams, video_audio = self.get_available_resolutions(
             video)
-        self.quality = ask_resolution(resolutions)
+        self.quality = ask_resolution(resolutions, sizes)
 
         return [] if self.quality.startswith("cancel") else streams, video_audio
 
@@ -221,6 +228,46 @@ class Downloader:
                 os.rmdir(output_directory)
             else:
                 print("Merged video file not found in the output directory.")
+
+    @staticmethod
+    def get_video_resolutions_sizes(available_streams: list[YouTube], audio_stream: YouTube) -> list:
+        """
+        Get the available video resolutions.
+
+        Args:
+            available_streams: The available video streams.
+            audio_stream: The audio stream.
+
+        Returns:
+            list: The available video resolutions.
+        """
+        if not available_streams:
+            return []
+
+        # Calculate the total audio file size in bytes
+        audio_filesize_bytes = audio_stream.filesize_approx
+
+        # Convert the audio file size to KB
+        audio_filesize_kb = audio_filesize_bytes / 1000
+
+        resolutions_with_sizes = []
+        for stream in available_streams:
+            if stream.resolution:
+                # Calculate the total video file size including audio in bytes
+                video_filesize_bytes = stream.filesize_approx + \
+                    (2 * audio_filesize_bytes)
+                # Convert the video file size to KB or MB dynamically
+                if video_filesize_bytes >= 1024 * 1024:
+                    # If size is >= 1 MB
+                    video_filesize = \
+                        f"{video_filesize_bytes / (1024 * 1024):.2f} MB"
+                else:
+                    video_filesize = f"{video_filesize_bytes / 1024:.2f} KB"
+
+                resolutions_with_sizes.append(
+                    (stream.resolution, video_filesize))
+
+        return resolutions_with_sizes
 
     def download_video(self):
         """

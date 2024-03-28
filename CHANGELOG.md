@@ -1,5 +1,33 @@
 # Pyutube Changelog
 
+## 1.1.7
+
+- Added: Display the video size next to the resolution.
+  For example:
+
+```
+  ✅ There is internet connection
+
+  [?] Choose the file type you want to download:
+  Audio
+
+  > Video
+  > Cancel the download
+
+  Title: Write an Incredible Resume: 5 Golden Rules!
+
+  [?] Choose the resolution you want to download:
+    144p ~= 10.91 MB
+    240p ~= 15.17 MB
+    360p ~= 21.62 MB
+    480p ~= 38.37 MB
+  > 720p ~= 70.31 MB
+    1080p ~= 128.81 MB
+    Cancel the download
+```
+
+> **Note:** The video size is approximate, that's mean it's not exact 100%.
+
 ## 1.1.6
 
 - Added: Ability to show the tool version with the `-v` or `--version` option.
@@ -36,6 +64,10 @@
   pyutube https://youtube.com/watch?v=cMPnY7EuZvo
   ```
 
+````
+
+```
+
 - Fix: Enhanced Output Representation when using `--help`
 
 ## 1.1.2
@@ -57,3 +89,5 @@
 ## 1.0.0
 
 - Initial release
+```
+````
