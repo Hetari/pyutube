@@ -19,6 +19,7 @@ This project was inspired by [Utube](https://github.com/omer73364/uTube/) by [om
 - User-friendly CLI interface.
 - Download a single YouTube in video format or audio.
 - Download YouTube shorts.
+- Download YouTube playlists.
 
 ## TODO
 
@@ -26,16 +27,27 @@ This project was inspired by [Utube](https://github.com/omer73364/uTube/) by [om
 - [x] Support downloading sounds (mp3 format).
 - [x] Supports all available video resolutions.
 - [x] Support shorts.
-- [ ] Supports downloading playlists.
+- [x] Supports downloading playlists.
 - [ ] Playlists organized into folders by their names.
 - [ ] GUI app (not yet).
 - [ ] Any features that you/I can think of.
 
+## Upgrade
+
+All the latest updates will be posted on [GitHub](https://github.com/Hetari/pyutube), you can also upgrade the tool via [PyPI](https://pypi.org/project/pyutube/) with this command:
+
+```bash
+pip install --upgrade pyutube
+```
+
 ## Installation
+
+Make suer that you have [Python](https://www.python.org) installed. To check if you have it installed, type `python --version` in your terminal. You should see something like `Python 3.x.x`.
 
 ### Method 1: Using Pip
 
 ```bash
+pip install --upgrade pip
 pip install pyutube
 ```
 

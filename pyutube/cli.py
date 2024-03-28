@@ -19,15 +19,15 @@ from .downloader import download
 app = typer.Typer(
     name="pyutube",
     add_completion=False,
-    help="Awesome CLI to download YouTube videos(as video or audio)/shorts from the terminal",
+    help="Awesome CLI to download YouTube videos(as video or audio)/shorts/playlists from the terminal",
     rich_markup_mode="rich",
 )
 
 
 @app.command(
     name="download",
-    help="Download a [red]YouTube[/red] videos (as video or audio), shorts, (playlists soon as possible).",
-    epilog="Made with ❤️  By Ebraheem. Find me on GitHub: [link=https://github.com/Hetari]click here @Hetari[/link]",
+    help="Download a [red]YouTube[/red] [green]videos[/green] [blue](as video or audio)[/blue], [green]shorts[/green], and [green]playlists[/green].",
+    epilog=f"Made with ❤️  By Ebraheem. Find me on GitHub: [link=https://github.com/Hetari]@Hetari[/link]. The project lives on [link=https://github.com/Hetari/pyutube]@Hetari/pyutube[/link].\n\nThank you for using Pyutube! and your support :star:\n",
 )
 def pyutube(
     url: str = typer.Argument(
@@ -88,6 +88,29 @@ def pyutube(
         except TypeError:
             return
         download(url, path, is_audio)
+
+    elif link_type == "playlist":
+        try:
+            is_audio = handle_video_link(url, path)
+        except TypeError:
+            return
+        playlist = download(url, path, is_audio, is_playlist=True)
+        links = playlist.video_urls
+        title = playlist.title
+
+        if not links:
+            error_console.print("❗ There are no videos in the playlist.")
+            return
+
+        console.print(f"\nPlaylist title: {title}", style="info")
+        console.print(f"Total videos: {len(links)}\n", style="info")
+        console.print("")
+
+        for index, link in enumerate(links):
+            if index == 0:
+                quality = download(links[0], path, is_audio)
+            download(link, path, is_audio, quality_choice=quality)
+            clear()
 
     else:
         error_console.print("❗ Unsupported link type.")

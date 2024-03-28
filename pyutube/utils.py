@@ -82,8 +82,9 @@ def is_youtube_link(link: str) -> tuple[bool, str]:
     """
     is_video = is_youtube_video(link)
     is_short = is_youtube_shorts(link)
+    is_playlist = is_youtube_playlist(link)
 
-    return (is_video, "video") if is_video else (is_short, "short") if is_short else (False, "unknown")
+    return (is_video, "video") if is_video else (is_short, "short") if is_short else (True, "playlist") if is_playlist else (False, "unknown")
 
 
 def is_youtube_shorts(link: str) -> bool:
@@ -119,6 +120,21 @@ def is_youtube_video(link: str) -> bool:
         r'(?:https?://)?(?:www\.)?(?:youtube\.com/(?:(?:watch\?v=)|(?:embed/))|youtu\.be/|youtube.com/share\?v=)([a-zA-Z0-9_-]{11})')
 
     return bool(video_pattern.match(link))
+
+
+def is_youtube_playlist(link: str) -> bool:
+    """
+    Check if the given link is a YouTube playlist.
+
+    Args:
+        link: The link to be checked.
+
+    Returns:
+        bool: True if the link is a YouTube playlist, False otherwise.
+    """
+    playlist_pattern = r"(?:https?:\/\/)?(?:www\.)?youtube\.com\/playlist\?list=([a-zA-Z0-9_-]+)"
+    playlist_match = re.match(playlist_pattern, link)
+    return bool(playlist_match)
 
 
 def is_youtube_video_id(video_id: str) -> bool:

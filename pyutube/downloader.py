@@ -1,6 +1,6 @@
 from yaspin import yaspin
 from yaspin.spinners import Spinners
-from pytube import YouTube
+from pytube import YouTube, Playlist
 from pytube.cli import on_progress
 from termcolor import colored
 import ffmpeg
@@ -21,10 +21,10 @@ from .utils import (
 
 
 class Downloader:
-    def __init__(self, url: str, path: str, is_audio: bool = False, is_playlist: bool = False, is_short: bool = False):
+    def __init__(self, url: str, path: str, quality: None = None, is_audio: bool = False, is_playlist: bool = False, is_short: bool = False):
         self.url = url
         self.path = path
-        self.quality = "720p"
+        self.quality = quality
         self.is_audio = is_audio
         self.is_playlist = is_playlist
         self.is_short = is_short
@@ -153,7 +153,8 @@ class Downloader:
         """
         resolutions, sizes,  streams, video_audio = self.get_available_resolutions(
             video)
-        self.quality = ask_resolution(resolutions, sizes)
+        self.quality = ask_resolution(
+            resolutions, sizes) if self.quality is None else self.quality
 
         return [] if self.quality.startswith("cancel") else streams, video_audio
 
@@ -331,8 +332,20 @@ class Downloader:
         console.print("✅ Download completed", style="info")
         return True
 
+    def get_playlist_links(self):
+        """
+        Get the playlist links from the URL.
 
-def download(url: str, path: str, is_audio: bool) -> None:
+        Args:
+            url (str): The URL of the YouTube playlist.
+
+        Returns:
+            list: A list of playlist links.
+        """
+        return Playlist(self.url)
+
+
+def download(url: str, path: str, is_audio: bool, is_playlist: bool = False, quality_choice: str = None) -> None:
     """
     Downloads the YouTube video based on the provided parameters.
 
@@ -346,7 +359,13 @@ def download(url: str, path: str, is_audio: bool) -> None:
         None
     """
     downloader = Downloader(
-        url=url, path=path, is_audio=is_audio,
+        url=url, path=path, quality=quality_choice, is_audio=is_audio, is_playlist=is_playlist
     )
-    downloader.download_video()
-    del downloader
+
+    if is_playlist:
+
+        return downloader.get_playlist_links()
+    else:
+        downloader.download_video()
+
+    return downloader.quality
