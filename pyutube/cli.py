@@ -27,7 +27,7 @@ app = typer.Typer(
 @app.command(
     name="download",
     help="Download a [red]YouTube[/red] [green]videos[/green] [blue](as video or audio)[/blue], [green]shorts[/green], and [green]playlists[/green].",
-    epilog=f"Made with ❤️  By Ebraheem. Find me on GitHub: [link=https://github.com/Hetari]@Hetari[/link]. The project lives on [link=https://github.com/Hetari/pyutube]@Hetari/pyutube[/link].\n\nThank you for using Pyutube! and your support :star:\n",
+    epilog=f"Made with ❤️  By Ebraheem. Find me on GitHub: [link=https://github.com/Hetari]@Hetari[/link].\n\nThe project lives on [link=https://github.com/Hetari/pyutube]@Hetari/pyutube[/link].\n\nThank you for using Pyutube! and your support :star:",
 )
 def pyutube(
     url: str = typer.Argument(

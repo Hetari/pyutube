@@ -1,3 +1,4 @@
+import sys
 import inquirer
 import requests
 from yaspin import yaspin
@@ -9,7 +10,7 @@ import re
 import os
 
 
-__version__ = "1.1.5"
+__version__ = "1.1.7"
 ABORTED_PREFIX = "aborted"
 CANCEL_PREFIX = "cancel"
 
@@ -175,10 +176,11 @@ def file_type() -> str:
     # TypeError: 'NoneType' object is not subscriptable
 
     except TypeError as error:
-        return "Aborted"
+        return ABORTED_PREFIX
 
     except Exception as error:
         error_console.print(f"Error: {error}")
+        sys.exit()
 
     return answer
 
@@ -213,10 +215,11 @@ def ask_resolution(resolutions: set, sizes) -> str:
         answer = inquirer.prompt(questions)["resolution"]
 
     except TypeError as error:
-        return "Aborted"
+        return ABORTED_PREFIX
 
     except Exception as error:
         error_console.print(f"Error: {error}")
+        sys.exit()
 
      # Extract the resolution part from the user's choice
     return answer.split(" ~= ")[0]
@@ -277,6 +280,7 @@ def rename_file(filename: str, new_filename: str) -> str:
             new_filename += f".{filename.split('.')[-1]}"
     except IndexError as error:
         error_console.print(f"Error: {error}")
+        sys.exit()
     return new_filename
 
 
@@ -345,8 +349,8 @@ def handle_video_link(url: str, path: str) -> None:
 
     if file_type_choice.startswith(CANCEL_PREFIX):
         error_console.print("❗ Cancel the download...")
-        return
+        sys.exit()
     elif file_type_choice.startswith(ABORTED_PREFIX):
-        return
+        sys.exit()
 
     return is_audio

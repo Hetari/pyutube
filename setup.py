@@ -1,3 +1,4 @@
+from pyutube.utils import __version__
 from setuptools import setup, find_packages
 
 
@@ -11,7 +12,7 @@ setup(
     name="pyutube",
 
     # Version of the package
-    version="1.1.7",
+    version=__version__,
 
     # Required dependencies
     install_requires=[

@@ -122,6 +122,16 @@ pyutube YOUTUBE_LINK [PATH]
 pyutube -v
 ```
 
+### **- Download playlists:**
+
+1. `pyutube <YOUTUBE_PLAYLIST_LINK | PLAYLIST_ID> [the_download_path*]`
+
+   > Don't forget, the path is optional.
+
+2. Then choose the format of the download, video or audio.
+3. Choose the resolution if it is a video you want to download, otherwise choose audio and it will download it all immediately 🔥.
+   > It will check all resolutions available in the first video in the playlist, then it will download all of them in the same resolution 👍.
+
 ### **- Download shorts, videos, or audio:**
 
 1. `pyutube <YOUTUBE_LINK | VIDEO_ID | SHORT_LINK> [the_download_path*]`
@@ -131,9 +141,25 @@ pyutube -v
 2. Then choose the format of the download, video or audio.
 3. Choose the resolution if it is a video you want to download, otherwise choose audio and it will download it immediately 🔥.
 
+```bash
+pyutube cMPnY7EuZvo
+pyutube youtu.be/cMPnY7EuZvo
+pyutube https://youtube.com/watch?v=cMPnY7EuZvo
+```
+
 ### **- Download audios immediately:**
 
 1. `pyutube <YOUTUBE_LINK | VIDEO_ID | SHORT_LINK> [the_download_path*] -a`
+
+```bash
+pyutube cMPnY7EuZvo -a
+```
+
+or
+
+```bash
+pyutube -a youtu.be/cMPnY7EuZvo
+```
 
 and that's it 🎉.
 
@@ -141,6 +167,16 @@ and that's it 🎉.
 
 1. `pyutube <YOUTUBE_LINK | VIDEO_ID | SHORT_LINK> [the_download_path*] -f`
 2. Choose the resolution.
+
+```bash
+pyutube cMPnY7EuZvo -f
+```
+
+or
+
+```bash
+pyutube -f youtu.be/cMPnY7EuZvo
+```
 
 see the video and relax 🎉.
 
