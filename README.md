@@ -17,7 +17,7 @@ This project was inspired by [Utube](https://github.com/omer73364/uTube/) by [om
 ## Features
 
 - User-friendly CLI interface.
-- Download a single YouTube in video format or audio.
+- Download a single YouTube video format or audio.
 - Download YouTube shorts.
 - Download YouTube playlists.
 
@@ -28,9 +28,9 @@ This project was inspired by [Utube](https://github.com/omer73364/uTube/) by [om
 - [x] Supports all available video resolutions.
 - [x] Support shorts.
 - [x] Supports downloading playlists.
-- [ ] Playlists organized into folders by their names.
+- [ ] Playlists are organized into folders by their names.
 - [ ] GUI app (not yet).
-- [ ] Any features that you/I can think of.
+- [ ] Are there any features that you/I can think of?
 
 ## Upgrade
 
@@ -42,7 +42,7 @@ pip install --upgrade pyutube
 
 ## Installation
 
-Make suer that you have [Python](https://www.python.org) installed. To check if you have it installed, type `python --version` in your terminal. You should see something like `Python 3.x.x`.
+Make sure that you have [Python](https://www.python.org) installed. To check if you have it installed, type `python --version` in your terminal. You should see something like `Python 3. x `
 
 ### Method 1: Using Pip
 
@@ -51,7 +51,7 @@ pip install --upgrade pip
 pip install pyutube
 ```
 
-### Method 2: Building the project from source
+### Method 2: Building the project from the source
 
 Clone the repository:
 
@@ -129,7 +129,7 @@ pyutube -v
    > Don't forget, the path is optional.
 
 2. Then choose the format of the download, video or audio.
-3. Choose the resolution if it is a video you want to download, otherwise choose audio and it will download it all immediately 🔥.
+3. Choose the resolution if it is a video you want to download, otherwise, choose audio and it will download it all immediately 🔥.
    > It will check all resolutions available in the first video in the playlist, then it will download all of them in the same resolution 👍.
 
 ### **- Download shorts, videos, or audio:**
@@ -139,7 +139,7 @@ pyutube -v
    > Don't forget, the path is optional.
 
 2. Then choose the format of the download, video or audio.
-3. Choose the resolution if it is a video you want to download, otherwise choose audio and it will download it immediately 🔥.
+3. Choose the resolution if it is a video you want to download, otherwise, choose audio and it will download it immediately 🔥.
 
 ```bash
 pyutube cMPnY7EuZvo
@@ -147,7 +147,7 @@ pyutube youtu.be/cMPnY7EuZvo
 pyutube https://youtube.com/watch?v=cMPnY7EuZvo
 ```
 
-### **- Download audios immediately:**
+### **- Download audio immediately:**
 
 1. `pyutube <YOUTUBE_LINK | VIDEO_ID | SHORT_LINK> [the_download_path*] -a`
 
@@ -181,17 +181,21 @@ pyutube -f youtu.be/cMPnY7EuZvo
 see the video and relax 🎉.
 
 <div style="text-align: center;">
-    <img src="pyutube/images/image1.png" />
-    <br />
-    <br />
-    <img src="pyutube/images/image2.png" />
-    <br />
-    <br />
-    <img src="pyutube/images/image3.png" />
-    <br />
-    <br />
-    <img src="pyutube/images/image4.png" />
-
+   <a href="https://ibb.co/LhT6r3r">
+      <img src="https://i.ibb.co/WprF0L0/image5.png" alt="image5">
+   </a>
+   <a href="https://ibb.co/7ymCS79">
+      <img src="https://i.ibb.co/h8z9gpq/image4.png" alt="image4">
+   </a>
+   <a href="https://ibb.co/9sVDxbh">
+      <img src="https://i.ibb.co/pJR7HfQ/image3.png" alt="image3">
+   </a>
+   <a href="https://ibb.co/Kb6qjmg">
+      <img src="https://i.ibb.co/sbjwvt4/image2.png" alt="image2">
+   </a>
+   <a href="https://ibb.co/0JkdkQy">
+      <img src="https://i.ibb.co/7yH6Hbt/image1.png" alt="image1">
+   </a>
 </div>
 
 ## Contributing

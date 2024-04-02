@@ -14,7 +14,7 @@ from rich.console import Console
 from rich.theme import Theme
 
 
-__version__ = "1.1.7"
+__version__ = "1.1.8"
 ABORTED_PREFIX = "aborted"
 CANCEL_PREFIX = "cancel"
 

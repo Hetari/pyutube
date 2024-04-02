@@ -1,5 +1,10 @@
 # Pyutube Changelog
 
+## 1.1.8
+
+- Fix: Cancel the download process.
+- Modify: Documentation, and code style that made it easier to understand (using `pylint`).
+
 ## 1.1.7
 
 - Added: Display the video size next to the resolution.
@@ -47,7 +52,7 @@
 
 - Edit filename template
 
-  the new defult filename template is:
+  the new default filename template is:
   `%name% - %resolution% _-_%video_id%.%ext%`
 
   > Note: This is the only filename template in the moment, we consider to add more in the future. (but not now)
