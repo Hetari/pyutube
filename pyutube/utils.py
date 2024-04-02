@@ -1,13 +1,17 @@
+"""
+This module contains the utils functions for the pyutube package.
+"""
+
 import sys
+import re
+import os
+
 import inquirer
 import requests
 from yaspin import yaspin
 from yaspin.spinners import Spinners
 from rich.console import Console
 from rich.theme import Theme
-
-import re
-import os
 
 
 __version__ = "1.1.7"
@@ -46,7 +50,8 @@ def clear() -> None:
 @yaspin(text="Checking internet connection", color="blue", spinner=Spinners.earth)
 def is_internet_available() -> bool:
     """
-    Checks if internet connection is available by making a simple request to http://www.google.com with a timeout of 5 seconds.
+    Checks if internet connection is available by making a simple request
+    to http://www.google.com with a timeout of 5 seconds.
 
     Returns:
         bool: the request status (True if available, False if not).
@@ -54,16 +59,6 @@ def is_internet_available() -> bool:
     try:
         requests.get("https://www.google.com", timeout=5)
         return True
-    except requests.ConnectionError:
-        return False
-    except requests.ReadTimeout:
-        return False
-    except requests.HTTPError:
-        return False
-    except requests.TooManyRedirects:
-        return False
-    except requests.RequestException:
-        return False
     except Exception as error:
         error_console.print(f"Error: {error}")
         return False
@@ -85,7 +80,10 @@ def is_youtube_link(link: str) -> tuple[bool, str]:
     is_short = is_youtube_shorts(link)
     is_playlist = is_youtube_playlist(link)
 
-    return (is_video, "video") if is_video else (is_short, "short") if is_short else (True, "playlist") if is_playlist else (False, "unknown")
+    return (is_video, "video") if is_video \
+        else (is_short, "short") if is_short \
+        else (True, "playlist") if is_playlist\
+        else (False, "unknown")
 
 
 def is_youtube_shorts(link: str) -> bool:
@@ -114,9 +112,6 @@ def is_youtube_video(link: str) -> bool:
     Returns:
         bool: True if the link is a YouTube video, False otherwise.
     """
-    # video_pattern = re.compile(
-    #     r'(?:https?://)?(?:www\.)?(?:youtube\.com/(?:(?:watch\?v=)|(?:embed/))|youtu\.be/)([a-zA-Z0-9_-]{11})')
-
     video_pattern = re.compile(
         r'(?:https?://)?(?:www\.)?(?:youtube\.com/(?:(?:watch\?v=)|(?:embed/))|youtu\.be/|youtube.com/share\?v=)([a-zA-Z0-9_-]{11})')
 
@@ -148,12 +143,15 @@ def is_youtube_video_id(video_id: str) -> bool:
     Returns:
         bool: True if the string is a valid YouTube video ID, False otherwise.
     """
-    return len(video_id) == 11 and all(c in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-" for c in video_id)
+    return len(video_id) == 11 and all(
+        c in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-" for c in video_id
+    )
 
 
 def file_type() -> str:
     """
-    Prompts the user to choose a file type for download and returns the chosen file type as a string.
+    Prompts the user to choose a file type for download and returns 
+    the chosen file type as a string.
 
     Args:
         None
@@ -175,7 +173,7 @@ def file_type() -> str:
 
     # TypeError: 'NoneType' object is not subscriptable
 
-    except TypeError as error:
+    except TypeError:
         return ABORTED_PREFIX
 
     except Exception as error:
@@ -187,7 +185,8 @@ def file_type() -> str:
 
 def ask_resolution(resolutions: set, sizes) -> str:
     """
-    Prompts the user to choose a resolution for download and returns the chosen resolution as a string.
+    Prompts the user to choose a resolution for download
+    and returns the chosen resolution as a string.
 
     Args:
         resolutions (set): The set of available resolutions.
@@ -214,7 +213,7 @@ def ask_resolution(resolutions: set, sizes) -> str:
     try:
         answer = inquirer.prompt(questions)["resolution"]
 
-    except TypeError as error:
+    except TypeError:
         return ABORTED_PREFIX
 
     except Exception as error:
@@ -309,10 +308,10 @@ def check_internet_connection() -> bool:
     if not is_internet_available():
         error_console.print("❗ No internet connection")
         return False
-    else:
-        console.print("✅ There is internet connection", style="info")
-        console.print()
-        return True
+
+    console.print("✅ There is internet connection", style="info")
+    console.print()
+    return True
 
 
 def validate_link(url: str) -> tuple[bool, str]:
@@ -333,16 +332,15 @@ def validate_link(url: str) -> tuple[bool, str]:
     return is_valid_link, link_type.lower()
 
 
-def handle_video_link(url: str, path: str) -> None:
+def handle_video_link() -> bool:
     """
     Handles video link scenario.
 
     Args:
-        url (str): The URL of the YouTube video.
-        path (str): The path to save the video.
+        None
 
     Returns:
-        None
+        bool: True if the video link is valid, False otherwise.
     """
     file_type_choice = file_type().lower()
     is_audio = file_type_choice.startswith("audio")

@@ -1,20 +1,47 @@
+"""
+This module contains the setup configuration for the pyutube package.
+"""
+
+
+from setuptools import setup
 from pyutube.utils import __version__
-from setuptools import setup, find_packages
 
 
 # Read the README file to use as the long description
-with open("README.md", "r") as f:
+with open("README.md", "r", encoding="utf-8") as f:
     description = f.read()
 
 # Setup configuration
 setup(
-    # Name of the package
     name="pyutube",
 
-    # Version of the package
     version=__version__,
 
-    # Required dependencies
+    author="Ebraheem Alhetari",
+
+    author_email="hetari4all@gmail.com",
+
+    description="Awesome CLI to download YouTube videos (as video or audio)/shorts/playlists from the terminal",
+
+    long_description=description,
+
+    long_description_content_type="text/markdown",
+
+    keywords=["youtube", "download", "cli", "pyutube", "pytube"],
+
+    license="MIT",
+
+    classifiers=[
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python :: 3",
+    ],
+
+
+    include_package_data=True,
+
+    python_requires=">=3.6",
+
     install_requires=[
         "pytube",
         "inquirer",
@@ -23,32 +50,21 @@ setup(
         "requests",
         "rich",
         "inquirer",
-        "termcolor"
+        "termcolor",
+        "ffmpeg-python"
     ],
 
-    # Classifiers to categorize the package
-    classifiers=[
-        "License :: OSI Approved :: MIT License",
-    ],
 
-    # Entry points for console scripts
     entry_points={
         "console_scripts": [
-            "pyutube=pyutube:cli.app",  # Command to run the application
+            "pyutube=pyutube:cli.app",
         ],
     },
 
-    # Python version requirement
-    python_requires=">=3.6",
 
-    # Long description of the package
-    long_description=description,
-
-    # Description content type
-    long_description_content_type="text/markdown",
-
-    # Project URLs
     project_urls={
         "Homepage": "https://github.com/Hetari/pyutube",
-    }
+    },
+
+    platforms=["Windows", "MacOS", "Linux"],
 )

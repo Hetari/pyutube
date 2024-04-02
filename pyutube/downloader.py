@@ -1,3 +1,12 @@
+"""
+This module contains the Downloader class which provides functionality 
+for downloading videos from YouTube.
+"""
+import os
+import subprocess
+import sys
+
+
 from yaspin import yaspin
 from yaspin.spinners import Spinners
 from pytube import YouTube, Playlist
@@ -5,11 +14,7 @@ from pytube.cli import on_progress
 from termcolor import colored
 import ffmpeg
 
-import os
-import subprocess
-
 from .utils import (
-    clear,
     console,
     error_console,
     sanitize_filename,
@@ -21,15 +26,39 @@ from .utils import (
 
 
 class Downloader:
-    def __init__(self, url: str, path: str, quality: None = None, is_audio: bool = False, is_playlist: bool = False, is_short: bool = False):
+    """
+    This class provides functionality for downloading videos from YouTube.
+    """
+
+    def __init__(
+            self,
+            url: str,
+            path: str,
+            quality: None = None,
+            is_audio: bool = False,
+            is_playlist: bool = False,
+    ):
+        """
+            Initializes a Downloader object.
+
+            Args:
+                url: The URL of the video or playlist to download.
+                path: The path where the downloaded file(s) will be saved.
+                quality: The desired quality of the video, default is None.
+                is_audio: Flag indicating if the video should be downloaded 
+                    as audio, default is False.
+                is_playlist: Flag indicating if the URL is for a playlist, default is False.
+        """
         self.url = url
         self.path = path
         self.quality = quality
         self.is_audio = is_audio
         self.is_playlist = is_playlist
-        self.is_short = is_short
 
-    @yaspin(text=colored("Searching for the video", "green"), color="green", spinner=Spinners.point)
+    @yaspin(
+        text=colored("Searching for the video", "green"),
+        color="green", spinner=Spinners.point
+    )
     def video_search(self, url: str) -> YouTube:
         """
         This function searches for a video using the provided URL and returns an
@@ -49,7 +78,11 @@ class Downloader:
             on_progress_callback=on_progress,
         )
 
-    @yaspin(text=colored("getting video headers ", "green") + colored("(means the video won't be fully downloaded)", "yellow"), spinner=Spinners.point)
+    @yaspin(
+        text=colored("getting video headers ", "green") +
+        colored("(means the video won't be fully downloaded)", "yellow"),
+        spinner=Spinners.point
+    )
     def get_available_resolutions(self, video: YouTube) -> set:
         """
         Get a set of all available resolutions for the video.
@@ -84,7 +117,10 @@ class Downloader:
 
         return resolutions, sizes, available_streams, audio_stream
 
-    @yaspin(text=colored("Downloading the video...", "green"), color="green", spinner=Spinners.dots13)
+    @yaspin(
+        text=colored("Downloading the video...", "green"),
+        color="green", spinner=Spinners.dots13
+    )
     def get_video_streams(self, quality: str, streams: YouTube.streams) -> YouTube:
         """
         Downloads the video streams based on the specified quality.
@@ -95,11 +131,16 @@ class Downloader:
             quality: The desired quality of the video streams.
 
         Returns:
-            The video stream with the specified quality, or the best available stream if no match is found.
+            The video stream with the specified quality, 
+            or the best available stream if no match is found.
         """
         return streams.filter(res=quality).first()
 
-    @yaspin(text=colored("Downloading the audio...", "green"), color="green", spinner=Spinners.dots13)
+    @yaspin(
+        text=colored("Downloading the audio...", "green"),
+        color="green",
+        spinner=Spinners.dots13
+    )
     def get_audio_streams(self, video: YouTube) -> YouTube:
         """
         Function to get audio streams from a video.
@@ -112,7 +153,10 @@ class Downloader:
         """
         return video.streams.filter(only_audio=True).order_by('mime_type').first()
 
-    @yaspin(text=colored("Saving the file...", "cyan"), spinner=Spinners.smiley)
+    @yaspin(
+        text=colored("Saving the file...", "cyan"),
+        spinner=Spinners.smiley
+    )
     def save_file(self, video: YouTube, path: str, filename: str) -> None:
         """
         Save the file to the specified path with the given filename.
@@ -129,6 +173,12 @@ class Downloader:
 
     # Helper functions for the Downloader class
     def search_process(self) -> YouTube:
+        """
+        Performs the video search process.
+
+        Returns:
+            YouTube: An instance of the YouTube class representing the searched video.
+        """
         try:
             video = self.video_search(self.url)
         except Exception as error:
@@ -167,7 +217,9 @@ class Downloader:
         """
         quality = 'audio' if self.is_audio else video.resolution
         title = sanitize_filename(video.title)
-        return f"{title} - {quality}_-_{video_id}.{'mp3' if self.is_audio else video.mime_type.split('/')[1]}"
+        extension = 'mp3' if self.is_audio else video.mime_type.split('/')[1]
+
+        return f"{title} - {quality}_-_{video_id}.{extension}"
 
     def handle_existing_file(self, filename):
         """
@@ -183,7 +235,7 @@ class Downloader:
                 error_console.print("Invalid filename")
                 return False
             return filename
-        elif choice.startswith('cancel'):
+        if choice.startswith('cancel'):
             console.print("Download canceled", style="info")
             return False
         return True
@@ -199,7 +251,19 @@ class Downloader:
         new_name = input(f"Rename {text} to: ")
         return rename_file(filename, new_name)
 
-    def merging(self, video_name: str, audio_name: str, video_id: str):
+    def merging(self, video_name: str, audio_name: str):
+        """
+        Merges the video and audio files into a single file.
+
+        Args:
+            video_name: The name of the video file.
+            audio_name: The name of the audio file.
+            video_id: The ID of the video.
+
+        Returns:
+            None
+        """
+
         output_directory = "output"
         os.makedirs(output_directory, exist_ok=True)
 
@@ -212,12 +276,13 @@ class Downloader:
             ffmpeg.concat(input_video, input_audio, v=1, a=1),
             f'{output_directory}/{video_name}').compile()
 
+        # Error: module 'ffmpeg' has no attribute 'input'
         # Run FFmpeg command using subprocess
         try:
             subprocess.run(ffmpeg_command, stdout=subprocess.PIPE,
                            stderr=subprocess.PIPE, check=True)
         except subprocess.CalledProcessError as e:
-            print('An error occurred:', e.stderr)
+            error_console.print('An error occurred:', e.stderr)
         else:
             os.remove(video_name)
             os.remove(audio_name)
@@ -231,7 +296,10 @@ class Downloader:
                 print("Merged video file not found in the output directory.")
 
     @staticmethod
-    def get_video_resolutions_sizes(available_streams: list[YouTube], audio_stream: YouTube) -> list:
+    def get_video_resolutions_sizes(
+            available_streams: list[YouTube],
+            audio_stream: YouTube
+    ) -> list:
         """
         Get the available video resolutions.
 
@@ -247,9 +315,6 @@ class Downloader:
 
         # Calculate the total audio file size in bytes
         audio_filesize_bytes = audio_stream.filesize_approx
-
-        # Convert the audio file size to KB
-        audio_filesize_kb = audio_filesize_bytes / 1000
 
         resolutions_with_sizes = []
         for stream in available_streams:
@@ -270,7 +335,7 @@ class Downloader:
 
         return resolutions_with_sizes
 
-    def download_video(self):
+    def download_video(self) -> bool:
         """
         Download a video from a given URL to a specified path.
 
@@ -286,7 +351,8 @@ class Downloader:
         video = self.search_process()
 
         if not video:
-            return False
+            error_console.print("❗ The video could not be found.")
+            sys.exit()
 
         video_id = video.video_id
 
@@ -299,7 +365,8 @@ class Downloader:
 
             if not streams:
                 error_console.print("❗ Cancel the download...")
-                return
+                sys.exit()
+
             footage = self.get_video_streams(self.quality, streams)
 
             # Generate filename with title, quality, and file extension
@@ -310,7 +377,7 @@ class Downloader:
         if not footage:
             error_console.print(
                 "Something went wrong while downloading the video.")
-            return False
+            sys.exit()
 
         video_filename = self.generate_filename(footage, video_id)
 
@@ -318,16 +385,16 @@ class Downloader:
         if is_file_exists(self.path, video_filename):
             video_filename = self.handle_existing_file(video_filename)
             if not video_filename:
-                return False
+                sys.exit()
         try:
             self.save_file(footage, self.path, video_filename)
             if not self.is_audio:
                 self.save_file(video_audio, self.path, audio_filename)
-                self.merging(video_filename, audio_filename, video_id)
+                self.merging(video_filename, audio_filename)
 
         except Exception as error:
             error_console.print(f"Error: {error}")
-            return False
+            sys.exit()
 
         console.print("✅ Download completed", style="info")
         return True
@@ -345,7 +412,13 @@ class Downloader:
         return Playlist(self.url)
 
 
-def download(url: str, path: str, is_audio: bool, is_playlist: bool = False, quality_choice: str = None) -> None:
+def download(
+    url: str,
+    path: str,
+    is_audio: bool,
+    is_playlist: bool = False,
+    quality_choice: str = None
+) -> None:
     """
     Downloads the YouTube video based on the provided parameters.
 
@@ -363,9 +436,8 @@ def download(url: str, path: str, is_audio: bool, is_playlist: bool = False, qua
     )
 
     if is_playlist:
-
         return downloader.get_playlist_links()
-    else:
-        downloader.download_video()
+
+    downloader.download_video()
 
     return downloader.quality
