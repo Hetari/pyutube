@@ -14,7 +14,7 @@ from rich.console import Console
 from rich.theme import Theme
 
 
-__version__ = "1.1.8"
+__version__ = "1.1.9"
 ABORTED_PREFIX = "aborted"
 CANCEL_PREFIX = "cancel"
 
@@ -150,7 +150,7 @@ def is_youtube_video_id(video_id: str) -> bool:
 
 def file_type() -> str:
     """
-    Prompts the user to choose a file type for download and returns 
+    Prompts the user to choose a file type for download and returns
     the chosen file type as a string.
 
     Args:

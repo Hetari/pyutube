@@ -51,7 +51,7 @@ setup(
         "rich",
         "inquirer",
         "termcolor",
-        "ffmpeg-python"
+        "moviepy"
     ],
 
 

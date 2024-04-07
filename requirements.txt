@@ -7,4 +7,4 @@ yaspin
 pytube
 inquirer
 termcolor
-ffmpeg-python
+moviepy

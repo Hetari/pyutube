@@ -12,7 +12,7 @@ from yaspin.spinners import Spinners
 from pytube import YouTube, Playlist
 from pytube.cli import on_progress
 from termcolor import colored
-import ffmpeg
+from moviepy import VideoFileClip, AudioFileClip
 
 from .utils import (
     console,
@@ -96,7 +96,7 @@ class Downloader:
         streams = video.streams
 
         available_streams = streams.filter(
-            progressive=False, adaptive=True, mime_type="video/mp4")
+            progressive=False, mime_type="video/mp4")
 
         audio_stream = streams.filter(
             only_audio=True).order_by('mime_type').first()
@@ -267,33 +267,32 @@ class Downloader:
         output_directory = "output"
         os.makedirs(output_directory, exist_ok=True)
 
-        # Merge video and audio using ffmpeg-python
-        input_video = ffmpeg.input(video_name)
-        input_audio = ffmpeg.input(audio_name)
+        # Load video and audio clips using MoviePy
+        video_clip = VideoFileClip(video_name)
+        audio_clip = AudioFileClip(audio_name)
 
-        # Build FFmpeg command string
-        ffmpeg_command = ffmpeg.output(
-            ffmpeg.concat(input_video, input_audio, v=1, a=1),
-            f'{output_directory}/{video_name}').compile()
+        # Combine video and audio clips
+        combined_clip = video_clip.set_audio(audio_clip)
 
-        # Error: module 'ffmpeg' has no attribute 'input'
-        # Run FFmpeg command using subprocess
-        try:
-            subprocess.run(ffmpeg_command, stdout=subprocess.PIPE,
-                           stderr=subprocess.PIPE, check=True)
-        except subprocess.CalledProcessError as e:
-            error_console.print('An error occurred:', e.stderr)
+        # Write the combined clip to an output file
+        output_file = os.path.join(output_directory, video_name)
+        combined_clip.write_videofile(output_file)
+
+        # Clean up
+        video_clip.close()
+        audio_clip.close()
+        combined_clip.close()
+
+        # Remove original files
+        os.remove(video_name)
+        os.remove(audio_name)
+
+        # Move the merged file to the current directory
+        if os.path.exists(output_file):
+            os.replace(output_file, os.path.join(os.getcwd(), video_name))
+            os.rmdir(output_directory)
         else:
-            os.remove(video_name)
-            os.remove(audio_name)
-
-            output_file = os.path.join(output_directory, video_name)
-
-            if os.path.exists(output_file):
-                os.replace(output_file, os.path.join(os.getcwd(), video_name))
-                os.rmdir(output_directory)
-            else:
-                print("Merged video file not found in the output directory.")
+            print("Merged video file not found in the output directory.")
 
     @staticmethod
     def get_video_resolutions_sizes(
@@ -320,8 +319,8 @@ class Downloader:
         for stream in available_streams:
             if stream.resolution:
                 # Calculate the total video file size including audio in bytes
-                video_filesize_bytes = stream.filesize_approx + \
-                    (2 * audio_filesize_bytes)
+                video_filesize_bytes = stream.filesize + \
+                    audio_filesize_bytes
                 # Convert the video file size to KB or MB dynamically
                 if video_filesize_bytes >= 1024 * 1024:
                     # If size is >= 1 MB

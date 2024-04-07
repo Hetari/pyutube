@@ -1,27 +1,24 @@
-# YouTube Downloader CLI
+# 📹 YouTube Downloader CLI
 
 Enjoying my project? Please show your appreciation by starring it on GitHub! ⭐
 
-## Description
+> [!NOTE]
+> This project is still in development.
+
+## 📓 Description
 
 This command-line tool downloads YouTube videos from the `Terminal`, written under [Pytube](https://pytube.io/).
 
 it is cross-platform (Windows, Mac, Linux) and can be used in any terminal.
 
-> **Note:** This project is still in development.
-
-## Inspiration
-
-This project was inspired by [Utube](https://github.com/omer73364/uTube/) by [omer73364](https://github.com/omer73364) 🤩
-
-## Features
+## 💎 Features
 
 - User-friendly CLI interface.
 - Download a single YouTube video format or audio.
 - Download YouTube shorts.
 - Download YouTube playlists.
 
-## TODO
+## 🚴 TODO
 
 - [x] Publish on PyPI.
 - [x] Support downloading sounds (mp3 format).
@@ -83,8 +80,7 @@ Install the package via pip:
 pip3 install dist/*
 ```
 
-> **Warning:**
->
+> [!WARNING]
 > In some cases, the package will not install. You may have to run superuser in your **OS**, for MacOS and Linux, you can write `sudo` with pip command like `sudo pip3 install dist/*`.
 
 Then you can use it in your `Terminal` 🥳.
@@ -97,7 +93,22 @@ Pyutube is very easy to use, here are examples of its uses:
 pyutube YOUTUBE_LINK [PATH]
 ```
 
-> **Note:** `[PATH]` is an optional input, the default value is the `terminal` path where the CLI is running (the current working directory).
+> [!NOTE] > `[PATH]` is an optional input, the default value is the `terminal` path where the CLI is running (the current working directory).
+
+<div style="text-align: center;">
+   <a href="https://ibb.co/0JkdkQy">
+      <img src="https://i.ibb.co/7yH6Hbt/image1.png" alt="image1">
+   </a>
+   <a href="https://ibb.co/Kb6qjmg">
+      <img src="https://i.ibb.co/sbjwvt4/image2.png" alt="image2">
+   </a>
+   <a href="https://ibb.co/7ymCS79">
+      <img src="https://i.ibb.co/h8z9gpq/image4.png" alt="image4">
+   </a>
+   <a href="https://ibb.co/LhT6r3r">
+      <img src="https://i.ibb.co/WprF0L0/image5.png" alt="image5">
+   </a>
+</div>
 
 #### Arguments
 
@@ -126,16 +137,19 @@ pyutube -v
 
 1. `pyutube <YOUTUBE_PLAYLIST_LINK | PLAYLIST_ID> [the_download_path*]`
 
+   > [!NOTE]
    > Don't forget, the path is optional.
 
 2. Then choose the format of the download, video or audio.
 3. Choose the resolution if it is a video you want to download, otherwise, choose audio and it will download it all immediately 🔥.
+   > [!NOTE]
    > It will check all resolutions available in the first video in the playlist, then it will download all of them in the same resolution 👍.
 
 ### **- Download shorts, videos, or audio:**
 
 1. `pyutube <YOUTUBE_LINK | VIDEO_ID | SHORT_LINK> [the_download_path*]`
 
+   > [!NOTE]
    > Don't forget, the path is optional.
 
 2. Then choose the format of the download, video or audio.
@@ -179,24 +193,6 @@ pyutube -f youtu.be/cMPnY7EuZvo
 ```
 
 see the video and relax 🎉.
-
-<div style="text-align: center;">
-   <a href="https://ibb.co/LhT6r3r">
-      <img src="https://i.ibb.co/WprF0L0/image5.png" alt="image5">
-   </a>
-   <a href="https://ibb.co/7ymCS79">
-      <img src="https://i.ibb.co/h8z9gpq/image4.png" alt="image4">
-   </a>
-   <a href="https://ibb.co/9sVDxbh">
-      <img src="https://i.ibb.co/pJR7HfQ/image3.png" alt="image3">
-   </a>
-   <a href="https://ibb.co/Kb6qjmg">
-      <img src="https://i.ibb.co/sbjwvt4/image2.png" alt="image2">
-   </a>
-   <a href="https://ibb.co/0JkdkQy">
-      <img src="https://i.ibb.co/7yH6Hbt/image1.png" alt="image1">
-   </a>
-</div>
 
 ## Contributing
 
