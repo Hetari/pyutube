@@ -1,5 +1,14 @@
 # Pyutube Changelog
 
+## 1.2.0
+
+- Add: New feature:
+
+  - Download all playlist videos by one click
+  - You can choose what you want to download
+
+- Fix: Instead of using `ffmpeg` for merging, use `moviepy` instead.
+
 ## 1.1.8
 
 - Fix: Cancel the download process.

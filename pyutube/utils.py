@@ -60,8 +60,7 @@ def is_internet_available() -> bool:
     try:
         requests.get("https://www.google.com", timeout=5)
         return True
-    except Exception as error:
-        error_console.print(f"Error: {error}")
+    except Exception:
         return False
 
 

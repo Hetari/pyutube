@@ -147,7 +147,6 @@ def pyutube(
         handle_video(url, path)
 
     elif link_type == "playlist":
-        print("Downloading playlist...", path)
         handle_playlist(url, path)
 
     else:
@@ -193,6 +192,7 @@ def handle_playlist(url: str, path: str):
         return video.title
 
     def fetch_title_thread(video):
+        """Fetch the title of a YouTube video in a separate thread."""
         video_title = video.title
         video_id = video.video_id
         playlist_videos.append((video_title, video_id))
