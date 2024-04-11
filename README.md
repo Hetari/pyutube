@@ -2,7 +2,8 @@
 
 ## Enjoying my project? Please show your appreciation by starring it on GitHub! ⭐
 
-> [!NOTE] Help me to improve this tool!
+> [!NOTE]
+> Help me to improve this tool!
 > I tested it on Windows, Mac, and Linux, and it works fine, but if there is any issue, please open an issue on [GitHub](https://github.com/Hetari/pyutube/issues/new) and I'll fix it.
 >
 > Have a new feature? Please don't hesitate to [tell me](https://github.com/Hetari/pyutube/issues/new)!
@@ -52,7 +53,8 @@ Pyutube is very easy to use, here are examples of its uses:
 pyutube YOUTUBE_LINK [PATH]
 ```
 
-> [!NOTE] > `[PATH]` is an optional input, the default value is the `terminal` path where the CLI is running (the current working directory).
+> [!NOTE]
+> `[PATH]` is an optional input, the default value is the `terminal` path where the CLI is running (the current working directory).
 
 <div style="text-align: center;">
    <p>Download video with specify the save location</p>
