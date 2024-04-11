@@ -1,10 +1,10 @@
 """
-Pyutube is a command-line interface, a versatile tool 
+Pyutube is a command-line interface, a versatile tool
 to download YouTube videos, shorts, and playlists.
 
-This module provides a command-line interface (CLI), a powerful tool designed 
+This module provides a command-line interface (CLI), a powerful tool designed
 to simplify the process of downloading YouTube content directly from the terminal.
-Pyutube supports downloading videos (as video or audio), shorts, and playlists, 
+Pyutube supports downloading videos (as video or audio), shorts, and playlists,
 offering users flexibility and convenience in managing their media downloads.
 
 Usage:
@@ -23,7 +23,7 @@ Example:
         Download the video (footage) of the specified YouTube video.
 
     $ pyutube <YouTube_URL>
-        Download the file of the specified YouTube video, 
+        Download the file of the specified YouTube video,
         it will ask you about downloading it as video or audio.
 
     $ pyutube <YouTube_playlist_URL>
@@ -41,8 +41,9 @@ import os
 import sys
 
 import typer
+import threading
 
-from .utils import (
+from pyutube.utils import (
     __version__,
     clear,
     error_console,
@@ -51,8 +52,9 @@ from .utils import (
     is_youtube_video_id,
     validate_link,
     handle_video_link,
+    ask_playlist_video_names,
 )
-from .downloader import download
+from pyutube.downloader import download
 
 
 # Create CLI app
@@ -90,7 +92,7 @@ version_option = typer.Option(
 @app.command(
     name="download",
     help="""
-Download a [red]YouTube[/red] [green]videos[/green] [blue](as 
+Download a [red]YouTube[/red] [green]videos[/green] [blue](as
 video or audio)[/blue], [green]shorts[/green], and [green]playlists[/green].
     """,
     epilog="""
@@ -184,24 +186,51 @@ def handle_playlist(url: str, path: str):
     Returns:
         None
     """
+    def get_title(video):
+        """Function to get the title of a YouTube video."""
+        return video.title
+
+    def fetch_title_thread(video):
+        video_title = video.title
+        video_id = video.video_id
+        playlist_videos.append((video_title, video_id))
+
+    global playlist_videos
     try:
         is_audio = handle_video_link()
     except TypeError:
         return
     playlist = download(url, path, is_audio, is_playlist=True)
-    links = playlist.video_urls
+
+    # links = playlist.video_urls
     title = playlist.title
+    total = playlist.length
+    videos = playlist.videos
 
-    if not links:
-        error_console.print("❗ There are no videos in the playlist.")
-        return
+    # Use threading to fetch titles concurrently
+    title_threads = []
+    playlist_videos = []  # List to store video titles
 
-    console.print(f"\nPlaylist title: {title}", style="info")
-    console.print(f"Total videos: {len(links)}\n", style="info")
-    console.print("")
+    # Create and start a thread for each video
+    for video in videos:
+        thread = threading.Thread(target=fetch_title_thread, args=(video,))
+        thread.start()
+        title_threads.append(thread)
 
-    for index, link in enumerate(links):
+    # Wait for all threads to finish
+    for thread in title_threads:
+        thread.join()
+
+    # Now all video titles are stored in the video_titles list
+    console.print(f"\nPlaylist title: {title}\n", style="info")
+    console.print(f"Total videos: {total}\n\n", style="info")
+    console.print("Chose what video you want to download")
+
+    videos_selected = ask_playlist_video_names(playlist_videos)
+
+    for index, link in enumerate(videos_selected):
+        url = f"https://www.youtube.com/watch?v={url}"
         if index == 0:
-            quality = download(links[0], path, is_audio)
-        download(link, path, is_audio, quality_choice=quality)
+            quality = download(videos_selected[0], path, is_audio)
+        download(url, path, is_audio, quality_choice=quality)
         clear()

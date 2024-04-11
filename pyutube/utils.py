@@ -7,6 +7,7 @@ import re
 import os
 
 import inquirer
+from inquirer.themes import GreenPassion, BlueComposure, Terminal
 import requests
 from yaspin import yaspin
 from yaspin.spinners import Spinners
@@ -246,6 +247,28 @@ def ask_rename_file(filename: str) -> str:
     return inquirer.prompt(questions)["rename"]
 
 
+def ask_playlist_video_names(videos):
+    questions = [
+        inquirer.Checkbox(
+            "names",
+            message="What are you interested in?",
+            choices=videos,
+        ),
+    ]
+
+    try:
+        answer = inquirer.prompt(questions)["names"]
+
+    except TypeError:
+        return ABORTED_PREFIX
+
+    except Exception as error:
+        error_console.print(f"Error: {error}")
+        sys.exit()
+
+    return answer
+
+
 def sanitize_filename(filename: str) -> str:
     """
     Removes characters that are not allowed in filenames.
@@ -352,3 +375,6 @@ def handle_video_link() -> bool:
         sys.exit()
 
     return is_audio
+
+
+ask_playlist_video_names([('w', 1)])

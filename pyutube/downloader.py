@@ -2,18 +2,6 @@
 This module contains the Downloader class which provides functionality 
 for downloading videos from YouTube.
 """
-import os
-import subprocess
-import sys
-
-
-from yaspin import yaspin
-from yaspin.spinners import Spinners
-from pytube import YouTube, Playlist
-from pytube.cli import on_progress
-from termcolor import colored
-from moviepy import VideoFileClip, AudioFileClip
-
 from .utils import (
     console,
     error_console,
@@ -23,6 +11,17 @@ from .utils import (
     rename_file,
     is_file_exists,
 )
+
+import os
+import sys
+
+
+from yaspin import yaspin
+from yaspin.spinners import Spinners
+from pytube import YouTube, Playlist
+from pytube.cli import on_progress
+from termcolor import colored
+from moviepy.video.io.ffmpeg_tools import ffmpeg_merge_video_audio
 
 
 class Downloader:
@@ -235,10 +234,12 @@ class Downloader:
                 error_console.print("Invalid filename")
                 return False
             return filename
-        if choice.startswith('cancel'):
+        elif choice.startswith('cancel'):
             console.print("Download canceled", style="info")
             return False
-        return True
+
+        # else overwrite
+        return filename
 
     def prompt_new_filename(self, filename):
         """
@@ -266,22 +267,17 @@ class Downloader:
 
         output_directory = "output"
         os.makedirs(output_directory, exist_ok=True)
-
-        # Load video and audio clips using MoviePy
-        video_clip = VideoFileClip(video_name)
-        audio_clip = AudioFileClip(audio_name)
-
-        # Combine video and audio clips
-        combined_clip = video_clip.set_audio(audio_clip)
-
-        # Write the combined clip to an output file
         output_file = os.path.join(output_directory, video_name)
-        combined_clip.write_videofile(output_file)
 
-        # Clean up
-        video_clip.close()
-        audio_clip.close()
-        combined_clip.close()
+        ffmpeg_merge_video_audio(
+            video_name,
+            audio_name,
+            output_file,
+            vcodec='copy',
+            acodec='copy',
+            ffmpeg_output=False,
+            logger=None
+        )
 
         # Remove original files
         os.remove(video_name)
@@ -292,7 +288,8 @@ class Downloader:
             os.replace(output_file, os.path.join(os.getcwd(), video_name))
             os.rmdir(output_directory)
         else:
-            print("Merged video file not found in the output directory.")
+            error_console.print(
+                "Merged video file not found in the output directory.")
 
     @staticmethod
     def get_video_resolutions_sizes(
