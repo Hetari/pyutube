@@ -3,7 +3,7 @@ This module contains the setup configuration for the pyutube package.
 """
 
 
-from setuptools import setup
+from setuptools import find_packages, setup
 from pyutube.utils import __version__
 
 
@@ -67,4 +67,5 @@ setup(
     },
 
     platforms=["Windows", "MacOS", "Linux"],
+    packages=find_packages()
 )
