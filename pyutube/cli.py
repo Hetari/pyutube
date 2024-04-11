@@ -147,6 +147,7 @@ def pyutube(
         handle_video(url, path)
 
     elif link_type == "playlist":
+        print("Downloading playlist...", path)
         handle_playlist(url, path)
 
     else:
@@ -186,6 +187,7 @@ def handle_playlist(url: str, path: str):
     Returns:
         None
     """
+    # TODO: Make subfunction to download playlist
     def get_title(video):
         """Function to get the title of a YouTube video."""
         return video.title
@@ -228,9 +230,14 @@ def handle_playlist(url: str, path: str):
 
     videos_selected = ask_playlist_video_names(playlist_videos)
 
-    for index, link in enumerate(videos_selected):
-        url = f"https://www.youtube.com/watch?v={url}"
+    os.makedirs(title, exist_ok=True)
+    new_path = os.path.join(path, title)
+
+    for index, video_id in enumerate(videos_selected):
+        url = f"https://www.youtube.com/watch?v={video_id}"
         if index == 0:
-            quality = download(videos_selected[0], path, is_audio)
-        download(url, path, is_audio, quality_choice=quality)
-        clear()
+            quality = download(url, new_path, is_audio, is_playlist=False)
+            continue
+
+        download(url, new_path, is_audio,
+                 quality_choice=quality, is_playlist=False)

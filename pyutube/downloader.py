@@ -265,9 +265,10 @@ class Downloader:
             None
         """
 
-        output_directory = "output"
+        output_directory = os.path.join(self.path, "output")
         os.makedirs(output_directory, exist_ok=True)
-        output_file = os.path.join(output_directory, video_name)
+        output_file = os.path.join(
+            output_directory, os.path.basename(video_name))
 
         ffmpeg_merge_video_audio(
             video_name,
@@ -368,6 +369,8 @@ class Downloader:
             # Generate filename with title, quality, and file extension
             self.is_audio = True
             audio_filename = self.generate_filename(video_audio, video_id)
+            audio_filename = os.path.join(self.path, audio_filename)
+
             self.is_audio = False
 
         if not footage:
@@ -376,6 +379,7 @@ class Downloader:
             sys.exit()
 
         video_filename = self.generate_filename(footage, video_id)
+        video_filename = os.path.join(self.path, video_filename)
 
         # If file with the same name already exists in the path
         if is_file_exists(self.path, video_filename):

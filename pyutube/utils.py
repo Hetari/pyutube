@@ -7,15 +7,15 @@ import re
 import os
 
 import inquirer
-from inquirer.themes import GreenPassion, BlueComposure, Terminal
 import requests
 from yaspin import yaspin
 from yaspin.spinners import Spinners
 from rich.console import Console
 from rich.theme import Theme
+from termcolor import colored
 
 
-__version__ = "1.1.9"
+__version__ = "1.2.0"
 ABORTED_PREFIX = "aborted"
 CANCEL_PREFIX = "cancel"
 
@@ -248,10 +248,18 @@ def ask_rename_file(filename: str) -> str:
 
 
 def ask_playlist_video_names(videos):
+    note = colored("NOTE:", "cyan")
+    select_all = colored("<ctrl+a>", "red")
+    invert_selection = colored("<ctrl+i>", "red")
+    restart_selection = colored("<ctrl+r>", "red")
+
+    print(
+        f"{note} Press {select_all} to select all, {invert_selection} to invert selection, and {restart_selection} to restart selection",
+    )
     questions = [
         inquirer.Checkbox(
             "names",
-            message="What are you interested in?",
+            message="Choose the videos you want to download:",
             choices=videos,
         ),
     ]
@@ -375,6 +383,3 @@ def handle_video_link() -> bool:
         sys.exit()
 
     return is_audio
-
-
-ask_playlist_video_names([('w', 1)])

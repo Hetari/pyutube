@@ -1,9 +1,13 @@
 # 📹 YouTube Downloader CLI
 
-Enjoying my project? Please show your appreciation by starring it on GitHub! ⭐
+## Enjoying my project? Please show your appreciation by starring it on GitHub! ⭐
 
-> [!NOTE]
-> This project is still in development.
+> [!NOTE] Help me to improve this tool!
+> I tested it on Windows, Mac, and Linux, and it works fine, but if there is any issue, please open an issue on [GitHub](https://github.com/Hetari/pyutube/issues/new) and I'll fix it.
+>
+> Have a new feature? Please don't hesitate to [tell me](https://github.com/Hetari/pyutube/issues/new)!
+
+<img src="https://i.ibb.co/Hx3Xn2G/Screenshot-from-2024-04-08-21-38-02-transformed.png" alt="Pyutube" style="width: 100%;" >
 
 ## 📓 Description
 
@@ -18,17 +22,6 @@ it is cross-platform (Windows, Mac, Linux) and can be used in any terminal.
 - Download YouTube shorts.
 - Download YouTube playlists.
 
-## 🚴 TODO
-
-- [x] Publish on PyPI.
-- [x] Support downloading sounds (mp3 format).
-- [x] Supports all available video resolutions.
-- [x] Support shorts.
-- [x] Supports downloading playlists.
-- [ ] Playlists are organized into folders by their names.
-- [ ] GUI app (not yet).
-- [ ] Are there any features that you/I can think of?
-
 ## Upgrade
 
 All the latest updates will be posted on [GitHub](https://github.com/Hetari/pyutube), you can also upgrade the tool via [PyPI](https://pypi.org/project/pyutube/) with this command:
@@ -39,49 +32,13 @@ pip install --upgrade pyutube
 
 ## Installation
 
-Make sure that you have [Python](https://www.python.org) installed. To check if you have it installed, type `python --version` in your terminal. You should see something like `Python 3. x `
+it is easy to install Pyutube, make sure that you have [Python](https://www.python.org) installed. To check if you have it installed, type `python --version` in your terminal. You should see something like `Python 3. x ` otherwise, download and install it from [Python](https://www.python.org/downloads/).
 
-### Method 1: Using Pip
+after that, you can install it with the following command:
 
 ```bash
-pip install --upgrade pip
 pip install pyutube
 ```
-
-### Method 2: Building the project from the source
-
-Clone the repository:
-
-```bash
-git clone https://github.com/Hetari/pyutube.git
-```
-
-Change to the directory:
-
-```bash
-cd pyutube
-```
-
-Install the requirements:
-
-```bash
-pip install -r requirements.txt
-```
-
-Build the package:
-
-```bash
-python setup.py sdist bdist_wheel
-```
-
-Install the package via pip:
-
-```bash
-pip3 install dist/*
-```
-
-> [!WARNING]
-> In some cases, the package will not install. You may have to run superuser in your **OS**, for MacOS and Linux, you can write `sudo` with pip command like `sudo pip3 install dist/*`.
 
 Then you can use it in your `Terminal` 🥳.
 
