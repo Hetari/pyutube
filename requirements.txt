@@ -1,10 +1,10 @@
 # List of dependencies
-setuptools
-typer
-requests
-rich
-yaspin
-pytube
-inquirer
-termcolor
-moviepy
+setuptools==69.2.0
+typer==0.9.0
+requests==2.31.0
+rich==13.7.1
+yaspin==3.0.1
+pytube==15.0.0
+inquirer==3.2.4
+termcolor==2.4.0
+moviepy==1.0.3
