@@ -12,7 +12,7 @@
 > Have a new feature? Please don't hesitate to [tell me](https://github.com/Hetari/pyutube/issues/new)!
 
 <a href="https://ibb.co/27wcFYN">
-   <img src="pyutube.png" alt="Pyutube" style="width: 100%;">
+   <img src="images/pyutube.png" alt="Pyutube" style="width: 100%;">
 </a>
 
 ## 📓 Description
@@ -61,29 +61,29 @@ pyutube YOUTUBE_LINK [PATH]
 <div style="text-align: center;">
    <p>Download video with specify the save location</p>
    <a href="https://ibb.co/0JkdkQy">
-      <img src="https://i.ibb.co/7yH6Hbt/image1.png" alt="Download video with specify the save location">
+      <img src="images/image1.png" alt="Download video with specify the save location">
    </a>
 
    <p>Chose what type you want to download</p>
    <a href="https://ibb.co/Kb6qjmg">
-      <img src="https://i.ibb.co/sbjwvt4/image2.png" alt="Chose what type you want to download">
+      <img src="images/image2.png" alt="Chose what type you want to download">
    </a>
 
    <p>Chose what what resolution you want to download(if the type is video)</p>
    <a href="https://ibb.co/7ymCS79">
-      <img src="https://i.ibb.co/h8z9gpq/image4.png" alt="Chose what what resolution you want to download">
+      <img src="images/image3.png" alt="Chose what what resolution you want to download">
    </a>
 
    <p>If you download a playlist, you can chose what video you want to download, or even all of them</p>
    <a href="https://ibb.co/0qwkQNm">
-      <img src="https://i.ibb.co/1ZS3bV7/Screenshot-from-2024-04-11-16-42-29.png" alt="If you download a playlist, you can chose what video you want to download, or even all of them"/>
+      <img src="images/image4.png" alt="If you download a playlist, you can chose what video you want to download, or even all of them"/>
    </a>
 
 <br /><br />
-<a href="https://ibb.co/LhT6r3r">
 
-   <p>Do not know how to use it? just type <code>pyutube --help</code></p>
-      <img src="https://i.ibb.co/WprF0L0/image5.png" alt="image5">
+ <p>Do not know how to use it? just type <code>pyutube --help</code></p>
+  <a href="https://ibb.co/LhT6r3r">
+      <img src="images/image5.png" alt="image5">
    </a>
 </div>
 
