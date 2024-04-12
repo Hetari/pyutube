@@ -2,6 +2,9 @@
 
 ## Enjoying my project? Please show your appreciation by starring it on GitHub! ⭐
 
+[![Version](https://img.shields.io/pypi/v/pyutube.svg?style=flat)](https://pypi.org/project/pyutube/)
+[![Downloads](https://static.pepy.tech/badge/pyutube)](https://pepy.tech/project/pyutube)
+
 > [!NOTE]
 > Help me to improve this tool!
 > I tested it on Windows, Mac, and Linux, and it works fine, but if there is any issue, please open an issue on [GitHub](https://github.com/Hetari/pyutube/issues/new) and I'll fix it.
@@ -9,7 +12,7 @@
 > Have a new feature? Please don't hesitate to [tell me](https://github.com/Hetari/pyutube/issues/new)!
 
 <a href="https://ibb.co/27wcFYN">
-   <img src="https://i.ibb.co/MDbPg56/Screenshot-from-2024-04-08-21-38-02-transformed.png" alt="Pyutube" style="width: 100%;">
+   <img src="pyutube.png" alt="Pyutube" style="width: 100%;">
 </a>
 
 ## 📓 Description
@@ -25,7 +28,7 @@ it is cross-platform (Windows, Mac, Linux) and can be used in any terminal.
 - Download YouTube shorts.
 - Download YouTube playlists.
 
-## Upgrade
+## 📈 Upgrade
 
 All the latest updates will be posted on [GitHub](https://github.com/Hetari/pyutube), you can also upgrade the tool via [PyPI](https://pypi.org/project/pyutube/) with this command:
 
@@ -33,7 +36,7 @@ All the latest updates will be posted on [GitHub](https://github.com/Hetari/pyut
 pip install --upgrade pyutube
 ```
 
-## Installation
+## 🛠️ Installation
 
 it is easy to install Pyutube, make sure that you have [Python](https://www.python.org) installed. To check if you have it installed, type `python --version` in your terminal. You should see something like `Python 3. x ` otherwise, download and install it from [Python](https://www.python.org/downloads/).
 
@@ -45,7 +48,7 @@ pip install pyutube
 
 Then you can use it in your `Terminal` 🥳.
 
-## Usage
+## 🦸 Usage
 
 Pyutube is very easy to use, here are examples of its uses:
 
@@ -53,8 +56,7 @@ Pyutube is very easy to use, here are examples of its uses:
 pyutube YOUTUBE_LINK [PATH]
 ```
 
-> [!NOTE]
-> `[PATH]` is an optional input, the default value is the `terminal` path where the CLI is running (the current working directory).
+> [!NOTE] > `[PATH]` is an optional input, the default value is the `terminal` path where the CLI is running (the current working directory).
 
 <div style="text-align: center;">
    <p>Download video with specify the save location</p>
@@ -100,7 +102,7 @@ pyutube YOUTUBE_LINK [PATH]
 | `-a` <span style="color:cyan">or</span> `--audio`   | Download only audio immediately without asking (video or audio). |
 | `-f` <span style="color:cyan">or</span> `--footage` | Download only video immediately without asking (video or audio). |
 
-## Examples
+## 🕵️‍♂️ Examples
 
 ### **- Show version:**
 
@@ -169,11 +171,11 @@ pyutube -f youtu.be/cMPnY7EuZvo
 
 see the video and relax 🎉.
 
-## Contributing
+## 🥰 Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you want to change.
 please follow the [contributing guidelines](https://github.com/Hetari/pyutube/blob/main/CONTRIBUTING.md)
 
-## License
+## 📎 License
 
 This project is licensed under the [MIT License](https://github.com/Hetari/pyutube/blob/main/LICENSE.md).
