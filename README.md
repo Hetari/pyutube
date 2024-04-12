@@ -56,7 +56,8 @@ Pyutube is very easy to use, here are examples of its uses:
 pyutube YOUTUBE_LINK [PATH]
 ```
 
-> [!NOTE] > `[PATH]` is an optional input, the default value is the `terminal` path where the CLI is running (the current working directory).
+> [!NOTE]
+> `[PATH]` is an optional input, the default value is the `terminal` path where the CLI is running (the current working directory).
 
 <div style="text-align: center;">
    <p>Download video with specify the save location</p>
@@ -113,21 +114,19 @@ pyutube -v
 ### **- Download playlists:**
 
 1. `pyutube <YOUTUBE_PLAYLIST_LINK | PLAYLIST_ID> [the_download_path*]`
-
-   > [!NOTE]
-   > Don't forget, the path is optional.
+  > [!NOTE]
+  > Don't forget, the path is optional.
 
 2. Then choose the format of the download, video or audio.
 3. Choose the resolution if it is a video you want to download, otherwise, choose audio and it will download it all immediately 🔥.
-   > [!NOTE]
-   > It will check all resolutions available in the first video in the playlist, then it will download all of them in the same resolution 👍.
+  > [!NOTE]
+  > It will check all resolutions available in the first video in the playlist, then it will download all of them in the same resolution 👍.
 
 ### **- Download shorts, videos, or audio:**
 
 1. `pyutube <YOUTUBE_LINK | VIDEO_ID | SHORT_LINK> [the_download_path*]`
-
-   > [!NOTE]
-   > Don't forget, the path is optional.
+  > [!NOTE]
+  > Don't forget, the path is optional.
 
 2. Then choose the format of the download, video or audio.
 3. Choose the resolution if it is a video you want to download, otherwise, choose audio and it will download it immediately 🔥.
