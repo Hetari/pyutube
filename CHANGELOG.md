@@ -1,5 +1,11 @@
 # Pyutube Changelog
 
+## 1.2.1
+
+- Fix: Show the progress bar in the terminal.
+- Fix: Modify the merge method to check if the video has an audio track; if not, download it as audio and merge it with the video.
+- Add: Implement functionality to check the latest version of `pyutube` on PyPI, enabling notifications for new updates.
+
 ## 1.2.0
 
 - Add: New feature:

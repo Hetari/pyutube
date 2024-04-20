@@ -10,6 +10,7 @@ from .utils import (
     ask_resolution,
     rename_file,
     is_file_exists,
+    has_audio
 )
 
 import os
@@ -78,8 +79,7 @@ class Downloader:
         )
 
     @yaspin(
-        text=colored("getting video headers ", "green") +
-        colored("(means the video won't be fully downloaded)", "yellow"),
+        text=colored("getting video streams", "green"),
         spinner=Spinners.point
     )
     def get_available_resolutions(self, video: YouTube) -> set:
@@ -152,10 +152,6 @@ class Downloader:
         """
         return video.streams.filter(only_audio=True).order_by('mime_type').first()
 
-    @yaspin(
-        text=colored("Saving the file...", "cyan"),
-        spinner=Spinners.smiley
-    )
     def save_file(self, video: YouTube, path: str, filename: str) -> None:
         """
         Save the file to the specified path with the given filename.
@@ -388,7 +384,7 @@ class Downloader:
                 sys.exit()
         try:
             self.save_file(footage, self.path, video_filename)
-            if not self.is_audio:
+            if not self.is_audio and not has_audio(video_filename, os.path.join(self.path, audio_filename)):
                 self.save_file(video_audio, self.path, audio_filename)
                 self.merging(video_filename, audio_filename)
 
@@ -396,7 +392,7 @@ class Downloader:
             error_console.print(f"Error: {error}")
             sys.exit()
 
-        console.print("✅ Download completed", style="info")
+        console.print("\n\n\n✅ Download completed", style="info")
         return True
 
     def get_playlist_links(self):

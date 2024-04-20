@@ -13,9 +13,12 @@ from yaspin.spinners import Spinners
 from rich.console import Console
 from rich.theme import Theme
 from termcolor import colored
+from moviepy.tools import subprocess_call
+from moviepy.config import get_setting
 
 
-__version__ = "1.2.0"
+__version__ = "1.2.1"
+__app__ = "pyutube"
 ABORTED_PREFIX = "aborted"
 CANCEL_PREFIX = "cancel"
 
@@ -382,3 +385,56 @@ def handle_video_link() -> bool:
         sys.exit()
 
     return is_audio
+
+
+def has_audio(input_file, output, bitrate=3000, fps=44100):
+    """ extract the sound from a video file and save it in ``output`` """
+
+    try:
+        cmd = [
+            get_setting("FFMPEG_BINARY"),
+            "-y",
+            "-i",
+            input_file,
+            "-ab",
+            "%dk" % bitrate,
+            "-ar",
+            "%d" % fps,
+            output
+        ]
+        subprocess_call(cmd, logger=None)
+    except Exception as error:
+        return False
+
+    os.remove(output)
+    return True
+
+
+def check_for_updates() -> None:
+    """
+    A function to check for updates of a given package.
+
+    Returns:
+        None
+    """
+    try:
+        r = requests.get(
+            f'https://pypi.org/pypi/{__app__}/json', headers={'Accept': 'application/json'})
+    except Exception as error:
+        error_console.print(f"❗ Error checking for updates: {error}")
+    else:
+        if r.status_code == 200:
+            latest_version = r.json()['info']['version']
+            if latest_version != __version__:
+                console.print(
+                    f"👉 A new version of {__app__} is available: {latest_version}. Update it by running [bold red link=https://github.com/Hetari/pyutube]pip install --upgrade {__app__}[/bold red link]",
+                    style="warning"
+                )
+        else:
+            error_console.print(
+                f"❗ Error checking for updates: {r.status_code}")
+            sys.exit()
+
+
+if __name__ == "__main__":
+    check_for_updates()

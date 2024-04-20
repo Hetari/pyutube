@@ -45,6 +45,7 @@ import threading
 
 from pyutube.utils import (
     __version__,
+    __app__,
     clear,
     error_console,
     console,
@@ -53,6 +54,7 @@ from pyutube.utils import (
     validate_link,
     handle_video_link,
     ask_playlist_video_names,
+    check_for_updates
 )
 from pyutube.downloader import download
 
@@ -153,6 +155,7 @@ def pyutube(
         error_console.print("❗ Unsupported link type.")
         sys.exit()
 
+    check_for_updates()
     sys.exit()
 
 

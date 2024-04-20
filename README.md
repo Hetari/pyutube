@@ -1,15 +1,17 @@
 # 📹 YouTube Downloader CLI
 
-## Enjoying my project? Please show your appreciation by starring it on GitHub! ⭐
+### Enjoying my project? Please show your appreciation by starring it on GitHub! ⭐
 
 [![Version](https://img.shields.io/pypi/v/pyutube.svg?style=flat)](https://pypi.org/project/pyutube/)
 [![Downloads](https://static.pepy.tech/badge/pyutube)](https://pepy.tech/project/pyutube)
 
 > [!NOTE]
-> Help me to improve this tool!
-> I tested it on Windows, Mac, and Linux, and it works fine, but if there is any issue, please open an issue on [GitHub](https://github.com/Hetari/pyutube/issues/new) and I'll fix it.
->
 > Have a new feature? Please don't hesitate to [tell me](https://github.com/Hetari/pyutube/issues/new)!
+
+<!-- for pypi only -->
+<!-- <a href="https://ibb.co/27wcFYN">
+   <img src="https://i.ibb.co/MDbPg56/Screenshot-from-2024-04-08-21-38-02-transformed.png" alt="Pyutube" style="width: 100%;">
+</a> -->
 
 <a href="https://ibb.co/27wcFYN">
    <img src="images/pyutube.png" alt="Pyutube" style="width: 100%;">
@@ -21,20 +23,12 @@ This command-line tool downloads YouTube videos from the `Terminal`, written und
 
 it is cross-platform (Windows, Mac, Linux) and can be used in any terminal.
 
-## 💎 Features
-
 - User-friendly CLI interface.
 - Download a single YouTube video format or audio.
 - Download YouTube shorts.
 - Download YouTube playlists.
 
-## 📈 Upgrade
-
-All the latest updates will be posted on [GitHub](https://github.com/Hetari/pyutube), you can also upgrade the tool via [PyPI](https://pypi.org/project/pyutube/) with this command:
-
-```bash
-pip install --upgrade pyutube
-```
+## :why: why `pyutube`?
 
 ## 🛠️ Installation
 
@@ -46,9 +40,17 @@ after that, you can install it with the following command:
 pip install pyutube
 ```
 
+## 📈 Upgrade
+
+All the latest updates will be posted on [GitHub](https://github.com/Hetari/pyutube), you can also upgrade the tool via [PyPI](https://pypi.org/project/pyutube/) with this command:
+
+```bash
+pip install --upgrade pyutube
+```
+
 Then you can use it in your `Terminal` 🥳.
 
-## 🦸 Usage
+## 🦸 Quick Start
 
 Pyutube is very easy to use, here are examples of its uses:
 
@@ -56,8 +58,34 @@ Pyutube is very easy to use, here are examples of its uses:
 pyutube YOUTUBE_LINK [PATH]
 ```
 
-> [!NOTE]
-> `[PATH]` is an optional input, the default value is the `terminal` path where the CLI is running (the current working directory).
+> [!NOTE] > `[PATH]` is an optional input, the default value is the `terminal` path where the CLI is running (the current working directory in your terminal).
+
+## 🦸 Usage
+
+<!-- for pypi only -->
+<!-- <div style="text-align: center;">
+   <p>Download video with specify the save location</p>
+   <a href="https://ibb.co/0JkdkQy">
+      <img src="https://i.ibb.co/7yH6Hbt/image1.png" alt="Download video with specify the save location">
+   </a>
+   <p>Chose what type you want to download</p>
+   <a href="https://ibb.co/Kb6qjmg">
+      <img src="https://i.ibb.co/sbjwvt4/image2.png" alt="Chose what type you want to download">
+   </a>
+   <p>Chose what what resolution you want to download(if the type is video)</p>
+   <a href="https://ibb.co/7ymCS79">
+      <img src="https://i.ibb.co/h8z9gpq/image4.png" alt="Chose what resolution you want to download">
+   </a>
+   <p>If you download a playlist, you can choose what video you want to download, or even all of them</p>
+   <a href="https://ibb.co/0qwkQNm">
+      <img src="https://i.ibb.co/1ZS3bV7/Screenshot-from-2024-04-11-16-42-29.png" alt="If you download a playlist, you can choose what video you want to download, or even all of them"/>
+   </a>
+<br /><br />
+ <p>Do not know how to use it? just type <code>pyutube --help</code></p>
+  <a href="https://ibb.co/LhT6r3r">
+      <img src="https://i.ibb.co/WprF0L0/image5.png" alt="image5">
+   </a>
+</div> -->
 
 <div style="text-align: center;">
    <p>Download video with specify the save location</p>
@@ -72,12 +100,12 @@ pyutube YOUTUBE_LINK [PATH]
 
    <p>Chose what what resolution you want to download(if the type is video)</p>
    <a href="https://ibb.co/7ymCS79">
-      <img src="images/image3.png" alt="Chose what what resolution you want to download">
+      <img src="images/image3.png" alt="Chose what resolution you want to download">
    </a>
 
-   <p>If you download a playlist, you can chose what video you want to download, or even all of them</p>
+   <p>If you download a playlist, you can choose what video you want to download, or even all of them</p>
    <a href="https://ibb.co/0qwkQNm">
-      <img src="images/image4.png" alt="If you download a playlist, you can chose what video you want to download, or even all of them"/>
+      <img src="images/image4.png" alt="If you download a playlist, you can choose what video you want to download, or even all of them"/>
    </a>
 
 <br /><br />
@@ -114,19 +142,21 @@ pyutube -v
 ### **- Download playlists:**
 
 1. `pyutube <YOUTUBE_PLAYLIST_LINK | PLAYLIST_ID> [the_download_path*]`
-  > [!NOTE]
-  > Don't forget, the path is optional.
+
+   > [!NOTE]
+   > Don't forget, the path is optional.
 
 2. Then choose the format of the download, video or audio.
 3. Choose the resolution if it is a video you want to download, otherwise, choose audio and it will download it all immediately 🔥.
-  > [!NOTE]
-  > It will check all resolutions available in the first video in the playlist, then it will download all of them in the same resolution 👍.
+   > [!NOTE]
+   > It will check all resolutions available in the first video in the playlist, then it will download all of them in the same resolution 👍.
 
 ### **- Download shorts, videos, or audio:**
 
 1. `pyutube <YOUTUBE_LINK | VIDEO_ID | SHORT_LINK> [the_download_path*]`
-  > [!NOTE]
-  > Don't forget, the path is optional.
+
+   > [!NOTE]
+   > Don't forget, the path is optional.
 
 2. Then choose the format of the download, video or audio.
 3. Choose the resolution if it is a video you want to download, otherwise, choose audio and it will download it immediately 🔥.
