@@ -17,7 +17,7 @@ from moviepy.tools import subprocess_call
 from moviepy.config import get_setting
 
 
-__version__ = "1.2.1"
+__version__ = "1.2.2"
 __app__ = "pyutube"
 ABORTED_PREFIX = "aborted"
 CANCEL_PREFIX = "cancel"
@@ -198,7 +198,20 @@ def ask_resolution(resolutions: set, sizes) -> str:
         str: The chosen resolution as a string.
     """
     # Create a dictionary to relate each size with its resolution
-    size_resolution_mapping = dict(zip(resolutions, sizes))
+    size_resolution_mapping = {}
+
+    for resolution, size in zip(resolutions, sizes):
+        # Check if the resolution already exists in the dictionary
+        if resolution not in size_resolution_mapping:
+            # If it doesn't exist, add it to the dictionary
+            size_resolution_mapping[resolution] = size
+        else:
+            # If it does exist, compare the sizes and keep the highest one
+            current_size = float(
+                size_resolution_mapping[resolution].replace(" MB", ""))
+            new_size = float(size.replace(" MB", ""))
+            if new_size > current_size:
+                size_resolution_mapping[resolution] = size
 
     # Generate the choices for the user prompt
     resolution_choices = [
@@ -434,7 +447,3 @@ def check_for_updates() -> None:
             error_console.print(
                 f"❗ Error checking for updates: {r.status_code}")
             sys.exit()
-
-
-if __name__ == "__main__":
-    check_for_updates()

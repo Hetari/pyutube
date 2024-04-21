@@ -95,8 +95,7 @@ class Downloader:
         streams = video.streams
 
         available_streams = streams.filter(
-            progressive=False, mime_type="video/mp4")
-
+            progressive=False, adaptive=True, mime_type="video/mp4")
         audio_stream = streams.filter(
             only_audio=True).order_by('mime_type').first()
 
@@ -307,19 +306,29 @@ class Downloader:
             return []
 
         # Calculate the total audio file size in bytes
-        audio_filesize_bytes = audio_stream.filesize_approx
+        audio_filesize = audio_stream.filesize
 
         resolutions_with_sizes = []
+        one_mb = 1024 * 1024
+        one_gb = one_mb * 1024
         for stream in available_streams:
             if stream.resolution:
                 # Calculate the total video file size including audio in bytes
-                video_filesize_bytes = stream.filesize + \
-                    audio_filesize_bytes
+                video_filesize_bytes = stream.filesize
+
+                if not stream.is_progressive:
+                    video_filesize_bytes += audio_filesize
+
                 # Convert the video file size to KB or MB dynamically
-                if video_filesize_bytes >= 1024 * 1024:
+                if video_filesize_bytes >= one_gb:
+                    # If size is >= 1 GB
+                    video_filesize = \
+                        f"{video_filesize_bytes / (one_gb):.4f} GB"
+
+                elif video_filesize_bytes >= one_mb:
                     # If size is >= 1 MB
                     video_filesize = \
-                        f"{video_filesize_bytes / (1024 * 1024):.2f} MB"
+                        f"{video_filesize_bytes / (one_mb):.2f} MB"
                 else:
                     video_filesize = f"{video_filesize_bytes / 1024:.2f} KB"
 

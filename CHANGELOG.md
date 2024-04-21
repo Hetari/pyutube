@@ -1,5 +1,10 @@
 # Pyutube Changelog
 
+## 1.2.2
+
+- Fix: Calculate the video size correctly.
+- Fix: Make sure that all video streams are [adaptive](https://pytube.io/en/stable/user/streams.html#dash-vs-progressive-streams)
+
 ## 1.2.1
 
 - Fix: Show the progress bar in the terminal.
@@ -84,10 +89,6 @@
   pyutube https://youtube.com/watch?v=cMPnY7EuZvo
   ```
 
-````
-
-```
-
 - Fix: Enhanced Output Representation when using `--help`
 
 ## 1.1.2
@@ -109,5 +110,3 @@
 ## 1.0.0
 
 - Initial release
-```
-````
