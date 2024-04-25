@@ -16,7 +16,7 @@ from rich.theme import Theme
 from termcolor import colored
 
 
-__version__ = "1.2.4"
+__version__ = "1.2.5"
 __app__ = "pyutube"
 ABORTED_PREFIX = "aborted"
 CANCEL_PREFIX = "cancel"
@@ -198,7 +198,7 @@ def ask_resolution(resolutions: set, sizes) -> str:
         str: The chosen resolution as a string.
     """
     # Create a dictionary to relate each size with its resolution
-    size_resolution_mapping = dict(zip(sizes, resolutions))
+    size_resolution_mapping = dict(zip(resolutions, sizes))
 
     # Generate the choices for the user prompt
     resolution_choices = [

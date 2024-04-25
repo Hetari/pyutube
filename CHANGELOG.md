@@ -1,5 +1,13 @@
 # Pyutube Changelog
 
+## 1.2.4
+
+- Fix: Downloading error, (typo mistake)
+
+## 1.2.4
+
+- Refactor: remove unnecessary code
+
 ## 1.2.2
 
 - Fix: Calculate the video size correctly.
