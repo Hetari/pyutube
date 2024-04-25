@@ -120,6 +120,7 @@ def pyutube(
     """
     if version:
         console.print(f"Pyutube {__version__}")
+        check_for_updates()
         sys.exit()
 
     if url is None:
@@ -189,7 +190,6 @@ def handle_playlist(url: str, path: str):
     Returns:
         None
     """
-    # TODO: Make subfunction to download playlist
     def get_title(video):
         """Function to get the title of a YouTube video."""
         return video.title
@@ -201,6 +201,7 @@ def handle_playlist(url: str, path: str):
         playlist_videos.append((video_title, video_id))
 
     global playlist_videos
+
     try:
         is_audio = handle_video_link()
     except TypeError:

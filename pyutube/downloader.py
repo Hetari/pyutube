@@ -10,7 +10,6 @@ from .utils import (
     ask_resolution,
     rename_file,
     is_file_exists,
-    has_audio
 )
 
 import os
@@ -210,7 +209,7 @@ class Downloader:
             str: The generated filename.
         """
         quality = 'audio' if self.is_audio else video.resolution
-        title = sanitize_filename(video.title)
+        title = video.default_filename
         extension = 'mp3' if self.is_audio else video.mime_type.split('/')[1]
 
         return f"{title} - {quality}_-_{video_id}.{extension}"
@@ -224,7 +223,9 @@ class Downloader:
         """
         choice = ask_rename_file(filename).lower()
         if choice.startswith('rename'):
-            filename = self.prompt_new_filename(filename)
+            filename = sanitize_filename(
+                self.prompt_new_filename(filename)
+            )
             if not filename:
                 error_console.print("Invalid filename")
                 return False
@@ -392,8 +393,10 @@ class Downloader:
             if not video_filename:
                 sys.exit()
         try:
+            console.print("⏳ Downloading video...", style="info")
             self.save_file(footage, self.path, video_filename)
-            if not self.is_audio and not has_audio(video_filename, os.path.join(self.path, audio_filename)):
+
+            if not self.is_audio:
                 self.save_file(video_audio, self.path, audio_filename)
                 self.merging(video_filename, audio_filename)
 

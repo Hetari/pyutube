@@ -5,22 +5,25 @@ This module contains the utils functions for the pyutube package.
 import sys
 import re
 import os
+from datetime import timedelta
 
 import inquirer
 import requests
+import requests_cache
 from yaspin import yaspin
 from yaspin.spinners import Spinners
 from rich.console import Console
 from rich.theme import Theme
 from termcolor import colored
-from moviepy.tools import subprocess_call
-from moviepy.config import get_setting
 
 
-__version__ = "1.2.2"
+__version__ = "1.2.3"
 __app__ = "pyutube"
 ABORTED_PREFIX = "aborted"
 CANCEL_PREFIX = "cancel"
+
+requests_cache.install_cache('update_cache', expire_after=timedelta(days=2))
+
 
 # Set up the console
 custom_theme = Theme({
@@ -198,20 +201,7 @@ def ask_resolution(resolutions: set, sizes) -> str:
         str: The chosen resolution as a string.
     """
     # Create a dictionary to relate each size with its resolution
-    size_resolution_mapping = {}
-
-    for resolution, size in zip(resolutions, sizes):
-        # Check if the resolution already exists in the dictionary
-        if resolution not in size_resolution_mapping:
-            # If it doesn't exist, add it to the dictionary
-            size_resolution_mapping[resolution] = size
-        else:
-            # If it does exist, compare the sizes and keep the highest one
-            current_size = float(
-                size_resolution_mapping[resolution].replace(" MB", ""))
-            new_size = float(size.replace(" MB", ""))
-            if new_size > current_size:
-                size_resolution_mapping[resolution] = size
+    size_resolution_mapping = dict(zip(sizes, resolutions))
 
     # Generate the choices for the user prompt
     resolution_choices = [
@@ -256,7 +246,7 @@ def ask_rename_file(filename: str) -> str:
         inquirer.List(
             "rename",
             message="Do you want to",
-            choices=['Rename it', 'Overwrite it', "Cancel"],
+            choices=['Rename it', 'Overwrite it', CANCEL_PREFIX.capitalize()],
         ),
     ]
     return inquirer.prompt(questions)["rename"]
@@ -343,7 +333,35 @@ def is_file_exists(path: str, filename: str) -> bool:
     return os.path.isfile(os.path.join(path, filename))
 
 
+def check_for_updates() -> None:
+    """
+    A function to check for updates of a given package.
+
+    Returns:
+        None
+    """
+    try:
+        r = requests.get(
+            f'https://pypi.org/pypi/{__app__}/json', headers={'Accept': 'application/json'})
+    except Exception as error:
+        error_console.print(f"❗ Error checking for updates: {error}")
+    else:
+        if r.status_code == 200:
+            latest_version = r.json()['info']['version']
+
+            if latest_version != __version__:
+                console.print(
+                    f"👉 A new version of {__app__} is available: {latest_version}. Update it by running [bold red link=https://github.com/Hetari/pyutube]pip install --upgrade {__app__}[/bold red link]",
+                    style="warning"
+                )
+        else:
+            error_console.print(
+                f"❗ Error checking for updates: {r.status_code}")
+            sys.exit()
+
 # main utils
+
+
 def check_internet_connection() -> bool:
     """
     Checks if an internet connection is available.
@@ -398,52 +416,3 @@ def handle_video_link() -> bool:
         sys.exit()
 
     return is_audio
-
-
-def has_audio(input_file, output, bitrate=3000, fps=44100):
-    """ extract the sound from a video file and save it in ``output`` """
-
-    try:
-        cmd = [
-            get_setting("FFMPEG_BINARY"),
-            "-y",
-            "-i",
-            input_file,
-            "-ab",
-            "%dk" % bitrate,
-            "-ar",
-            "%d" % fps,
-            output
-        ]
-        subprocess_call(cmd, logger=None)
-    except Exception as error:
-        return False
-
-    os.remove(output)
-    return True
-
-
-def check_for_updates() -> None:
-    """
-    A function to check for updates of a given package.
-
-    Returns:
-        None
-    """
-    try:
-        r = requests.get(
-            f'https://pypi.org/pypi/{__app__}/json', headers={'Accept': 'application/json'})
-    except Exception as error:
-        error_console.print(f"❗ Error checking for updates: {error}")
-    else:
-        if r.status_code == 200:
-            latest_version = r.json()['info']['version']
-            if latest_version != __version__:
-                console.print(
-                    f"👉 A new version of {__app__} is available: {latest_version}. Update it by running [bold red link=https://github.com/Hetari/pyutube]pip install --upgrade {__app__}[/bold red link]",
-                    style="warning"
-                )
-        else:
-            error_console.print(
-                f"❗ Error checking for updates: {r.status_code}")
-            sys.exit()
