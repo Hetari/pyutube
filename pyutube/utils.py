@@ -9,7 +9,6 @@ from datetime import timedelta
 
 import inquirer
 import requests
-import requests_cache
 from yaspin import yaspin
 from yaspin.spinners import Spinners
 from rich.console import Console
@@ -17,12 +16,10 @@ from rich.theme import Theme
 from termcolor import colored
 
 
-__version__ = "1.2.3"
+__version__ = "1.2.4"
 __app__ = "pyutube"
 ABORTED_PREFIX = "aborted"
 CANCEL_PREFIX = "cancel"
-
-requests_cache.install_cache('update_cache', expire_after=timedelta(days=2))
 
 
 # Set up the console
