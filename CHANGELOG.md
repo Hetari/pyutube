@@ -1,5 +1,9 @@
 # Pyutube Changelog
 
+## 1.2.6
+
+- Fix: switch into pytubefix instead of pytube.
+
 ## 1.2.4
 
 - Fix: Downloading error, (typo mistake)

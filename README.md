@@ -55,7 +55,8 @@ Pyutube is very easy to use, here are examples of its uses:
 pyutube YOUTUBE_LINK [PATH]
 ```
 
-> [!NOTE] > `[PATH]` is an optional input, the default value is the `terminal` path where the CLI is running (the current working directory in your terminal).
+> [!NOTE]
+> `[PATH]` is an optional input, the default value is the `terminal` path where the CLI is running (the current working directory in your terminal).
 
 ## 👨‍💻 Usage
 
