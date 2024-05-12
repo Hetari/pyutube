@@ -27,7 +27,7 @@ setup(
 
     long_description_content_type="text/markdown",
 
-    keywords=["youtube", "download", "cli", "pyutube", "pytube"],
+    keywords=["youtube", "download", "cli", "pyutube", "pytubefix"],
 
     license="MIT",
 

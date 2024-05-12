@@ -18,8 +18,8 @@ import sys
 
 from yaspin import yaspin
 from yaspin.spinners import Spinners
-from pytube import YouTube, Playlist
-from pytube.cli import on_progress
+from pytubefix import YouTube, Playlist
+from pytubefix.cli import on_progress
 from termcolor import colored
 from moviepy.video.io.ffmpeg_tools import ffmpeg_merge_video_audio
 
@@ -69,7 +69,6 @@ class Downloader:
         Returns:
             YouTube: An instance of the YouTube class representing the searched video.
         """
-
         return YouTube(
             url,
             use_oauth=False,
@@ -393,7 +392,9 @@ class Downloader:
             if not video_filename:
                 sys.exit()
         try:
-            console.print("⏳ Downloading video...", style="info")
+            console.print(
+                f"⏳ Downloading {'audio' if self.is_audio else 'video'}...", style="info")
+
             self.save_file(footage, self.path, video_filename)
 
             if not self.is_audio:
