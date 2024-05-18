@@ -15,7 +15,6 @@ We welcome various types of contributions, including but not limited to:
 - Suggestions and feedback.
 - ...
 
-
 ### What We're NOT Looking For
 
 Please refrain from using the issue tracker for support questions. For any inquiries or assistance, feel free to reach out to us through [email](hetari3all@gmail.com).
@@ -44,7 +43,7 @@ If you're new to open-source contribution, don't worry! Here's how you can get s
 
 #### Yo Want to Contribute but Don't Know Where to Begin?
 
-1. See the [Pytube docs](https://pytube.readthedocs.io/en/latest/)
+1. See the [Pytubefix docs](https://pytubefix.readthedocs.io/en/latest/)
 
 If you are a bigger contributor, feel free to start with:
 
