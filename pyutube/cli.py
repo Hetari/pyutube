@@ -39,6 +39,7 @@ Thank you for using Pyutube! Your support is greatly appreciated. ⭐️
 
 import os
 import sys
+import re
 
 import typer
 import threading
@@ -190,13 +191,10 @@ def handle_playlist(url: str, path: str):
     Returns:
         None
     """
-    def get_title(video):
-        """Function to get the title of a YouTube video."""
-        return video.title
 
     def fetch_title_thread(video):
         """Fetch the title of a YouTube video in a separate thread."""
-        video_title = video.title
+        video_title = safe_filename(video.title)
         video_id = video.video_id
         playlist_videos.append((video_title, video_id))
 
@@ -229,19 +227,77 @@ def handle_playlist(url: str, path: str):
 
     # Now all video titles are stored in the video_titles list
     console.print(f"\nPlaylist title: {title}\n", style="info")
-    console.print(f"Total videos: {total}\n\n", style="info")
-    console.print("Chose what video you want to download")
-
-    videos_selected = ask_playlist_video_names(playlist_videos)
+    console.print(f"Total videos: {total}\n", style="info")
 
     os.makedirs(title, exist_ok=True)
     new_path = os.path.join(path, title)
 
+    # check if there is any video already downloaded in the past
+    for file in os.listdir(new_path):
+        for video in playlist_videos:
+            if file.startswith(video):
+                playlist_videos.remove(video)
+                # Exit the inner loop since we found a match
+                break
+
+    if not playlist_videos:
+        console.print(f"All playlist are already downloaded in this directory, see '{
+                      title}' folder", style="info")
+        sys.exit()
+
+    console.print("Chose what video you want to download")
+    videos_selected = ask_playlist_video_names(playlist_videos)
+
     for index, video_id in enumerate(videos_selected):
         url = f"https://www.youtube.com/watch?v={video_id}"
+
         if index == 0:
             quality = download(url, new_path, is_audio, is_playlist=False)
             continue
-
         download(url, new_path, is_audio,
-                 quality_choice=quality, is_playlist=False)
+                 quality_choice=quality,
+                 is_playlist=False)
+
+
+def safe_filename(s: str, max_length: int = 255) -> str:
+    """Sanitize a string making it safe to use as a filename.
+
+    This function was based off the limitations outlined here:
+    https://en.wikipedia.org/wiki/Filename.
+
+    :param str s:
+        A string to make safe for use as a file name.
+    :param int max_length:
+        The maximum filename character length.
+    :rtype: str
+    :returns:
+        A sanitized string.
+    """
+    # Characters in range 0-31 (0x00-0x1F) are not allowed in ntfs filenames.
+    ntfs_characters = [chr(i) for i in range(31)]
+    characters = [
+        r'"',
+        r"\#",
+        r"\$",
+        r"\%",
+        r"'",
+        r"\*",
+        r"\,",
+        r"\.",
+        r"\/",
+        r"\:",
+        r'"',
+        r"\;",
+        r"\<",
+        r"\>",
+        r"\?",
+        r"\\",
+        r"\^",
+        r"\|",
+        r"\~",
+        r"\\\\",
+    ]
+    pattern = "|".join(ntfs_characters + characters)
+    regex = re.compile(pattern, re.UNICODE)
+    filename = regex.sub("", s)
+    return filename[:max_length].rsplit(" ", 0)[0]

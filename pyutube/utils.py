@@ -16,7 +16,7 @@ from rich.theme import Theme
 from termcolor import colored
 
 
-__version__ = "1.2.7"
+__version__ = "1.2.8"
 __app__ = "pyutube"
 ABORTED_PREFIX = "aborted"
 CANCEL_PREFIX = "cancel"
@@ -251,12 +251,14 @@ def ask_rename_file(filename: str) -> str:
 
 def ask_playlist_video_names(videos):
     note = colored("NOTE:", "cyan")
+    select_one = colored("<space>", "red")
     select_all = colored("<ctrl+a>", "red")
     invert_selection = colored("<ctrl+i>", "red")
     restart_selection = colored("<ctrl+r>", "red")
 
     print(
-        f"{note} Press {select_all} to select all, {invert_selection} to invert selection, and {restart_selection} to restart selection",
+        f"{note} Press {select_one} to select the videos, {select_all} to select all, {
+            invert_selection} to invert selection, and {restart_selection} to restart selection",
     )
     questions = [
         inquirer.Checkbox(
@@ -348,7 +350,8 @@ def check_for_updates() -> None:
 
             if latest_version != __version__:
                 console.print(
-                    f"👉 A new version of {__app__} is available: {latest_version}. Update it by running [bold red link=https://github.com/Hetari/pyutube]pip install --upgrade {__app__}[/bold red link]",
+                    f"👉 A new version of {__app__} is available: {
+                        latest_version}. Update it by running [bold red link=https://github.com/Hetari/pyutube]pip install --upgrade {__app__}[/bold red link]",
                     style="warning"
                 )
         else:

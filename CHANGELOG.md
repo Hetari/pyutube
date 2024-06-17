@@ -1,5 +1,10 @@
 # Pyutube Changelog
 
+## 1.2.8
+
+- Add: if you download half of the playlist, you can resume the others without having to download them again.
+  It will check the root directory for the file, and if the playlist folder is found it will see its content and remove all the files that already downloaded from the download queue.
+
 ## 1.2.6
 
 - Fix: switch into pytubefix instead of pytube.

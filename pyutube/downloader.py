@@ -130,7 +130,16 @@ class Downloader:
             The video stream with the specified quality, 
             or the best available stream if no match is found.
         """
-        return streams.filter(res=quality).first()
+        s = streams.filter(res=quality).first()
+
+        if not s:
+            available_qualities = [stream.resolution for stream in streams]
+            available_qualities = list(map(int, available_qualities))
+            selected_quality = min(available_qualities,
+                                   key=lambda x: abs(int(quality) - x))
+            s = streams.filter(res=str(selected_quality)).first()
+
+        return s
 
     @yaspin(
         text=colored("Downloading the audio...", "green"),
