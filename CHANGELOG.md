@@ -1,5 +1,10 @@
 # Pyutube Changelog
 
+## 1.2.9
+
+- fix: improve cancel behavior in video quality selection
+- fix: you can download live streams now
+
 ## 1.2.8
 
 - Add: if you download half of the playlist, you can resume the others without having to download them again.
