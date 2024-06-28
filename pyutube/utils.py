@@ -16,10 +16,10 @@ from rich.theme import Theme
 from termcolor import colored
 
 
-__version__ = "1.2.8"
+__version__ = "1.2.9"
 __app__ = "pyutube"
 ABORTED_PREFIX = "aborted"
-CANCEL_PREFIX = "cancel"
+CANCEL_PREFIX = "Cancel"
 
 
 # Set up the console
@@ -167,7 +167,7 @@ def file_type() -> str:
         inquirer.List(
             "file_type",
             message="Choose the file type you want to download",
-            choices=['Audio', 'Video', "Cancel the download"],
+            choices=['Audio', 'Video', CANCEL_PREFIX],
         ),
     ]
 
@@ -203,7 +203,7 @@ def ask_resolution(resolutions: set, sizes) -> str:
     # Generate the choices for the user prompt
     resolution_choices = [
         f"{size} ~= {resolution}" for size, resolution in size_resolution_mapping.items()
-    ] + ["Cancel the download"]
+    ] + [CANCEL_PREFIX]
 
     questions = [
         inquirer.List(

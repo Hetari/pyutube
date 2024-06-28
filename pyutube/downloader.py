@@ -10,6 +10,7 @@ from .utils import (
     ask_resolution,
     rename_file,
     is_file_exists,
+    CANCEL_PREFIX
 )
 
 import os
@@ -207,7 +208,7 @@ class Downloader:
         self.quality = ask_resolution(
             resolutions, sizes) if self.quality is None else self.quality
 
-        return [] if self.quality.startswith("cancel") else streams, video_audio
+        return [] if self.quality.startswith(CANCEL_PREFIX) else streams, video_audio
 
     def generate_filename(self, video, video_id):
         """
@@ -374,7 +375,7 @@ class Downloader:
             # shorts and videos
             streams, video_audio = self.get_selected_stream(video)
 
-            if not streams:
+            if not streams or self.quality.startswith(CANCEL_PREFIX):
                 error_console.print("❗ Cancel the download...")
                 sys.exit()
 
