@@ -18,7 +18,7 @@ from termcolor import colored
 
 __version__ = "1.2.9"
 __app__ = "pyutube"
-ABORTED_PREFIX = "aborted"
+ABORTED_PREFIX = "Aborted"
 CANCEL_PREFIX = "Cancel"
 
 
@@ -402,7 +402,7 @@ def validate_link(url: str) -> tuple[bool, str]:
     return is_valid_link, link_type.lower()
 
 
-def handle_video_link() -> bool:
+def asking_video_or_audio() -> bool:
     """
     Handles video link scenario.
 
@@ -415,10 +415,8 @@ def handle_video_link() -> bool:
     file_type_choice = file_type().lower()
     is_audio = file_type_choice.startswith("audio")
 
-    if file_type_choice.startswith(CANCEL_PREFIX):
+    if file_type_choice.startswith(CANCEL_PREFIX.lower()):
         error_console.print("❗ Cancel the download...")
-        sys.exit()
-    elif file_type_choice.startswith(ABORTED_PREFIX):
         sys.exit()
 
     return is_audio
