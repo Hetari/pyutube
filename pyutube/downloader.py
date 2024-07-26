@@ -218,8 +218,9 @@ class Downloader:
             str: The generated filename.
         """
         quality = 'audio' if self.is_audio else video.resolution
-        title = video.default_filename
         extension = 'mp3' if self.is_audio else video.mime_type.split('/')[1]
+        title = video.default_filename
+        title = title.replace(f'.{extension}', "")
 
         return f"{title} - {quality}_-_{video_id}.{extension}"
 
