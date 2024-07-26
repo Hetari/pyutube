@@ -1,74 +1,63 @@
 import os
 import sys
-from pyutube.downloader import download
-from pyutube.utils import console, error_console, asking_video_or_audio, ask_playlist_video_names
-from pytubefix.helpers import safe_filename
 import threading
+
+from pytubefix.helpers import safe_filename
+from pytubefix import Playlist
+
+from pyutube.downloader import download
+from pyutube.utils import console, asking_video_or_audio, ask_playlist_video_names
 
 
 class PlaylistHandler:
     playlist_videos = []
 
-    def __init__(self, url, path):
-        self.url = url
-        self.path = path
+    def __init__(self, url: str, path: str):
+        self.url: str = url
+        self.path: str = path
 
     def process_playlist(self):
+        """
+        Process the playlist by asking for the audio or video, downloading the playlist,
+        then asking for which video to download and downloading it.
+        """
         try:
             is_audio = asking_video_or_audio()
-            print(is_audio)
         except TypeError:
+            # If the user cancelled, return
             return
-        playlist = download(self.url, self.path, is_audio, is_playlist=True)
 
-        # links = playlist.video_urls
-        title = playlist.title
-        total = playlist.length
-        videos = playlist.videos
+        playlist_stream = Playlist(self.url)
 
-        # Use threading to fetch titles concurrently
-        title_threads = self.handle_playlist_videos(videos)
+        p_title = playlist_stream.title
+        p_total = playlist_stream.length
+        p_videos = playlist_stream.videos
 
-        # Now all video titles are stored in the video_titles list
-        console.print(f"\nPlaylist title: {title}\n", style="info")
-        console.print(f"Total videos: {total}\n", style="info")
+        self.get_all_playlist_videos_title(p_videos)
 
-        os.makedirs(title, exist_ok=True)
-        new_path = os.path.join(self.path, title)
-
-        # check if there is any video already downloaded in the past
-        for file in os.listdir(new_path):
-            for video in self.playlist_videos:
-                if file.startswith(video):
-                    self.playlist_videos.remove(video)
-                    # Exit the inner loop since we found a match
-                    break
-
-        if not self.playlist_videos:
-            console.print(f"All playlist are already downloaded in this directory, see '{
-                title}' folder", style="info")
-            sys.exit()
+        new_path = self.check_for_downloaded_videos(p_title, p_total)
 
         console.print("Chose what video you want to download")
         videos_selected = ask_playlist_video_names(self.playlist_videos)
 
+        # Download the selected videos
         for index, video_id in enumerate(videos_selected):
             url = f"https://www.youtube.com/watch?v={video_id}"
 
             if index == 0:
-                quality = download(url, new_path, is_audio, is_playlist=False)
+                # If it is the first video, download it and store the quality
+                quality = download(url, new_path, is_audio)
                 continue
-            download(url, new_path, is_audio,
-                     quality_choice=quality,
-                     is_playlist=False)
+
+            # If it is not the first video, download it with the stored quality
+            download(url, new_path, is_audio, quality_choice=quality)
 
     def fetch_title_thread(self, video):
         video_title = safe_filename(video.title)
         video_id = video.video_id
         self.playlist_videos.append((video_title, video_id))
 
-    def handle_playlist_videos(self, videos):
-        # sourcery skip: inline-immediately-returned-variable, move-assign-in-block
+    def get_all_playlist_videos_title(self, videos):
         # Use threading to fetch titles concurrently
         title_threads = []
 
@@ -83,4 +72,30 @@ class PlaylistHandler:
         for thread in title_threads:
             thread.join()
 
-        return title_threads
+    @staticmethod
+    def show_playlist_info(title, total):
+        console.print(f"\nPlaylist title: {title}\n", style="info")
+        console.print(f"Total videos: {total}\n", style="info")
+
+    def create_playlist_folder(self, title):
+        os.makedirs(title, exist_ok=True)
+        return os.path.join(self.path, title)
+
+    def check_for_downloaded_videos(self, title, total):
+        new_path = self.create_playlist_folder(title)
+
+        # check if there is any video already downloaded in the past
+        for file in os.listdir(new_path):
+            for video in self.playlist_videos:
+                if file.startswith(video):
+                    self.playlist_videos.remove(video)
+                    # Exit the inner loop since we found a match
+                    break
+
+        if not self.playlist_videos:
+            console.print(f"All playlist are already downloaded in this directory, see '{
+                          title}' folder", style="info")
+            sys.exit()
+
+        self.show_playlist_info(title, total)
+        return new_path

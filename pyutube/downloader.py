@@ -19,7 +19,7 @@ import sys
 
 from yaspin import yaspin
 from yaspin.spinners import Spinners
-from pytubefix import YouTube, Playlist
+from pytubefix import YouTube
 from pytubefix.cli import on_progress
 from termcolor import colored
 from moviepy.video.io.ffmpeg_tools import ffmpeg_merge_video_audio
@@ -36,7 +36,6 @@ class Downloader:
             path: str,
             quality: None = None,
             is_audio: bool = False,
-            is_playlist: bool = False,
     ):
         """
             Initializes a Downloader object.
@@ -47,13 +46,12 @@ class Downloader:
                 quality: The desired quality of the video, default is None.
                 is_audio: Flag indicating if the video should be downloaded 
                     as audio, default is False.
-                is_playlist: Flag indicating if the URL is for a playlist, default is False.
+
         """
         self.url = url
         self.path = path
         self.quality = quality
         self.is_audio = is_audio
-        self.is_playlist = is_playlist
 
     @yaspin(
         text=colored("Searching for the video", "green"),
@@ -419,24 +417,11 @@ class Downloader:
         console.print("\n\n\n✅ Download completed", style="info")
         return True
 
-    def get_playlist_links(self):
-        """
-        Get the playlist links from the URL.
-
-        Args:
-            url (str): The URL of the YouTube playlist.
-
-        Returns:
-            list: A list of playlist links.
-        """
-        return Playlist(self.url)
-
 
 def download(
     url: str,
     path: str,
     is_audio: bool,
-    is_playlist: bool = False,
     quality_choice: str = None
 ) -> None:
     """
@@ -452,12 +437,8 @@ def download(
         None
     """
     downloader = Downloader(
-        url=url, path=path, quality=quality_choice, is_audio=is_audio, is_playlist=is_playlist
+        url=url, path=path, quality=quality_choice, is_audio=is_audio
     )
-
-    if is_playlist:
-        return downloader.get_playlist_links()
-
     downloader.download_video()
 
     return downloader.quality

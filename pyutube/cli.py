@@ -51,13 +51,11 @@ from pyutube.utils import (
     console,
     check_internet_connection,
     is_youtube_video_id,
-    validate_link,
-    asking_video_or_audio,
-    ask_playlist_video_names,
     check_for_updates
 )
 from pyutube.downloader import download
 from pyutube.services.DownloadService import DownloadService
+from pyutube.handlers.URLHandler import URLHandler
 
 # Create CLI app
 app = typer.Typer(
@@ -135,7 +133,8 @@ def pyutube(
     if is_youtube_video_id(url):
         url = f"https://www.youtube.com/watch?v={url}"
 
-    is_valid_link, link_type = validate_link(url)
+    url_handler = URLHandler(url)
+    is_valid_link, link_type = url_handler.validate()
 
     if not is_valid_link:
         sys.exit()
