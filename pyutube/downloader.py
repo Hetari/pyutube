@@ -2,20 +2,9 @@
 This module contains the Downloader class which provides functionality 
 for downloading videos from YouTube.
 """
-from .utils import (
-    console,
-    error_console,
-    sanitize_filename,
-    ask_rename_file,
-    ask_resolution,
-    rename_file,
-    is_file_exists,
-    CANCEL_PREFIX
-)
 
 import os
 import sys
-
 
 from yaspin import yaspin
 from yaspin.spinners import Spinners
@@ -23,6 +12,17 @@ from pytubefix import YouTube
 from pytubefix.cli import on_progress
 from termcolor import colored
 from moviepy.video.io.ffmpeg_tools import ffmpeg_merge_video_audio
+from pytubefix.helpers import safe_filename
+
+from .utils import (
+    console,
+    error_console,
+    ask_rename_file,
+    ask_resolution,
+    rename_file,
+    is_file_exists,
+    CANCEL_PREFIX
+)
 
 
 class Downloader:
@@ -231,7 +231,7 @@ class Downloader:
         """
         choice = ask_rename_file(filename).lower()
         if choice.startswith('rename'):
-            filename = sanitize_filename(
+            filename = safe_filename(
                 self.prompt_new_filename(filename)
             )
             if not filename:

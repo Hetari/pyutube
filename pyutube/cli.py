@@ -50,7 +50,6 @@ from pyutube.utils import (
     error_console,
     console,
     check_internet_connection,
-    is_youtube_video_id,
     check_for_updates
 )
 from pyutube.downloader import download
@@ -129,9 +128,6 @@ def pyutube(
 
     if not check_internet_connection():
         sys.exit()
-
-    if is_youtube_video_id(url):
-        url = f"https://www.youtube.com/watch?v={url}"
 
     url_handler = URLHandler(url)
     is_valid_link, link_type = url_handler.validate()
