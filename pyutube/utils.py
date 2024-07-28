@@ -16,7 +16,7 @@ from rich.theme import Theme
 from termcolor import colored
 
 
-__version__ = "1.2.9"
+__version__ = "1.3.0"
 __app__ = "pyutube"
 ABORTED_PREFIX = "aborted"
 CANCEL_PREFIX = "Cancel"

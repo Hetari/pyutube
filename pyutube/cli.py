@@ -241,8 +241,7 @@ def handle_playlist(url: str, path: str):
                 break
 
     if not playlist_videos:
-        console.print(f"All playlist are already downloaded in this directory, see '{
-                      title}' folder", style="info")
+        console.print(f"All playlist are already downloaded in this directory, see '{title}' folder", style="info")
         sys.exit()
 
     console.print("Chose what video you want to download")
