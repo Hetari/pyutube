@@ -196,9 +196,6 @@ def ask_playlist_video_names(videos):
     return answer
 
 
-
-
-
 def rename_file(filename: str, new_filename: str) -> str:
     """
     Rename a file to a new filename.
@@ -221,20 +218,6 @@ def rename_file(filename: str, new_filename: str) -> str:
         error_console.print(f"Error: {error}")
         sys.exit()
     return new_filename
-
-
-def is_file_exists(path: str, filename: str) -> bool:
-    """
-    Check if a file exists at the specified path and filename.
-
-    Args:
-        path: The path where the file is located.
-        filename: The name of the file to check.
-
-    Returns:
-        bool: True if the file exists, False otherwise.
-    """
-    return os.path.isfile(os.path.join(path, filename))
 
 
 def check_for_updates() -> None:

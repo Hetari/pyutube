@@ -9,13 +9,13 @@
 > Have a new feature? Please don't hesitate to [tell me](https://github.com/Hetari/pyutube/issues/new)!
 
 <!-- for pypi only -->
-<!-- <a href="https://ibb.co/27wcFYN">
-   <img src="https://i.ibb.co/MDbPg56/Screenshot-from-2024-04-08-21-38-02-transformed.png" alt="Pyutube" style="width: 100%;">
-</a> -->
-
 <a href="https://ibb.co/27wcFYN">
-   <img src="images/pyutube.png" alt="Pyutube" style="width: 100%;">
+   <img src="https://i.ibb.co/MDbPg56/Screenshot-from-2024-04-08-21-38-02-transformed.png" alt="Pyutube" style="width: 100%;">
 </a>
+
+<!-- <a href="https://ibb.co/27wcFYN">
+   <img src="images/pyutube.png" alt="Pyutube" style="width: 100%;">
+</a> -->
 
 ## 📓 Description
 
@@ -147,7 +147,7 @@ see the video and relax 🎉.
 ## 📸 Screenshots
 
 <!-- for pypi only -->
-<!-- <div style="text-align: center;">
+<div style="text-align: center;">
    <p>Download video with specify the save location</p>
    <a href="https://ibb.co/0JkdkQy">
       <img src="https://i.ibb.co/7yH6Hbt/image1.png" alt="Download video with specify the save location">
@@ -169,9 +169,9 @@ see the video and relax 🎉.
   <a href="https://ibb.co/LhT6r3r">
       <img src="https://i.ibb.co/WprF0L0/image5.png" alt="image5">
    </a>
-</div> -->
+</div>
 
-<div style="text-align: center;">
+<!-- <div style="text-align: center;">
    <p>Download video with specify the save location</p>
    <a href="https://ibb.co/0JkdkQy">
       <img src="images/image1.png" alt="Download video with specify the save location">
@@ -198,7 +198,7 @@ see the video and relax 🎉.
   <a href="https://ibb.co/LhT6r3r">
       <img src="images/image5.png" alt="image5">
    </a>
-</div>
+</div> -->
 
 ## 🥰 Contributing
 

@@ -52,7 +52,6 @@ from pyutube.utils import (
     check_internet_connection,
     check_for_updates
 )
-from pyutube.downloader import download
 from pyutube.services.DownloadService import DownloadService
 from pyutube.handlers.URLHandler import URLHandler
 
@@ -144,7 +143,7 @@ def pyutube(
         download_service.handle_video_or_audio()
 
     elif link_type == "playlist":
-        download_service.handle_playlist()
+        download_service.get_playlist_links()
 
     else:
         error_console.print("❗ Unsupported link type.")

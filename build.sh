@@ -14,3 +14,4 @@ pip3 install dist/*
 find . -name '__pycache__' -exec rm -rf {} +
 rm -rf pyutube.egg-info
 rm -rf build
+rm -rf pytest_cache
