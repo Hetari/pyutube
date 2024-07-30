@@ -13,7 +13,7 @@ class Downloader:
             self,
             url: str,
             path: str,
-            quality: str = '720p',
+            quality: str,
             is_audio: bool = False,
     ):
         """

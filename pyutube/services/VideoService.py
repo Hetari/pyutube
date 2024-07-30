@@ -37,11 +37,8 @@ class VideoService:
             error_console.print(f"Error: {error}")
             return False
 
-        # If video is not found
-        # TODO:
         if not video:
-            error_console.print(
-                f"No {'audio' if self.is_audio else 'video'} stream available for the video.")
+            error_console.print("No stream available for the url.")
             sys.exit()
         return video
 
@@ -126,7 +123,7 @@ class VideoService:
 
         return s
 
-    def get_selected_stream(self, video):
+    def get_selected_stream(self, video, is_audio: bool = False):
         """
         Get the selected video stream based on user preference.
 
@@ -140,10 +137,11 @@ class VideoService:
             error_console.print("❗ Cancel the download...")
             sys.exit()
 
-        self.quality = ask_resolution(
-            resolutions, sizes) if self.quality is None else self.quality
+        if not is_audio:
+            self.quality = ask_resolution(
+                resolutions, sizes) if not self.quality else self.quality
 
-        if not self.quality or self.quality.startswith(CANCEL_PREFIX):
+        if not self.quality and not is_audio:
             error_console.print("❗ Cancel the download...")
             sys.exit()
 
@@ -151,13 +149,7 @@ class VideoService:
         # [] if self.quality.startswith(CANCEL_PREFIX) else
         # return streams, video_audio
 
-        footage = self.get_video_streams(self.quality, streams)
-        if not footage:
-            error_console.print(
-                "Something went wrong while downloading the video.")
-            sys.exit()
-
-        return footage, video_audio
+        return streams, video_audio
 
     def merging(self, video_name: str, audio_name: str):
         """

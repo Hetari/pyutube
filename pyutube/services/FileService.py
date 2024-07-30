@@ -8,10 +8,8 @@ from pyutube.utils import ask_rename_file, error_console, console, rename_file
 
 
 class FileService:
-    def __init__(self, path):
-        self.path = path
 
-    def save_file(self, video: YouTube, filename: str) -> None:
+    def save_file(self, video: YouTube, filename: str, path: str) -> None:
         """
         Save the file to the specified path with the given filename.
 
@@ -23,7 +21,7 @@ class FileService:
         Returns:
             None
         """
-        video.download(output_path=self.path, filename=filename)
+        video.download(output_path=path, filename=filename)
 
     def generate_filename(self, video, video_id, is_audio=False):
         """
@@ -38,7 +36,7 @@ class FileService:
 
         return f"{title} - {file_type}_-_{video_id}.{extension}"
 
-    def handle_existing_file(self, filename):
+    def handle_existing_file(self, filename, path):
         """
         Handle the case where a file with the same name already exists.
 
@@ -46,8 +44,8 @@ class FileService:
             str: The user's choice.
         """
         # If file with the same name already exists in the path
-        if not self.is_file_exists(self.path, filename):
-            return
+        if not self.is_file_exists(path, filename):
+            return filename
 
         choice = ask_rename_file(filename).lower()
         if choice.startswith('rename'):
@@ -61,10 +59,6 @@ class FileService:
         elif choice.startswith('cancel'):
             console.print("Download canceled", style="info")
             return False
-
-        # if the user cancels the operation
-        if not filename:
-            sys.exit()
 
         # else overwrite
         return filename

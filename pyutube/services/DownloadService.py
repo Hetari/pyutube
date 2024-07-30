@@ -11,7 +11,7 @@ from pyutube.services.FileService import FileService
 
 
 class DownloadService:
-    def __init__(self, url: str, path: str, quality: str = '720p', is_audio: bool = False):
+    def __init__(self, url: str, path: str, quality: str, is_audio: bool = False):
         self.url = url
         self.path = path
         self.quality = quality
@@ -19,17 +19,23 @@ class DownloadService:
 
         self.video_service = VideoService(self.url, self.quality, self.path)
         self.audio_service = AudioService(url)
-        self.file_service = FileService(self.path)
+        self.file_service = FileService()
 
     def download(self) -> bool:
         video = self.video_service.search_process()
         self.video_service._print_video_info(video)
         video_id = video.video_id
-        video_file, video_audio = self.video_service.get_selected_stream(video)
+
+        streams, video_audio = self.video_service.get_selected_stream(video, self.is_audio)
 
         if self.is_audio:
             self.download_audio(video_audio, video_id)
         else:
+            video_file = self.video_service.get_video_streams(self.quality, streams)
+            if not video_file:
+                error_console.print(
+                    "Something went wrong while downloading the video.")
+                sys.exit()
             self.download_video(video, video_id, video_file, video_audio)
 
         return True
@@ -38,14 +44,14 @@ class DownloadService:
         audio_filename = self.file_service.generate_filename(video_audio, video_id, is_audio=True)
 
         audio_filename = os.path.join(self.path, audio_filename)
-        audio_filename = self.file_service.handle_existing_file(audio_filename)
+        audio_filename = self.file_service.handle_existing_file(audio_filename, self.path)
 
         try:
             if self.is_audio:
                 console.print(
                     f"⏳ Downloading the audio...", style="info")
 
-            self.file_service.save_file(video_audio, audio_filename)
+            self.file_service.save_file(video_audio, audio_filename,  self.path)
 
         except Exception as error:
             error_console.print(
@@ -54,18 +60,23 @@ class DownloadService:
 
         if self.is_audio:
             console.print("\n\n✅ Download completed", style="info")
-        return True
+            return True
+        return audio_filename
 
     def download_video(self, video: YouTube, video_id: str, video_file: YouTube, video_audio: YouTube) -> bool:
         # Generate filename with title, quality, and file extension
-        video_filename = self.file_service.generate_filename(video, video_id)
+        video_filename = self.file_service.generate_filename(video_file, video_id,)
         video_filename = os.path.join(self.path, video_filename)
-        video_filename = self.file_service.handle_existing_file(video_filename)
+        video_filename = self.file_service.handle_existing_file(video_filename, self.path)
 
         try:
             console.print(
                 f"⏳ Downloading the video...", style="info")
-            self.file_service.save_file(video, video_filename)
+
+            self.file_service.save_file(video_file, video_filename, self.path)
+            audio_filename = self.download_audio(video_audio, video_id)
+
+            self.video_service.merging(video_filename, audio_filename)
 
         except Exception as error:
             error_console.print(
