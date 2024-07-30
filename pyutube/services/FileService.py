@@ -58,7 +58,7 @@ class FileService:
             return filename
         elif choice.startswith('cancel'):
             console.print("Download canceled", style="info")
-            return False
+            sys.exit()
 
         # else overwrite
         return filename

@@ -112,16 +112,22 @@ class VideoService:
             The video stream with the specified quality,
             or the best available stream if no match is found.
         """
-        s = streams.filter(res=quality).first()
+        stream = streams.filter(res=quality).first()
 
-        if not s:
+        if not stream:
             available_qualities = [stream.resolution for stream in streams]
+            print("first available_qualities", available_qualities)
+
             available_qualities = list(map(int, available_qualities))
+            print("available_qualities", available_qualities)
+
             selected_quality = min(available_qualities,
                                    key=lambda x: abs(int(quality) - x))
-            s = streams.filter(res=str(selected_quality)).first()
+            print("selected_quality", selected_quality)
 
-        return s
+            stream = streams.filter(res=str(selected_quality)).first()
+
+        return stream
 
     def get_selected_stream(self, video, is_audio: bool = False):
         """
@@ -149,7 +155,7 @@ class VideoService:
         # [] if self.quality.startswith(CANCEL_PREFIX) else
         # return streams, video_audio
 
-        return streams, video_audio
+        return streams, video_audio, self.quality
 
     def merging(self, video_name: str, audio_name: str):
         """

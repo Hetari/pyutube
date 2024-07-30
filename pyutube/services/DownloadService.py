@@ -26,7 +26,7 @@ class DownloadService:
         self.video_service._print_video_info(video)
         video_id = video.video_id
 
-        streams, video_audio = self.video_service.get_selected_stream(video, self.is_audio)
+        streams, video_audio, self.quality = self.video_service.get_selected_stream(video, self.is_audio)
 
         if self.is_audio:
             self.download_audio(video_audio, video_id)
