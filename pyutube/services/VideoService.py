@@ -35,7 +35,7 @@ class VideoService:
             video = self.__video_search()
         except Exception as error:
             error_console.print(f"Error: {error}")
-            return False
+            sys.exit(1)
 
         if not video:
             error_console.print("No stream available for the url.")

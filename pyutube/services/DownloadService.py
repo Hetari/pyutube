@@ -36,7 +36,7 @@ class DownloadService:
                 error_console.print(
                     "Something went wrong while downloading the video.")
                 sys.exit()
-            self.download_video(video, video_id, video_file, video_audio)
+            return self.download_video(video, video_id, video_file, video_audio)
 
         return True
 
@@ -95,4 +95,24 @@ class DownloadService:
 
     def get_playlist_links(self):
         handler = PlaylistHandler(self.url, self.path)
-        handler.process_playlist()
+        new_path, is_audio, videos_selected = handler.process_playlist()
+
+        # Download the selected videos
+        for index, video_id in enumerate(videos_selected):
+            url = f"https://www.youtube.com/watch?v={video_id}"
+
+            self.url = url
+            self.path = new_path
+            self.is_audio = is_audio
+
+            if index == 0:
+                # If it is the first video, download it and store the quality
+                self.video_service = VideoService(self.url, self.quality, self.path)
+                quality = self.download()
+                continue
+
+            # If it is not the first video, download it with the stored quality
+
+            self.quality = quality
+            self.video_service = VideoService(self.url, self.quality, self.path)
+            self.download()

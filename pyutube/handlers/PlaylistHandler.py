@@ -5,7 +5,6 @@ import threading
 from pytubefix.helpers import safe_filename
 from pytubefix import Playlist
 
-from pyutube.services import DownloadService
 from pyutube.utils import console, asking_video_or_audio, ask_playlist_video_names
 
 
@@ -40,17 +39,7 @@ class PlaylistHandler:
         console.print("Chose what video you want to download")
         videos_selected = ask_playlist_video_names(self.playlist_videos)
 
-        # Download the selected videos
-        for index, video_id in enumerate(videos_selected):
-            url = f"https://www.youtube.com/watch?v={video_id}"
-
-            if index == 0:
-                # If it is the first video, download it and store the quality
-                quality = DownloadService(url, new_path, is_audio)
-                continue
-
-            # If it is not the first video, download it with the stored quality
-            DownloadService(url, new_path, is_audio, quality=quality)
+        return new_path, is_audio, videos_selected
 
     def fetch_title_thread(self, video):
         video_title = safe_filename(video.title)
