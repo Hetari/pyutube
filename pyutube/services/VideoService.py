@@ -45,6 +45,7 @@ class VideoService:
             sys.exit()
         return video
 
+    @staticmethod
     def _print_video_info(video: YouTube) -> None:
         console.print(f"Title: {video.title}\n", style="info")
 
@@ -135,7 +136,7 @@ class VideoService:
         resolutions, sizes,  streams, video_audio = self.get_available_resolutions(
             video)
 
-        if not streams or streams.startswith(CANCEL_PREFIX):
+        if not streams:
             error_console.print("❗ Cancel the download...")
             sys.exit()
 

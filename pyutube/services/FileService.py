@@ -8,8 +8,7 @@ from pyutube.utils import ask_rename_file, error_console, console, rename_file
 
 
 class FileService:
-    def __init__(self, path, is_audio: bool):
-        self.is_audio = is_audio
+    def __init__(self, path):
         self.path = path
 
     def save_file(self, video: YouTube, filename: str) -> None:
@@ -26,19 +25,18 @@ class FileService:
         """
         video.download(output_path=self.path, filename=filename)
 
-    def generate_filename(self, video, video_id):
+    def generate_filename(self, video, video_id, is_audio=False):
         """
         Generate a filename for the downloaded video.
 
         Returns:
             str: The generated filename.
         """
-        quality = 'audio' if self.is_audio else video.resolution
-        extension = 'mp3' if self.is_audio else video.mime_type.split('/')[1]
-        title = video.default_filename
-        title = title.replace(f'.{extension}', "")
+        file_type = 'audio' if is_audio else video.resolution
+        extension = 'mp3' if is_audio else video.mime_type.split('/')[1]
+        title = video.default_filename.split('.')[0]
 
-        return f"{title} - {quality}_-_{video_id}.{extension}"
+        return f"{title} - {file_type}_-_{video_id}.{extension}"
 
     def handle_existing_file(self, filename):
         """

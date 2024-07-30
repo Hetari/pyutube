@@ -52,8 +52,8 @@ from pyutube.utils import (
     check_internet_connection,
     check_for_updates
 )
-from pyutube.services.DownloadService import DownloadService
-from pyutube.handlers.URLHandler import URLHandler
+from pyutube.services import DownloadService
+from pyutube.handlers import URLHandler
 
 # Create CLI app
 app = typer.Typer(
@@ -136,6 +136,7 @@ def pyutube(
 
     download_service = DownloadService(url, path)
     if audio:
+        download_service.is_audio = True
         download_service.download_audio()
     elif video or link_type == "short":
         download_service.download_video()
@@ -149,5 +150,5 @@ def pyutube(
         error_console.print("❗ Unsupported link type.")
         sys.exit()
 
-    check_for_updates()
+    # check_for_updates()
     sys.exit()
