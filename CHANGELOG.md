@@ -1,5 +1,9 @@
 # Pyutube Changelog
 
+## 1.3.1
+
+- refactor the code base
+
 ## 1.2.9
 
 - fix: improve cancel behavior in video quality selection
