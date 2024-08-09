@@ -22,11 +22,7 @@ class DownloadService:
         self.file_service = FileService()
 
     def download(self) -> bool:
-        video = self.video_service.search_process()
-        self.video_service._print_video_info(video)
-        video_id = video.video_id
-
-        streams, video_audio, self.quality = self.video_service.get_selected_stream(video, self.is_audio)
+        video, video_id,  streams, video_audio, self.quality = self.download_preparing()
 
         if self.is_audio:
             self.download_audio(video, video_audio, video_id)
@@ -117,3 +113,11 @@ class DownloadService:
             self.quality = quality
             self.video_service = VideoService(self.url, self.quality, self.path)
             self.download()
+
+    def download_preparing(self):
+        video = self.video_service.search_process()
+        self.video_service._print_video_info(video)
+        video_id = video.video_id
+        streams, video_audio, self.quality = self.video_service.get_selected_stream(video, self.is_audio)
+
+        return video, video_id,  streams, video_audio, self.quality
