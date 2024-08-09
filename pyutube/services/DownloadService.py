@@ -67,11 +67,11 @@ class DownloadService:
         # Generate filename with title, quality, and file extension
         video_filename = self.file_service.generate_filename(video_file, video_id,)
         video_filename = os.path.join(self.path, video_filename)
-        video_filename = self.file_service.handle_existing_file(video_filename, self.path)
+        video_filename = self.file_service.handle_existing_file(
+            video, video_id, video_filename, self.path, self.is_audio)
 
         try:
-            console.print(
-                f"⏳ Downloading the video...", style="info")
+            console.print("⏳ Downloading the video...", style="info")
 
             self.file_service.save_file(video_file, video_filename, self.path)
             audio_filename = self.download_audio(video_audio, video_id)

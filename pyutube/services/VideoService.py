@@ -144,8 +144,7 @@ class VideoService:
             sys.exit()
 
         if not is_audio:
-            self.quality = ask_resolution(
-                resolutions, sizes) if not self.quality else self.quality
+            self.quality = self.quality or ask_resolution(resolutions, sizes)
 
         if not self.quality and not is_audio:
             error_console.print("❗ Cancel the download...")

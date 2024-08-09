@@ -23,7 +23,7 @@ class FileService:
         """
         video.download(output_path=path, filename=filename)
 
-    def generate_filename(self, video, video_id, is_audio=False):
+    def generate_filename(self, video, video_id, is_audio=False, filename: str = ""):
         """
         Generate a filename for the downloaded video.
 
@@ -31,12 +31,15 @@ class FileService:
             str: The generated filename.
         """
         file_type = 'audio' if is_audio else video.resolution
+
         extension = 'mp3' if is_audio else video.mime_type.split('/')[1]
-        title = video.default_filename.split('.')[0]
+
+        title = filename if filename != "" else video.default_filename.split('.')[0]
 
         return f"{title} - {file_type}_-_{video_id}.{extension}"
 
-    def handle_existing_file(self, filename, path):
+    def handle_existing_file(
+            self, video: YouTube, video_id: str, filename: str, path: str, is_audio: bool = False) -> None:
         """
         Handle the case where a file with the same name already exists.
 
@@ -55,6 +58,8 @@ class FileService:
             if not filename:
                 error_console.print("Invalid filename")
                 return False
+            filename = self.generate_filename(video, video_id, is_audio, filename)
+
             return filename
         elif choice.startswith('cancel'):
             console.print("Download canceled", style="info")
