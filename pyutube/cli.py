@@ -155,5 +155,5 @@ def pyutube(
         error_console.print("❗ Unsupported link type.")
         sys.exit()
 
-    # check_for_updates()
+    check_for_updates()
     sys.exit()

@@ -236,7 +236,7 @@ def check_for_updates() -> None:
         if r.status_code == 200:
             latest_version = r.json()['info']['version']
 
-            if latest_version != __version__:
+            if latest_version != __version__ and latest_version < __version__:
                 console.print(
                     f"👉 A new version of {__app__} is available: {
                         latest_version}. Update it by running [bold red link=https://github.com/Hetari/pyutube]pip install --upgrade {__app__}[/bold red link]",
