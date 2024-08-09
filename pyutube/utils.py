@@ -5,7 +5,6 @@ This module contains the utils functions for the pyutube package.
 import sys
 import re
 import os
-from datetime import timedelta
 
 import inquirer
 import requests
@@ -18,7 +17,7 @@ from termcolor import colored
 
 __version__ = "1.3.0"
 __app__ = "pyutube"
-ABORTED_PREFIX = "aborted"
+ABORTED_PREFIX = "Aborted"
 CANCEL_PREFIX = "Cancel"
 
 
@@ -65,96 +64,6 @@ def is_internet_available() -> bool:
         return True
     except Exception:
         return False
-
-
-def is_youtube_link(link: str) -> tuple[bool, str]:
-    """
-    Check if the given link is a YouTube video, playlist, or shorts link.
-
-    Args:
-        link (str): The link to be checked.
-
-    Returns:
-        tuple[bool, str]: True if the link is a YouTube video, playlist, or shorts link,
-        False otherwise. The second item of the tuple indicates the type of link found:
-        'video', 'playlist', or 'shorts'.
-    """
-    is_video = is_youtube_video(link)
-    is_short = is_youtube_shorts(link)
-    is_playlist = is_youtube_playlist(link)
-
-    return (is_video, "video") if is_video \
-        else (is_short, "short") if is_short \
-        else (True, "playlist") if is_playlist\
-        else (False, "unknown")
-
-
-def is_youtube_shorts(link: str) -> bool:
-    """
-    Check if the given link is a YouTube shorts link.
-
-    Args:
-        link: The link to be checked.
-
-    Returns:
-        bool: True if the link is a YouTube shorts link, False otherwise.
-    """
-    # shorts_pattern = r"(?:https?:\/\/)?(?:www\.)?youtube\.com\/shorts\/([a-zA-Z0-9_-]+)"
-    shorts_pattern = r"(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|shorts\/|watch\?.*?v=))(?:(?:[^\/\n\s]+\/)?)([a-zA-Z0-9_-]+)"
-    shorts_match = re.match(shorts_pattern, link)
-    return bool(shorts_match)
-
-
-def is_youtube_video(link: str) -> bool:
-    """
-    Check if the given link is a YouTube video.
-
-    Args:
-        link: The link to be checked.
-
-    Returns:
-        bool: True if the link is a YouTube video, False otherwise.
-    """
-    # video_pattern = re.compile(
-    # r'(?:https?://)?(?:www\.)?(?:youtube\.com/(?:(?:live/?[a-zA-Z0-9_-]{11}\?si=)|(?:(?:watch\?v=)|(?:embed/))|youtu\.be/|youtube.com/share\?v=)([a-zA-Z0-9_-]{11}))')
-    # video_pattern = re.compile(
-    # r'(?:https?://)?(?:www\.)?(?:youtube\.com/(?:(?:watch\?v=)|(?:embed/))|youtu\.be/|youtube.com/share\?v=)([a-zA-Z0-9_-]{11})')
-    video_pattern = re.compile(
-        # "https://www.youtube.com/watch?time_continue=1&v=dQw4w9WgXcQ"
-        r"^(?:https?://)?(?:www\.)?(?:youtube(?:-nocookie)?\.com/(?:(watch\?v=|watch\?feature\=share\&v=)|embed/|v/|live_stream\?channel=|live\/)|youtu\.be/)([a-zA-Z0-9_-]{11})"
-    )
-
-    return bool(video_pattern.match(link))
-
-
-def is_youtube_playlist(link: str) -> bool:
-    """
-    Check if the given link is a YouTube playlist.
-
-    Args:
-        link: The link to be checked.
-
-    Returns:
-        bool: True if the link is a YouTube playlist, False otherwise.
-    """
-    playlist_pattern = r"(?:https?:\/\/)?(?:www\.)?youtube\.com\/playlist\?list=([a-zA-Z0-9_-]+)"
-    playlist_match = re.match(playlist_pattern, link)
-    return bool(playlist_match)
-
-
-def is_youtube_video_id(video_id: str) -> bool:
-    """
-    Check if the given string is a valid YouTube video ID.
-
-    Args:
-        video_id: The string to be checked.
-
-    Returns:
-        bool: True if the string is a valid YouTube video ID, False otherwise.
-    """
-    return len(video_id) == 11 and all(
-        c in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-" for c in video_id
-    )
 
 
 def file_type() -> str:
@@ -287,19 +196,6 @@ def ask_playlist_video_names(videos):
     return answer
 
 
-def sanitize_filename(filename: str) -> str:
-    """
-    Removes characters that are not allowed in filenames.
-
-    Args:
-        filename: The filename to be sanitized.
-
-    Returns:
-        str: The sanitized filename.
-    """
-    return re.sub(r'[<>:"/\\|?*]', '_', filename)
-
-
 def rename_file(filename: str, new_filename: str) -> str:
     """
     Rename a file to a new filename.
@@ -322,20 +218,6 @@ def rename_file(filename: str, new_filename: str) -> str:
         error_console.print(f"Error: {error}")
         sys.exit()
     return new_filename
-
-
-def is_file_exists(path: str, filename: str) -> bool:
-    """
-    Check if a file exists at the specified path and filename.
-
-    Args:
-        path: The path where the file is located.
-        filename: The name of the file to check.
-
-    Returns:
-        bool: True if the file exists, False otherwise.
-    """
-    return os.path.isfile(os.path.join(path, filename))
 
 
 def check_for_updates() -> None:
@@ -384,25 +266,7 @@ def check_internet_connection() -> bool:
     return True
 
 
-def validate_link(url: str) -> tuple[bool, str]:
-    """
-    Validates the given YouTube video URL.
-
-    Args:
-        url (str): The URL of the YouTube video.
-
-    Returns:
-        Tuple[bool, str]: A tuple containing a boolean indicating if the link is valid
-        and a string indicating the type of the link (video or short).
-    """
-    is_valid_link, link_type = is_youtube_link(url)
-    if not is_valid_link:
-        console.print("❌ Invalid link", style="danger")
-
-    return is_valid_link, link_type.lower()
-
-
-def handle_video_link() -> bool:
+def asking_video_or_audio() -> bool:
     """
     Handles video link scenario.
 
@@ -415,10 +279,8 @@ def handle_video_link() -> bool:
     file_type_choice = file_type().lower()
     is_audio = file_type_choice.startswith("audio")
 
-    if file_type_choice.startswith(CANCEL_PREFIX):
+    if file_type_choice.startswith(CANCEL_PREFIX.lower()):
         error_console.print("❗ Cancel the download...")
-        sys.exit()
-    elif file_type_choice.startswith(ABORTED_PREFIX):
         sys.exit()
 
     return is_audio
