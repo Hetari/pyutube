@@ -137,7 +137,7 @@ def pyutube(
     download_service = DownloadService(url, path, None)
     if audio:
         download_service.is_audio = True
-        video, video_id,  streams, video_audio, quality = download_service.download_preparing()
+        video, video_id,  _, video_audio, _ = download_service.download_preparing()
         download_service.download_audio(video, video_audio, video_id)
 
     elif video or link_type == "short":
