@@ -29,7 +29,7 @@ class DownloadService:
         streams, video_audio, self.quality = self.video_service.get_selected_stream(video, self.is_audio)
 
         if self.is_audio:
-            self.download_audio(video_audio, video_id)
+            self.download_audio(video, video_audio, video_id)
         else:
             video_file = self.video_service.get_video_streams(self.quality, streams)
             if not video_file:
@@ -40,11 +40,12 @@ class DownloadService:
 
         return True
 
-    def download_audio(self, video_audio: YouTube, video_id: str) -> bool:
+    def download_audio(self, video: YouTube, video_audio: YouTube, video_id: str) -> bool:
         audio_filename = self.file_service.generate_filename(video_audio, video_id, is_audio=True)
 
         audio_filename = os.path.join(self.path, audio_filename)
-        audio_filename = self.file_service.handle_existing_file(audio_filename, self.path)
+        audio_filename = self.file_service.handle_existing_file(
+            video, video_id, audio_filename, self.path, self.is_audio)
 
         try:
             if self.is_audio:
@@ -74,7 +75,7 @@ class DownloadService:
             console.print("⏳ Downloading the video...", style="info")
 
             self.file_service.save_file(video_file, video_filename, self.path)
-            audio_filename = self.download_audio(video_audio, video_id)
+            audio_filename = self.download_audio(video, video_audio, video_id)
 
             self.video_service.merging(video_filename, audio_filename)
 
