@@ -4,7 +4,7 @@ from pytubefix import YouTube
 from pytubefix.helpers import safe_filename
 from termcolor import colored
 
-from pyutube.utils import ask_rename_file, error_console, console, rename_file
+from pyutube.utils import ask_rename_file, error_console, console
 
 
 class FileService:
@@ -68,8 +68,7 @@ class FileService:
         # else overwrite
         return filename
 
-    @staticmethod
-    def prompt_new_filename(filename):
+    def prompt_new_filename(self, filename):
         """
         Prompt the user for a new filename.
 
@@ -77,8 +76,7 @@ class FileService:
             str: The new filename.
         """
         text = colored(filename, 'yellow')
-        new_name = input(f"Rename {text} to: ")
-        return rename_file(filename, new_name)
+        return input(f"Rename {text} to: ")
 
     @staticmethod
     def is_file_exists(path: str, filename: str) -> bool:

@@ -3,7 +3,6 @@ This module contains the utils functions for the pyutube package.
 """
 
 import sys
-import re
 import os
 
 import inquirer
@@ -196,30 +195,6 @@ def ask_playlist_video_names(videos):
     return answer
 
 
-def rename_file(filename: str, new_filename: str) -> str:
-    """
-    Rename a file to a new filename.
-
-    If the new filename does not have the same file extension as the original
-    filename, the extension of the original filename will be appended to the
-    new filename.
-
-    Args:
-        filename: The original filename.
-        new_filename: The new filename to rename to.
-
-    Returns:
-        str: The new filename after the renaming operation.
-    """
-    try:
-        if not new_filename.endswith(os.path.splitext(filename)[1]):
-            new_filename += f".{filename.split('.')[-1]}"
-    except IndexError as error:
-        error_console.print(f"Error: {error}")
-        sys.exit()
-    return new_filename
-
-
 def check_for_updates() -> None:
     """
     A function to check for updates of a given package.
@@ -247,9 +222,8 @@ def check_for_updates() -> None:
                 f"❗ Error checking for updates: {r.status_code}")
             sys.exit()
 
+
 # main utils
-
-
 def check_internet_connection() -> bool:
     """
     Checks if an internet connection is available.
