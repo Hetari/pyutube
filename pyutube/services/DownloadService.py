@@ -31,7 +31,8 @@ class DownloadService:
             if not video_file:
                 error_console.print(
                     "Something went wrong while downloading the video.")
-                sys.exit()
+                raise RuntimeError("Failed to download the video stream.")
+
             return self.download_video(video, video_id, video_file, video_audio)
 
         return True
@@ -45,8 +46,7 @@ class DownloadService:
 
         try:
             if self.is_audio:
-                console.print(
-                    f"⏳ Downloading the audio...", style="info")
+                console.print("⏳ Downloading the audio...", style="info")
 
             self.file_service.save_file(video_audio, audio_filename,  self.path)
 
@@ -83,7 +83,7 @@ class DownloadService:
         console.print("\n\n✅ Download completed", style="info")
         return self.quality
 
-    def handle_video_or_audio(self):
+    def asking_video_or_audio(self):
         try:
             self.is_audio = asking_video_or_audio()
         except TypeError:

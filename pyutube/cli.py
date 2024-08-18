@@ -39,7 +39,6 @@ Thank you for using Pyutube! Your support is greatly appreciated. ⭐️
 
 import os
 import sys
-import re
 
 import typer
 
@@ -52,7 +51,7 @@ from pyutube.utils import (
     check_internet_connection,
     check_for_updates
 )
-from pyutube.services import DownloadService
+from pyutube.services import DownloadService, Logging
 from pyutube.handlers import URLHandler
 
 # Create CLI app
@@ -135,21 +134,22 @@ def pyutube(
         sys.exit()
 
     download_service = DownloadService(url, path, None)
+    logging_proxy = Logging.LoggingProxy(download_service, "DownloadService")
     if audio:
-        download_service.is_audio = True
-        video, video_id,  _, video_audio, _ = download_service.download_preparing()
-        download_service.download_audio(video, video_audio, video_id)
+        logging_proxy.is_audio = True
+        video, video_id,  _, video_audio, _ = logging_proxy.download_preparing()
+        logging_proxy.download_audio(video, video_audio, video_id)
 
     elif video or link_type == "short":
-        video, video_id,  streams, video_audio, quality = download_service.download_preparing()
-        video_file = download_service.video_service.get_video_streams(quality, streams)
-        download_service.download_video(video, video_id, video_file, video_audio)
+        video, video_id,  streams, video_audio, quality = logging_proxy.download_preparing()
+        video_file = logging_proxy.video_service.get_video_streams(quality, streams)
+        logging_proxy.download_video(video, video_id, video_file, video_audio)
 
     elif link_type == "video":
-        download_service.handle_video_or_audio()
+        logging_proxy.asking_video_or_audio()
 
     elif link_type == "playlist":
-        download_service.get_playlist_links()
+        logging_proxy.get_playlist_links()
 
     else:
         error_console.print("❗ Unsupported link type.")
