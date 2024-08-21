@@ -82,8 +82,7 @@ class PlaylistHandler:
                     break
 
         if not self.playlist_videos:
-            console.print(f"All playlist are already downloaded in this directory, see '{
-                          title}' folder", style="info")
+            console.print(f"All playlist are already downloaded in this directory, see '{title}' folder", style="info")
             sys.exit()
 
         self.show_playlist_info(title, total)
