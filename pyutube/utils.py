@@ -14,7 +14,7 @@ from rich.theme import Theme
 from termcolor import colored
 
 
-__version__ = "1.3.21"
+__version__ = "1.3.22"
 __app__ = "pyutube"
 ABORTED_PREFIX = "Aborted"
 CANCEL_PREFIX = "Cancel"
@@ -170,10 +170,11 @@ def ask_playlist_video_names(videos):
     invert_selection = colored("<ctrl+i>", "red")
     restart_selection = colored("<ctrl+r>", "red")
 
-    print(
-        f"{note} Press {select_one} to select the videos, {select_all} to select all, {
-            invert_selection} to invert selection, and {restart_selection} to restart selection",
-    )
+    print((
+        f"{note} Press {select_one} to select the videos, {select_all} to select all, "
+        f"{invert_selection} to invert selection, and {restart_selection} to restart selection"
+    ))
+
     questions = [
         inquirer.Checkbox(
             "names",
@@ -210,13 +211,12 @@ def check_for_updates() -> None:
     else:
         if r.status_code == 200:
             latest_version = r.json()['info']['version']
-
             if latest_version != __version__ and latest_version < __version__:
                 console.print(
-                    f"👉 A new version of {__app__} is available: {
-                        latest_version}. Update it by running [bold red link=https://github.com/Hetari/pyutube]pip install --upgrade {__app__}[/bold red link]",
-                    style="warning"
-                )
+                    f"👉 A new version of {__app__}  is available: {latest_version} " +
+                    "Update it by running [bold red link=https://github.com/Hetari/pyutube]pip install --upgrade" +
+                    f"{__app__}[/bold red link]",
+                    style="warning")
         else:
             error_console.print(
                 f"❗ Error checking for updates: {r.status_code}")
