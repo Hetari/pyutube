@@ -14,7 +14,7 @@ from rich.theme import Theme
 from termcolor import colored
 
 
-__version__ = "1.3.22"
+__version__ = "1.3.24"
 __app__ = "pyutube"
 ABORTED_PREFIX = "Aborted"
 CANCEL_PREFIX = "Cancel"
@@ -214,7 +214,7 @@ def check_for_updates() -> None:
             if latest_version != __version__ and latest_version < __version__:
                 console.print(
                     f"👉 A new version of {__app__}  is available: {latest_version} " +
-                    "Update it by running [bold red link=https://github.com/Hetari/pyutube]pip install --upgrade" +
+                    "Update it by running [bold red link=https://github.com/Hetari/pyutube]pip install --upgrade " +
                     f"{__app__}[/bold red link]",
                     style="warning")
         else:
