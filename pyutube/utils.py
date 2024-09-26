@@ -5,16 +5,25 @@ This module contains the utils functions for the pyutube package.
 import sys
 import os
 
-import inquirer
 import requests
+import requests_cache
+import datetime
+import inquirer
 from yaspin import yaspin
 from yaspin.spinners import Spinners
 from rich.console import Console
 from rich.theme import Theme
 from termcolor import colored
+from pytubefix import __version__ as pytubefix_version
 
 
-__version__ = "1.3.24"
+session = requests_cache.CachedSession(
+    'cache',
+    cache_control=True,
+    expire_after=datetime.timedelta(days=1)
+)
+
+__version__ = "1.3.26"
 __app__ = "pyutube"
 ABORTED_PREFIX = "Aborted"
 CANCEL_PREFIX = "Cancel"
@@ -198,29 +207,45 @@ def ask_playlist_video_names(videos):
 
 def check_for_updates() -> None:
     """
-    A function to check for updates of a given package.
+    A function to check for updates of a given package or packages.
+
+    Args:
+        libraries (dict): A dictionary of libraries to check for updates.
+            The keys are the library names, and the values are the current versions.
 
     Returns:
         None
     """
+    libraries = {
+        'PyUTube': {
+            'version': __version__,
+            'repository': 'https://github.com/Hetari/pyutube'
+        },
+        'pytubefix': {
+            'version': pytubefix_version,
+            'repository': 'https://github.com/Hetari/pytubefix'
+        }
+    }
+
     try:
-        r = requests.get(
-            f'https://pypi.org/pypi/{__app__}/json', headers={'Accept': 'application/json'})
+        for library, version in libraries.items():
+            r = session.get(
+                f'https://pypi.org/pypi/{library}/json', headers={'Accept': 'application/json'})
+            if r.status_code == 200:
+                latest_version = r.json()['info']['version']
+                if latest_version != version:
+                    console.print(
+                        f"👉 A new version of [blue]{library}[/blue] is available: {latest_version} " +
+                        f"Update it by running [bold red link=https://github.com/Hetari/pyutube]pip install --upgrade {library}[/bold red link]",
+                        style="warning"
+                    )
+            else:
+                error_console.print(
+                    f"❗ Error checking for updates: {r.status_code}")
     except Exception as error:
         error_console.print(f"❗ Error checking for updates: {error}")
-    else:
-        if r.status_code == 200:
-            latest_version = r.json()['info']['version']
-            if latest_version != __version__ and latest_version < __version__:
-                console.print(
-                    f"👉 A new version of {__app__}  is available: {latest_version} " +
-                    "Update it by running [bold red link=https://github.com/Hetari/pyutube]pip install --upgrade " +
-                    f"{__app__}[/bold red link]",
-                    style="warning")
-        else:
-            error_console.print(
-                f"❗ Error checking for updates: {r.status_code}")
-            sys.exit()
+    finally:
+        sys.exit()
 
 
 # main utils

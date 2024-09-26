@@ -27,7 +27,15 @@ setup(
 
     long_description_content_type="text/markdown",
 
-    keywords=["youtube", "download", "cli", "pyutube", "pytubefix"],
+    keywords=[
+        "youtube",
+        "download",
+        "cli",
+        "pyutube",
+        "pytubefix",
+        "pytube",
+        "youtube-dl",
+    ],
 
     license="MIT",
 
@@ -47,7 +55,7 @@ setup(
         "inquirer",
         "yaspin",
         "typer",
-        "requests",
+        "requests-cache",
         "rich",
         "inquirer",
         "termcolor",
@@ -63,9 +71,13 @@ setup(
 
 
     project_urls={
+        "Author": "https://github.com/Hetari",
         "Homepage": "https://github.com/Hetari/pyutube",
+        "Bug Tracker": "https://github.com/Hetari/pyutube/issues",
+        "Source Code": "https://github.com/Hetari/pyutube",
+        "Documentation": "https://github.com/Hetari/pyutube",
     },
 
-    platforms=["Windows", "MacOS", "Linux"],
+    platforms=["Linux", "Windows", "MacOS"],
     packages=find_packages()
 )

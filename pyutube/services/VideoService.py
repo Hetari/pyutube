@@ -56,9 +56,6 @@ class VideoService:
             use_oauth=False,
             allow_oauth_cache=True,
             on_progress_callback=on_progress,
-
-            # temporary fix: VideoUnavailable error
-            client='WEB_CREATOR'
         )
 
     @yaspin(

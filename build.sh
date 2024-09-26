@@ -8,7 +8,7 @@ pip uninstall pyutube -y
 python setup.py bdist_wheel
 
 # Install the wheel distribution package located in the 'dist' directory
-pip3 install dist/*
+# pip3 install dist/*
 
 # remove any random folder in all levels
 find . -name '__pycache__' -exec rm -rf {} +
