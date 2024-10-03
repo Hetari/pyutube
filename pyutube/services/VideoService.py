@@ -114,17 +114,15 @@ class VideoService:
         """
         stream = streams.filter(res=quality).first()
 
+        if quality.startswith(CANCEL_PREFIX):
+            error_console.print("❗ Cancel the download...")
+            sys.exit()
+
         if not stream:
             available_qualities = [stream.resolution for stream in streams]
-            print("first available_qualities", available_qualities)
-
             available_qualities = list(map(int, available_qualities))
-            print("available_qualities", available_qualities)
-
             selected_quality = min(available_qualities,
                                    key=lambda x: abs(int(quality) - x))
-            print("selected_quality", selected_quality)
-
             stream = streams.filter(res=str(selected_quality)).first()
 
         return stream

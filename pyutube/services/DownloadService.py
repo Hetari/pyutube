@@ -31,7 +31,7 @@ class DownloadService:
             if not video_file:
                 error_console.print(
                     "Something went wrong while downloading the video.")
-                raise RuntimeError("Failed to download the video stream.")
+                sys.exit()
 
             return self.download_video(video, video_id, video_file, video_audio)
 

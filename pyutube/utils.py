@@ -23,7 +23,7 @@ session = requests_cache.CachedSession(
     expire_after=datetime.timedelta(days=1)
 )
 
-__version__ = "1.3.26"
+__version__ = "1.3.27"
 __app__ = "pyutube"
 ABORTED_PREFIX = "Aborted"
 CANCEL_PREFIX = "Cancel"
