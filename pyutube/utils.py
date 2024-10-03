@@ -18,9 +18,9 @@ from pytubefix import __version__ as pytubefix_version
 
 
 session = requests_cache.CachedSession(
-    'cache',
-    cache_control=True,
-    expire_after=datetime.timedelta(days=1)
+    '~/http_cache',
+    backend='filesystem',
+    serializer='yaml'
 )
 
 __version__ = "1.3.27"
@@ -283,3 +283,10 @@ def asking_video_or_audio() -> bool:
         sys.exit()
 
     return is_audio
+
+
+if __name__ == "__main__":
+    session.get('https://httpbin.org/get')
+
+    print("list(session.cache.paths()):")
+    print(list(session.cache.paths()))
