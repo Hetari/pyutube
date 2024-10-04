@@ -1,16 +1,22 @@
 # 📹 Pyutube - The Simplest YouTube Downloader CLI
 
 ### Enjoying my project? Please show your appreciation by starring it on GitHub! ⭐
+<img src="https://img.shields.io/pypi/v/pyutube.svg?style=flat&label=Version" alt="Version"> <img src="https://static.pepy.tech/badge/pyutube?style=flat&label=Downloads" alt="Downloads">
 
-<img src="https://img.shields.io/pypi/v/pyutube.svg?style=flat&label=Version" alt="Version">
-<img src="https://static.pepy.tech/badge/pyutube?style=flat&label=Downloads" alt="Downloads">
 
 > [!NOTE]
-> Have **a new feature**? Please don't hesitate to [tell me](https://github.com/Hetari/pyutube/issues/new)!
+> `Pyutube` is built on top of `pytubefix`, make sure to have the latest version of `pytubefix` by running:
+> ```bash
+> pip install --upgrade pytubefix
+> ```
 
 <a href="https://ibb.co/27wcFYN">
    <img src="https://i.ibb.co/MDbPg56/Screenshot-from-2024-04-08-21-38-02-transformed.png" alt="Pyutube" style="width: 100%;">
 </a>
+
+> [!NOTE]
+> Have **a new feature**? Please don't hesitate to [tell me](https://github.com/Hetari/pyutube/issues/new)!
+
 
 ## 🤔 why `pyutube`?
 
