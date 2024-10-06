@@ -6,8 +6,6 @@ import sys
 import os
 
 import requests
-import requests_cache
-import datetime
 import inquirer
 from yaspin import yaspin
 from yaspin.spinners import Spinners
@@ -17,13 +15,7 @@ from termcolor import colored
 from pytubefix import __version__ as pytubefix_version
 
 
-session = requests_cache.CachedSession(
-    '~/http_cache',
-    backend='filesystem',
-    serializer='yaml'
-)
-
-__version__ = "1.3.27"
+__version__ = "1.3.29-dev"
 __app__ = "pyutube"
 ABORTED_PREFIX = "Aborted"
 CANCEL_PREFIX = "Cancel"
@@ -229,7 +221,7 @@ def check_for_updates() -> None:
 
     try:
         for library, version in libraries.items():
-            r = session.get(
+            r = requests.get(
                 f'https://pypi.org/pypi/{library}/json', headers={'Accept': 'application/json'})
             if r.status_code == 200:
                 latest_version = r.json()['info']['version']
@@ -283,10 +275,3 @@ def asking_video_or_audio() -> bool:
         sys.exit()
 
     return is_audio
-
-
-if __name__ == "__main__":
-    session.get('https://httpbin.org/get')
-
-    print("list(session.cache.paths()):")
-    print(list(session.cache.paths()))
