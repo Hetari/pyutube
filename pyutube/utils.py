@@ -26,7 +26,6 @@ CANCEL_PREFIX = "Cancel"
 custom_theme = Theme({
     "info": "#64b0f2",
     "warning": "color(3)",
-    "danger": "red",
     "success": "green",
 })
 console = Console(theme=custom_theme)
@@ -270,7 +269,7 @@ def check_internet_connection() -> bool:
         error_console.print("❗ No internet connection")
         return False
 
-    console.print("✅ There is internet connection", style="info")
+    console.print("✅ There is internet connection", style="success")
     console.print()
     return True
 

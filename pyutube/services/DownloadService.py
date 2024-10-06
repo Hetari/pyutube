@@ -56,7 +56,7 @@ class DownloadService:
             sys.exit()
 
         if self.is_audio:
-            console.print("\n\n✅ Download completed", style="info")
+            console.print("\n\n✅ Download completed", style="success")
             return True
         return audio_filename
 
@@ -80,7 +80,7 @@ class DownloadService:
                 f"❗ Error (please report this in github issue: https://github.com/Hetari/pyutube/issues):\n {error}")
             sys.exit()
 
-        console.print("\n\n✅ Download completed", style="info")
+        console.print("\n\n✅ Download completed", style="success")
         return self.quality
 
     def asking_video_or_audio(self):
