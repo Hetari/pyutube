@@ -15,7 +15,7 @@ from termcolor import colored
 from pytubefix import __version__ as pytubefix_version
 
 
-__version__ = "1.3.29-dev"
+__version__ = "1.3.30"
 __app__ = "pyutube"
 ABORTED_PREFIX = "Aborted"
 CANCEL_PREFIX = "Cancel"
@@ -225,7 +225,8 @@ def check_for_updates() -> None:
                 f'https://pypi.org/pypi/{library}/json', headers={'Accept': 'application/json'})
             if r.status_code == 200:
                 latest_version = r.json()['info']['version']
-                if latest_version != version:
+
+                if latest_version != version['version']:
                     console.print(
                         f"👉 A new version of [blue]{library}[/blue] is available: {latest_version} " +
                         f"Update it by running [bold red link=https://github.com/Hetari/pyutube]pip install --upgrade {library}[/bold red link]",

@@ -1,5 +1,3 @@
-<!-- git-changelog -c basic -t keepachangelog >> CHANGELOG.md -->
-
 # Changelog
 
 All notable changes to this project will be documented in this file.
@@ -9,16 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- insertion marker -->
 
-## Unreleased
+## [1.3.29](https://github.com/Hetari/pyutube/releases/tag/1.3.29) - 2024-10-06
 
-<small>[Compare with latest](https://github.com/Hetari/pyutube/compare/1.3.24...HEAD)</small>
+<small>[Compare with 1.3.24](https://github.com/Hetari/pyutube/compare/1.3.24...1.3.29)</small>
 
 ### Fixed
 
 - fix: cancel video download before selecting quality ([ae17d15](https://github.com/Hetari/pyutube/commit/ae17d15bb6c2cb53b31860985901a5e22af82480) by Hetari).
 - fix utils ([a30a48e](https://github.com/Hetari/pyutube/commit/a30a48ea8961fde6beb597c9cd83d05d27eb98a9) by Hetari).
 
-<!-- insertion marker -->
+### Removed
+
+- remove cache ([c5fc490](https://github.com/Hetari/pyutube/commit/c5fc4906d2b4a02836c46a0f429a3cd2b9934460) by Hetari).
 
 ## [1.3.24](https://github.com/Hetari/pyutube/releases/tag/1.3.24) - 2024-09-25
 

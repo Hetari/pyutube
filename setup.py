@@ -55,7 +55,7 @@ setup(
         "inquirer",
         "yaspin",
         "typer",
-        "requests-cache",
+        "requests",
         "rich",
         "inquirer",
         "termcolor",
