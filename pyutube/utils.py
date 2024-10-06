@@ -2,6 +2,7 @@
 This module contains the utils functions for the pyutube package.
 """
 
+import subprocess
 import sys
 import os
 
@@ -15,7 +16,7 @@ from termcolor import colored
 from pytubefix import __version__ as pytubefix_version
 
 
-__version__ = "1.3.30"
+__version__ = "1.3.31"
 __app__ = "pyutube"
 ABORTED_PREFIX = "Aborted"
 CANCEL_PREFIX = "Cancel"
@@ -201,16 +202,12 @@ def check_for_updates() -> None:
     """
     A function to check for updates of a given package or packages.
 
-    Args:
-        libraries (dict): A dictionary of libraries to check for updates.
-            The keys are the library names, and the values are the current versions.
-
     Returns:
         None
     """
     libraries = {
         'PyUTube': {
-            'version': __version__,
+            'version': "1.3.29",
             'repository': 'https://github.com/Hetari/pyutube'
         },
         'pytubefix': {
@@ -229,9 +226,29 @@ def check_for_updates() -> None:
                 if latest_version != version['version']:
                     console.print(
                         f"👉 A new version of [blue]{library}[/blue] is available: {latest_version} " +
-                        f"Update it by running [bold red link=https://github.com/Hetari/pyutube]pip install --upgrade {library}[/bold red link]",
+                        f"Updating it now... ",
                         style="warning"
                     )
+                    # auto-update the package
+                    try:
+                        subprocess.check_call(
+                            [sys.executable, '-m', 'pip', 'install', '--upgrade', library],
+                            stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE
+                        )
+                        console.print(
+                            f"✅ Successfully updated [blue]{library}[/blue] to version {latest_version}.",
+                            style="success"
+                        )
+                    except subprocess.CalledProcessError as e:
+                        error_console.print(
+                            f"❗ Failed to update [blue]{library}[/blue]: {e.stderr.decode()}"
+                        )
+                        console.print(
+                            f"❗ If you want to use the latest version of [blue]{library}[/blue], " +
+                            f"Update it by running [bold red link=https://github.com/Hetari/pyutube]pip install --upgrade {library}[/bold red link]"
+                        )
+
             else:
                 error_console.print(
                     f"❗ Error checking for updates: {r.status_code}")

@@ -1,9 +1,18 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+<!-- insertion marker -->
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
-and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+## Unreleased
+
+<small>[Compare with latest](https://github.com/Hetari/pyutube/compare/1.3.29...HEAD)</small>
+
+### Added
+
+- add: automatically upgrade packages if a new version is available ([c31e4eb](https://github.com/Hetari/pyutube/commit/c31e4ebeb2ff57bdd7c45ef4f1804da4d6b709c2) by Hetari).
+
+### Fixed
+
+- fix: check_for_updates method ([2fecb30](https://github.com/Hetari/pyutube/commit/2fecb30b5400f36426566c383a165bbddaf983dd) by Hetari).
 
 <!-- insertion marker -->
 
