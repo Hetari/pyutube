@@ -5,7 +5,7 @@ import threading
 from pytubefix.helpers import safe_filename
 from pytubefix import Playlist
 
-from pyutube.utils import console, asking_video_or_audio, ask_playlist_video_names
+from pyutube.utils import console, asking_video_or_audio, ask_playlist_video_names, ask_for_make_playlist_in_order
 
 
 class PlaylistHandler:
@@ -32,34 +32,47 @@ class PlaylistHandler:
         p_total = playlist_stream.length
         p_videos = playlist_stream.videos
 
+        make_in_order = ask_for_make_playlist_in_order()
         self.get_all_playlist_videos_title(p_videos)
+
+        if make_in_order:
+            for index, video_and_id in enumerate(self.playlist_videos):
+                new_video_title = f"{index + 1}__{video_and_id[0]}"
+                self.playlist_videos[index] = (new_video_title, video_and_id[1])
 
         new_path = self.check_for_downloaded_videos(p_title, p_total)
 
-        console.print("Chose what video you want to download")
+        console.print("Chose what video you want to download", style="info")
         videos_selected = ask_playlist_video_names(self.playlist_videos)
 
-        return new_path, is_audio, videos_selected
+        return new_path, is_audio, videos_selected, make_in_order
 
-    def fetch_title_thread(self, video):
+    def fetch_title_thread(self, video, index, results):
+        """
+        Fetch all playlist video titles concurrently but maintain the order.
+        """
         video_title = safe_filename(video.title)
         video_id = video.video_id
-        self.playlist_videos.append((video_title, video_id))
+        results[index] = (video_title, video_id)
 
     def get_all_playlist_videos_title(self, videos):
-        # Use threading to fetch titles concurrently
+        """
+        Fetch all playlist video titles concurrently but maintain the order.
+        """
+        total_videos = len(videos)
+        results = [None] * total_videos
         title_threads = []
 
-        # Create and start a thread for each video
-        for video in videos:
+        for index, video in enumerate(videos):
             thread = threading.Thread(
-                target=self.fetch_title_thread, args=(video,))
+                target=self.fetch_title_thread, args=(video, index, results))
             thread.start()
             title_threads.append(thread)
 
-        # Wait for all threads to finish
         for thread in title_threads:
             thread.join()
+
+        self.playlist_videos = results
 
     @staticmethod
     def show_playlist_info(title, total):
@@ -76,7 +89,7 @@ class PlaylistHandler:
         # check if there is any video already downloaded in the past
         for file in os.listdir(new_path):
             for video in self.playlist_videos:
-                if file.startswith(video):
+                if file.startswith(video[0]):
                     self.playlist_videos.remove(video)
                     # Exit the inner loop since we found a match
                     break

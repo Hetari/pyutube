@@ -16,7 +16,7 @@ from termcolor import colored
 from pytubefix import __version__ as pytubefix_version
 
 
-__version__ = "1.3.31"
+__version__ = "1.3.32"
 __app__ = "pyutube"
 ABORTED_PREFIX = "Aborted"
 CANCEL_PREFIX = "Cancel"
@@ -179,13 +179,37 @@ def ask_playlist_video_names(videos):
     questions = [
         inquirer.Checkbox(
             "names",
-            message="Choose the videos you want to download:",
+            message="Choose the videos you want to download",
             choices=videos,
         ),
     ]
 
     try:
         answer = inquirer.prompt(questions)["names"]
+
+    except TypeError:
+        return ABORTED_PREFIX
+
+    except Exception as error:
+        error_console.print(f"Error: {error}")
+        sys.exit()
+
+    return answer
+
+
+def ask_for_make_playlist_in_order():
+    # make_in_order = colored( "", "cyan")
+
+    questions = [
+        inquirer.Confirm(
+            "ask_for_make_playlist_in_order",
+            message="Do you want the playlist videos in order? ",
+            default=False
+        ),
+    ]
+
+    try:
+        answer = inquirer.prompt(questions)["ask_for_make_playlist_in_order"]
 
     except TypeError:
         return ABORTED_PREFIX
@@ -206,7 +230,7 @@ def check_for_updates() -> None:
     """
     libraries = {
         'PyUTube': {
-            'version': "1.3.29",
+            'version': __version__,
             'repository': 'https://github.com/Hetari/pyutube'
         },
         'pytubefix': {

@@ -148,6 +148,7 @@ def pyutube(
         download_service.asking_video_or_audio()
 
     elif link_type == "playlist":
+        download_service = DownloadService(url, path, None)
         download_service.get_playlist_links()
 
     else:
