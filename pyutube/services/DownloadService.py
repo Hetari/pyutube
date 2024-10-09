@@ -41,7 +41,7 @@ class DownloadService:
 
         return True
 
-    def download_audio(self, video: YouTube, video_audio: YouTube, video_id: str, title_number: int) -> bool:
+    def download_audio(self, video: YouTube, video_audio: YouTube, video_id: str, title_number: int = 0) -> bool:
         audio_filename = self.file_service.generate_filename(video_audio, video_id, is_audio=True)
 
         if self.make_playlist_in_order:
@@ -70,7 +70,7 @@ class DownloadService:
         return audio_filename
 
     def download_video(self, video: YouTube, video_id: str, video_stream: YouTube, video_audio: YouTube,
-                       title_number: int) -> bool:
+                       title_number: int = 0) -> bool:
 
         # Generate filename with title, quality, and file extension
         video_filename = self.file_service.generate_filename(video_stream, video_id)
