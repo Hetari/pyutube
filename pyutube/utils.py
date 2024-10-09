@@ -14,9 +14,10 @@ from rich.console import Console
 from rich.theme import Theme
 from termcolor import colored
 from pytubefix import __version__ as pytubefix_version
+from playsound import playsound
 
 
-__version__ = "1.3.32"
+__version__ = "1.3.33"
 __app__ = "pyutube"
 ABORTED_PREFIX = "Aborted"
 CANCEL_PREFIX = "Cancel"
@@ -269,7 +270,8 @@ def check_for_updates() -> None:
                         )
                         console.print(
                             f"❗ If you want to use the latest version of [blue]{library}[/blue], " +
-                            f"Update it by running [bold red link=https://github.com/Hetari/pyutube]pip install --upgrade {library}[/bold red link]"
+                            f"Update it by running [bold red link=https://github.com/Hetari/pyutube]pip install --upgrade {
+                                library}[/bold red link]"
                         )
 
             else:
@@ -277,8 +279,6 @@ def check_for_updates() -> None:
                     f"❗ Error checking for updates: {r.status_code}")
     except Exception as error:
         error_console.print(f"❗ Error checking for updates: {error}")
-    finally:
-        sys.exit()
 
 
 # main utils
@@ -316,3 +316,20 @@ def asking_video_or_audio() -> bool:
         sys.exit()
 
     return is_audio
+
+
+def play_notification() -> None:
+    """
+    Play a notification sound.
+
+    Args:
+        None
+
+    Returns:
+        None
+    """
+    notification_path = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        "finish.mp3"  # file name
+    )
+    playsound(notification_path)
