@@ -1,16 +1,16 @@
 # 📹 Pyutube - The Simplest YouTube Downloader CLI
 
 ### Enjoying my project? Please show your appreciation by starring it on GitHub! ⭐
-<a href="https://github.com/Hetari/pyutube/edit/main/README.md">
+<a href="https://github.com/Hetari/pyutube">
   <img src="https://img.shields.io/pypi/v/pyutube.svg?style=flat&label=Version" alt="Version">
 </a>
-<a href="https://github.com/Hetari/pyutube/edit/main/README.md">
+<a href="https://github.com/Hetari/pyutube">
   <img src="https://static.pepy.tech/badge/pyutube" alt="Downloads">
 </a>
-<a href="https://github.com/Hetari/pyutube/edit/main/README.md">
+<a href="https://github.com/Hetari/pyutube">
   <img src="https://static.pepy.tech/badge/pyutube/month" alt="Downloads per Month">
 </a>
-<a href="https://github.com/Hetari/pyutube/edit/main/README.md">
+<a href="https://github.com/Hetari/pyutube">
   <img src="https://static.pepy.tech/badge/pyutube/week" alt="Downloads per Week">
 </a>
 
