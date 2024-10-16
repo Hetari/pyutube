@@ -17,7 +17,7 @@ from pytubefix import __version__ as pytubefix_version
 from playsound import playsound
 
 
-__version__ = "1.3.34"
+__version__ = "1.3.35"
 __app__ = "pyutube"
 ABORTED_PREFIX = "Aborted"
 CANCEL_PREFIX = "Cancel"

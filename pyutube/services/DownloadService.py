@@ -48,8 +48,6 @@ class DownloadService:
             base_name, extension = os.path.splitext(audio_filename)
             audio_filename = f"{title_number}__{base_name}{extension}"
 
-        audio_filename = os.path.join(self.path, audio_filename)
-
         audio_filename = self.file_service.handle_existing_file(
             video, video_id, audio_filename, self.path, self.is_audio)
 
@@ -80,9 +78,6 @@ class DownloadService:
         if self.make_playlist_in_order:
             base_name, extension = os.path.splitext(video_filename)
             video_filename = f"{title_number}__{base_name}{extension}"
-
-        # Construct the full path with the new filename
-        video_filename = os.path.join(self.path, video_filename)
 
         # Handle existing files
         video_filename = self.file_service.handle_existing_file(

@@ -169,8 +169,12 @@ class VideoService:
 
         output_directory = os.path.join(self.path, "output")
         os.makedirs(output_directory, exist_ok=True)
+
         output_file = os.path.join(
             output_directory, os.path.basename(video_name))
+
+        video_name = os.path.join(self.path, video_name)
+        audio_name = os.path.join(self.path, audio_name)
 
         ffmpeg_merge_video_audio(
             video_name,
