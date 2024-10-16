@@ -84,7 +84,7 @@ class PlaylistHandler:
         return os.path.join(self.path, title)
 
     def check_for_downloaded_videos(self, title, total):
-        new_path = self.create_playlist_folder(title)
+        new_path = self.create_playlist_folder(safe_filename(title))
 
         # check if there is any video already downloaded in the past
         for file in os.listdir(new_path):
