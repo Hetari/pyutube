@@ -3,6 +3,7 @@ import os
 import sys
 
 from pytubefix import YouTube
+from pytubefix.helpers import safe_filename
 
 from pyutube.utils import asking_video_or_audio, console, error_console
 from pyutube.services.AudioService import AudioService
@@ -76,8 +77,8 @@ class DownloadService:
         # Prepend the title number and `__` to the filename if ordering is required
 
         if self.make_playlist_in_order:
-            base_name, extension = os.path.splitext(video_filename)
-            video_filename = f"{title_number}__{base_name}{extension}"
+            video_base_name, video_extension = os.path.splitext(video_filename)
+            video_filename = f"{title_number}__{video_base_name}{video_extension}"
 
         # Handle existing files
         video_filename = self.file_service.handle_existing_file(
@@ -89,7 +90,12 @@ class DownloadService:
             self.file_service.save_file(video_stream, video_filename, self.path)
             audio_filename = self.download_audio(video, video_audio, video_id, title_number)
 
-            self.video_service.merging(video_filename, audio_filename)
+            video_base_name, video_extension = os.path.splitext(video_filename)
+            audio_base_name, audio_extension = os.path.splitext(audio_filename)
+            video_safe_filename = f"{safe_filename(video_base_name)}{video_extension}"
+            audio_safe_filename = f"{safe_filename(audio_base_name)}{audio_extension}"
+
+            self.video_service.merging(video_safe_filename, audio_safe_filename)
 
         except Exception as error:
             error_console.print(
