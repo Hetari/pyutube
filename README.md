@@ -137,3 +137,12 @@ This project is licensed under the [MIT License](https://github.com/Hetari/pyutu
    </a>
 </div>
 
+## ⏳ Todo List
+- [x] **Notification System**    
+- [x] **Auto Update package if new version available**
+- [x] **Support Optional Numbering for Downloaded Playlist Videos**
+- [ ]  **Improve code health**
+- [ ] **Support downloading sounds (mp3 format not a audio/mp4)**
+- [ ] **Support Subtitles Download**
+- [ ] **Support setting for downloading folder**
+- [ ] **Download Thumbnails with Videos and Audio**
