@@ -17,7 +17,7 @@ from pytubefix import __version__ as pytubefix_version
 from playsound import playsound
 
 
-__version__ = "1.3.37"
+__version__ = "1.3.38"
 __app__ = "pyutube"
 ABORTED_PREFIX = "Aborted"
 CANCEL_PREFIX = "Cancel"
@@ -270,8 +270,8 @@ def check_for_updates() -> None:
                         )
                         console.print(
                             f"❗ If you want to use the latest version of [blue]{library}[/blue], " +
-                            f"Update it by running [bold red link=https://github.com/Hetari/pyutube]pip install --upgrade {
-                                library}[/bold red link]"
+                            "Update it by running [bold red link=https://github.com/Hetari/pyutube] " +
+                            f"pip install --upgrade {library}[/bold red link]"
                         )
 
             else:
