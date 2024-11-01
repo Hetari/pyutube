@@ -47,7 +47,6 @@ setup(
 
 
     include_package_data=True,
-    package_data={"pyutube": ["finish.mp3"]},
 
     python_requires=">=3.6",
 
@@ -61,7 +60,6 @@ setup(
         "inquirer",
         "termcolor",
         "moviepy",
-        "playsound"
     ],
 
 

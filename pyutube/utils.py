@@ -14,10 +14,9 @@ from rich.console import Console
 from rich.theme import Theme
 from termcolor import colored
 from pytubefix import __version__ as pytubefix_version
-from playsound import playsound
 
 
-__version__ = "1.3.38"
+__version__ = "1.3.39"
 __app__ = "pyutube"
 ABORTED_PREFIX = "Aborted"
 CANCEL_PREFIX = "Cancel"
@@ -316,20 +315,3 @@ def asking_video_or_audio() -> bool:
         sys.exit()
 
     return is_audio
-
-
-def play_notification() -> None:
-    """
-    Play a notification sound.
-
-    Args:
-        None
-
-    Returns:
-        None
-    """
-    notification_path = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)),
-        "finish.mp3"  # file name
-    )
-    playsound(notification_path)

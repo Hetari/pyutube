@@ -50,7 +50,6 @@ from pyutube.utils import (
     console,
     check_internet_connection,
     check_for_updates,
-    play_notification
 )
 from pyutube.services import DownloadService
 from pyutube.handlers import URLHandler
@@ -157,5 +156,4 @@ def pyutube(
         sys.exit()
 
     check_for_updates()
-    play_notification()
     sys.exit()
