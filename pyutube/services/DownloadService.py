@@ -75,7 +75,6 @@ class DownloadService:
         video_filename = self.file_service.generate_filename(video_stream, video_id)
 
         # Prepend the title number and `__` to the filename if ordering is required
-
         if self.make_playlist_in_order:
             video_base_name, video_extension = os.path.splitext(video_filename)
             video_filename = f"{title_number}__{video_base_name}{video_extension}"

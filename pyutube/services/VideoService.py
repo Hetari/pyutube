@@ -161,42 +161,67 @@ class VideoService:
         Args:
             video_name: The name of the video file.
             audio_name: The name of the audio file.
-            video_id: The ID of the video.
 
         Returns:
             None
         """
-
         output_directory = os.path.join(self.path, "output")
         os.makedirs(output_directory, exist_ok=True)
 
-        output_file = os.path.join(
-            output_directory, os.path.basename(video_name))
+        # Output file path
+        output_file = os.path.join(output_directory, os.path.basename(
+            video_name).replace(os.path.splitext(video_name)[1], '.mp4'))
 
-        video_name = os.path.join(self.path, video_name)
-        audio_name = os.path.join(self.path, audio_name)
+        # Extract base names to match files
+        video_base_name = os.path.splitext(os.path.basename(video_name))[0]
+        audio_base_name = os.path.splitext(os.path.basename(audio_name))[0]
 
+        # Locate the video file
+        video_path = None
+        for file in os.listdir(self.path):
+            file_base, _ = os.path.splitext(file)
+            if file_base == video_base_name:
+                video_path = os.path.join(self.path, file)
+                break
+
+        if video_path is None:
+            error_console.print(f"❗ Video file not found: {video_name}")
+            sys.exit()
+
+        # Locate the audio file
+        audio_path = None
+        for file in os.listdir(self.path):
+            file_base, _ = os.path.splitext(file)
+            if file_base == audio_base_name:
+                audio_path = os.path.join(self.path, file)
+                break
+
+        if audio_path is None:
+            error_console.print(f"❗ Audio file not found: {audio_name}")
+            sys.exit()
+
+        # Merge video and audio
         ffmpeg_merge_video_audio(
-            video_name,
-            audio_name,
+            video_path,
+            audio_path,
             output_file,
             vcodec='copy',
             acodec='copy',
             ffmpeg_output=False,
-            logger=None
+            logger=None,
         )
 
         # Remove original files
-        os.remove(video_name)
-        os.remove(audio_name)
+        os.remove(video_path)
+        os.remove(audio_path)
 
         # Move the merged file to the current directory
         if os.path.exists(output_file):
-            os.replace(output_file, os.path.join(os.getcwd(), video_name))
+            merged_file_name = os.path.basename(video_name)
+            os.replace(output_file, os.path.join(os.getcwd(), merged_file_name))
             os.rmdir(output_directory)
         else:
-            error_console.print(
-                "Merged video file not found in the output directory.")
+            error_console.print("❗ Merged video file not found in the output directory.")
 
     @staticmethod
     def get_video_resolutions_sizes(

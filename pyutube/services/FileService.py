@@ -8,7 +8,6 @@ from pyutube.utils import ask_rename_file, error_console, console
 
 
 class FileService:
-
     def save_file(self, video: YouTube, filename: str, path: str) -> None:
         """
         Save the file to the specified path with the given filename.
@@ -32,12 +31,10 @@ class FileService:
         """
         file_type = 'audio' if is_audio else video.resolution
 
-        extension = 'mp3' if is_audio else video.mime_type.split('/')[1]
-
         title = filename if filename != "" else video.default_filename.split('.')[0]
         title = safe_filename(title)
 
-        return f"{title} - {file_type}_-_{video_id}.{extension}"
+        return f"{title} - {file_type}_-_{video_id}"
 
     def handle_existing_file(
             self, video: YouTube, video_id: str, filename: str, path: str, is_audio: bool = False) -> None:

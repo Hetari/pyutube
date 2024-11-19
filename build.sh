@@ -5,7 +5,7 @@ rm -rf dist
 pip uninstall pyutube -y
 
 # Build a wheel distribution package using the 'setup.py' file
-python setup.py sdist bdist_wheel
+python3 setup.py sdist bdist_wheel
 
 # Install the wheel distribution package located in the 'dist' directory
 # pip3 install dist/*
