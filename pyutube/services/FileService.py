@@ -34,7 +34,7 @@ class FileService:
         title = filename if filename != "" else video.default_filename.split('.')[0]
         title = safe_filename(title)
 
-        return f"{title} - {file_type}_-_{video_id}"
+        return f"{title}_{file_type}"
 
     def handle_existing_file(
             self, video: YouTube, video_id: str, filename: str, path: str, is_audio: bool = False) -> None:

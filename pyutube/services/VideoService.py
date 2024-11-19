@@ -179,49 +179,53 @@ class VideoService:
         # Locate the video file
         video_path = None
         for file in os.listdir(self.path):
-            file_base, _ = os.path.splitext(file)
-            if file_base == video_base_name:
+            if file.startswith(video_base_name):
                 video_path = os.path.join(self.path, file)
                 break
 
         if video_path is None:
             error_console.print(f"❗ Video file not found: {video_name}")
-            sys.exit()
+            sys.exit(1)
 
         # Locate the audio file
         audio_path = None
         for file in os.listdir(self.path):
-            file_base, _ = os.path.splitext(file)
-            if file_base == audio_base_name:
+            if file.startswith(audio_base_name):
                 audio_path = os.path.join(self.path, file)
                 break
 
         if audio_path is None:
             error_console.print(f"❗ Audio file not found: {audio_name}")
-            sys.exit()
+            sys.exit(1)
 
-        # Merge video and audio
-        ffmpeg_merge_video_audio(
-            video_path,
-            audio_path,
-            output_file,
-            vcodec='copy',
-            acodec='copy',
-            ffmpeg_output=False,
-            logger=None,
-        )
+        try:
+            # Merge video and audio
+            ffmpeg_merge_video_audio(
+                video_path,
+                audio_path,
+                output_file,
+                vcodec='copy',
+                acodec='copy',
+                ffmpeg_output=False,
+                logger=None
+            )
 
-        # Remove original files
-        os.remove(video_path)
-        os.remove(audio_path)
+            # Remove original files
+            os.remove(video_path)
+            os.remove(audio_path)
 
-        # Move the merged file to the current directory
-        if os.path.exists(output_file):
-            merged_file_name = os.path.basename(video_name)
-            os.replace(output_file, os.path.join(os.getcwd(), merged_file_name))
-            os.rmdir(output_directory)
-        else:
-            error_console.print("❗ Merged video file not found in the output directory.")
+            # Move the merged file to the current directory
+            if os.path.exists(output_file):
+                merged_file_name = os.path.basename(video_name)
+                os.replace(output_file, os.path.join(os.getcwd(), merged_file_name))
+                os.rmdir(output_directory)
+            else:
+                error_console.print("❗ Merged video file not found in the output directory.")
+                sys.exit(1)
+
+        except Exception as e:
+            error_console.print(f"❗ An error occurred: {str(e)}")
+            sys.exit(1)
 
     @staticmethod
     def get_video_resolutions_sizes(
