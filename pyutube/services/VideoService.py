@@ -169,8 +169,10 @@ class VideoService:
         os.makedirs(output_directory, exist_ok=True)
 
         # Output file path
-        output_file = os.path.join(output_directory, os.path.basename(
-            video_name).replace(os.path.splitext(video_name)[1], '.mp4'))
+        base_name = os.path.splitext(os.path.basename(video_name))[0]
+        output_file = os.path.join(output_directory, f"{base_name}.mp4")
+        # output_file = os.path.join(output_directory, os.path.basename(
+        #     video_name).replace(os.path.splitext(video_name)[1], '.mp4'))
 
         # Extract base names to match files
         video_base_name = os.path.splitext(os.path.basename(video_name))[0]
