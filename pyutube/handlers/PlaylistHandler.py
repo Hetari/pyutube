@@ -20,19 +20,25 @@ class PlaylistHandler:
         Process the playlist by asking for the audio or video, downloading the playlist,
         then asking for which video to download and downloading it.
         """
+        console.print("Processing playlist...")
+
         try:
             is_audio = asking_video_or_audio()
         except TypeError:
             # If the user cancelled, return
+            console.print("Cancelled")
             return
 
-        playlist_stream = Playlist(self.url)
+        console.print("Downloading playlist...")
+        playlist = Playlist(self.url)
+        print("playlist_stream", playlist.title)
 
-        p_title = playlist_stream.title
-        p_total = playlist_stream.length
-        p_videos = playlist_stream.videos
+        p_title = playlist.title
+        p_total = playlist.length
+        p_videos = playlist.videos
 
         make_in_order = ask_for_make_playlist_in_order()
+        console.print("Fetching playlist videos...")
         self.get_all_playlist_videos_title(p_videos)
 
         if make_in_order:
@@ -40,6 +46,7 @@ class PlaylistHandler:
                 new_video_title = f"{index + 1}__{video_and_id[0]}"
                 self.playlist_videos[index] = (new_video_title, video_and_id[1])
 
+        console.print("Checking if the videos are already downloaded...")
         new_path = self.check_for_downloaded_videos(p_title, p_total)
 
         console.print("Chose what video you want to download", style="info")
