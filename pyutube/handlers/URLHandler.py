@@ -83,10 +83,10 @@ class URLHandler:
         # r'(?:https?://)?(?:www\.)?(?:youtube\.com/(?:(?:watch\?v=)|(?:embed/))|youtu\.be/|youtube.com/share\?v=)([a-zA-Z0-9_-]{11})')
         # video_pattern = re.compile(
         #     # "https://www.youtube.com/watch?time_continue=1&v=dQw4w9WgXcQ"
-        #     r"^(?:https?://)?(?:www\.)?(?:youtube(?:-nocookie)?\.com/(?:(watch\?v=|watch\?feature\=share\&v=)|embed/|v/|live_stream\?channel=|live\/)|youtu\.be/)([a-zA-Z0-9_-]{11})"
+        # r"^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$"
         # )
         video_pattern = re.compile(
-            r"^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$"
+            r"^(?:https?://)?(?:www\.)?(?:youtube(?:-nocookie)?\.com/(?:(watch\?v=|watch\?feature\=share\&v=)|embed/|v/|live_stream\?channel=|live\/)|youtu\.be/)([a-zA-Z0-9_-]{11})"
         )
 
         return bool(video_pattern.match(link))
@@ -101,10 +101,10 @@ class URLHandler:
         Returns:
             bool: True if the link is a YouTube playlist, False otherwise.
         """
-        # playlist_pattern = r"(?:https?:\/\/)?(?:www\.)?youtube\.com\/playlist\?list=([a-zA-Z0-9_-]+)"
-        playlist_pattern = r"(https?:\/\/)?(www.)?(youtube\.com|youtu\.be|youtube-nocookie\.com)\/(?:embed\/|v\/|watch\?v=|watch\?list=(.*)&v=)?((\w|-){11})(&list=(\w+)&?)?"
-        playlist_match = re.match(playlist_pattern, link)
-        return bool(playlist_match)
+        playlist_pattern = r"^(?:https?:\/\/)?(?:www\.)?youtube\.com\/playlist\?list=([a-zA-Z0-9_-]+)"
+        watch_with_playlist_pattern = r"^(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=[a-zA-Z0-9_-]{11}&list=([a-zA-Z0-9_-]+)"
+
+        return bool(re.match(playlist_pattern, link)) or bool(re.match(watch_with_playlist_pattern, link))
 
     def __is_youtube_video_id(self, video_id: str) -> bool:
         """
