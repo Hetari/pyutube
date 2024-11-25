@@ -31,10 +31,12 @@ class FileService:
         """
         file_type = 'audio' if is_audio else video.resolution
 
+        extension = '' if is_audio else f'.{video.mime_type.split('/')[1]}'
+
         title = filename if filename != "" else video.default_filename.split('.')[0]
         title = safe_filename(title)
 
-        return f"{title}_{file_type}"
+        return f"{title}_{file_type}{extension}"
 
     def handle_existing_file(
             self, video: YouTube, video_id: str, filename: str, path: str, is_audio: bool = False) -> None:
