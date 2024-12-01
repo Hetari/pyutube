@@ -213,12 +213,17 @@ class VideoService:
             )
 
             # Remove original files
+            os.remove(video_path)
             os.remove(audio_path)
 
             # Move the merged file to the current directory
             if os.path.exists(output_file):
-                merged_file_name = os.path.basename(video_name)
-                os.replace(output_file, os.path.join(os.getcwd(), merged_file_name))
+                merged_file_name = os.path.basename(output_file)
+                parent_directory = os.path.dirname(output_directory)
+
+                final_path = os.path.join(parent_directory, merged_file_name)
+
+                os.replace(output_file, final_path)
                 os.rmdir(output_directory)
             else:
                 error_console.print("❗ Merged video file not found in the output directory.")
