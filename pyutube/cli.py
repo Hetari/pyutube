@@ -113,6 +113,8 @@ def pyutube(
         path (str): The path to save the video. Defaults to the current working directory.
 
     """
+    check_for_updates()
+
     if version:
         console.print(f"Pyutube {__version__}")
         check_for_updates()
@@ -155,5 +157,4 @@ def pyutube(
         error_console.print("❗ Unsupported link type.")
         sys.exit()
 
-    check_for_updates()
     sys.exit()
