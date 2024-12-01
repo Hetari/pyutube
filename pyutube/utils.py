@@ -16,7 +16,7 @@ from termcolor import colored
 from pytubefix import __version__ as pytubefix_version
 
 
-__version__ = "1.4.4"
+__version__ = "1.4.5"
 __app__ = "pyutube"
 ABORTED_PREFIX = "Aborted"
 CANCEL_PREFIX = "Cancel"

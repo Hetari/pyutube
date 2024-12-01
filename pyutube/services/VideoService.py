@@ -213,7 +213,6 @@ class VideoService:
             )
 
             # Remove original files
-            os.remove(video_path)
             os.remove(audio_path)
 
             # Move the merged file to the current directory
