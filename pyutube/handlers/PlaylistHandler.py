@@ -31,7 +31,6 @@ class PlaylistHandler:
 
         console.print("Downloading playlist...")
         playlist = Playlist(self.url)
-        print("playlist_stream", playlist.title)
 
         p_title = playlist.title
         p_total = playlist.length
