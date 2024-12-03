@@ -31,7 +31,7 @@ class FileService:
         """
         file_type = 'audio' if is_audio else video.resolution
 
-        extension = '' if is_audio else f'.{video.mime_type.split('/')[1]}'
+        extension = '.m4a' if is_audio else f'.{video.mime_type.split('/')[1]}'
 
         title = filename if filename != "" else video.default_filename.split('.')[0]
         title = safe_filename(title)
