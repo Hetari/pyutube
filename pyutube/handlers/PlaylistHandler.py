@@ -51,7 +51,7 @@ class PlaylistHandler:
         console.print("Chose what video you want to download", style="info")
         videos_selected = ask_playlist_video_names(self.playlist_videos)
 
-        return new_path, is_audio, videos_selected, make_in_order
+        return new_path, is_audio, videos_selected, make_in_order, self.playlist_videos
 
     def fetch_title_thread(self, video, index, results):
         """

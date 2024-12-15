@@ -113,8 +113,11 @@ class DownloadService:
 
     def get_playlist_links(self):
         handler = PlaylistHandler(self.url, self.path)
-        new_path, is_audio, videos_selected, make_in_order = handler.process_playlist()
+        new_path, is_audio, videos_selected, make_in_order, playlist_videos = handler.process_playlist()
         self.make_playlist_in_order = make_in_order
+        selected_titles = [
+            title for title, video_id in playlist_videos if video_id in videos_selected
+        ]
 
         # Download the selected videos
         for index, video_id in enumerate(videos_selected):
@@ -127,14 +130,13 @@ class DownloadService:
             if index == 0:
                 # If it is the first video, download it and store the quality
                 self.video_service = VideoService(self.url, self.quality, self.path)
-                quality = self.download(index + 1)
+                quality = self.download(int(selected_titles[index].split('__')[0]))
                 continue
 
             # If it is not the first video, download it with the stored quality
-
             self.quality = quality
             self.video_service = VideoService(self.url, self.quality, self.path)
-            self.download(index+1)
+            self.download(int(selected_titles[index].split('__')[0]))
 
     def download_preparing(self):
         video = self.video_service.search_process()
