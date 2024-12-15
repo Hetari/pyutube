@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "release:minor": "generate-changelog -m && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version minor && git push origin && git push origin --tags && sh -c 'gh release create $(git describe --tags) --generate-notes'",
-    "release:major": "generate-changelog -M && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version major && git push origin && git push origin --tags && sh -c 'gh release create $(git describe --tags) --generate-notes'",
-    "release:patch": "generate-changelog -p && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version patch && git push origin && git push origin --tags && sh -c 'gh release create $(git describe --tags) --generate-notes'"
+    "release:minor": "generate-changelog -m && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version minor && git push origin && git push origin --tags && sh -c 'gh release create $(git describe --tags) --generate-notes' && ./build.sh && twine upload dist/*",
+    "release:major": "generate-changelog -M && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version major && git push origin && git push origin --tags && sh -c 'gh release create $(git describe --tags) --generate-notes' && ./build.sh && twine upload dist/*",
+    "release:patch": "generate-changelog -p && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version patch && git push origin && git push origin --tags && sh -c 'gh release create $(git describe --tags) --generate-notes' && ./build.sh && twine upload dist/*"
   },
   "keywords": [],
   "author": "",

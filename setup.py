@@ -60,6 +60,7 @@ setup(
         "inquirer",
         "termcolor",
         "moviepy",
+        "setuptools",
     ],
 
 
