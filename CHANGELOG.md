@@ -1,3 +1,19 @@
+#### 1.4.11 (2024-12-15)
+
+##### Bug Fixes
+
+*  playlist video number (50a39410)
+*  f-string error (6a065701)
+*  keep video file without deleting it (184a718c)
+*  delete video error (f2c537ae)
+*  download file ext (9f7241c6)
+*  video and audio file merging logic (69efb70d)
+
+##### Other Changes
+
+* upgrade the cli (4cb75ceb)
+*  audio m4a file ext (75a1ae00)
+
 #### 1.4.10 (2024-12-15)
 
 ##### Bug Fixes
