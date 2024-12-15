@@ -122,6 +122,10 @@ class DownloadService:
         # Download the selected videos
         for index, video_id in enumerate(videos_selected):
             url = f"https://www.youtube.com/watch?v={video_id}"
+            if make_in_order:
+                i = int(selected_titles[index].split('__')[0])
+            else:
+                i = ''
 
             self.url = url
             self.path = new_path
@@ -130,13 +134,13 @@ class DownloadService:
             if index == 0:
                 # If it is the first video, download it and store the quality
                 self.video_service = VideoService(self.url, self.quality, self.path)
-                quality = self.download(int(selected_titles[index].split('__')[0]))
+                quality = self.download(i)
                 continue
 
             # If it is not the first video, download it with the stored quality
             self.quality = quality
             self.video_service = VideoService(self.url, self.quality, self.path)
-            self.download(int(selected_titles[index].split('__')[0]))
+            self.download(i)
 
     def download_preparing(self):
         video = self.video_service.search_process()

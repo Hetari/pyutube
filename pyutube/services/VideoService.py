@@ -206,9 +206,8 @@ class VideoService:
                 video_path,
                 audio_path,
                 output_file,
-                vcodec='copy',
-                acodec='copy',
-                ffmpeg_output=False,
+                # vcodec='copy',
+                # acodec='copy',
                 logger=None
             )
 

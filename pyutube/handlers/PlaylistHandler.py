@@ -37,6 +37,7 @@ class PlaylistHandler:
         p_videos = playlist.videos
 
         make_in_order = ask_for_make_playlist_in_order()
+
         console.print("Fetching playlist videos...")
         self.get_all_playlist_videos_title(p_videos)
 
