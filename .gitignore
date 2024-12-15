@@ -1,6 +1,6 @@
 reinstall.sh
 *.mp4
-package*.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 .pytest_cache/
