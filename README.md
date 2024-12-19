@@ -4,13 +4,13 @@
 <a href="https://github.com/Hetari/pyutube">
   <img src="https://img.shields.io/pypi/v/pyutube.svg?style=flat&label=Version" alt="Version">
 </a>
-<a href="https://github.com/Hetari/pyutube">
+<a href="https://pepy.tech/projects/pyutube">
   <img src="https://static.pepy.tech/badge/pyutube" alt="Downloads">
 </a>
-<a href="https://github.com/Hetari/pyutube">
+<a href="https://pepy.tech/projects/pyutube">
   <img src="https://static.pepy.tech/badge/pyutube/month" alt="Downloads per Month">
 </a>
-<a href="https://github.com/Hetari/pyutube">
+<a href="https://pepy.tech/projects/pyutube">
   <img src="https://static.pepy.tech/badge/pyutube/week" alt="Downloads per Week">
 </a>
 
