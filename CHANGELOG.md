@@ -1,3 +1,9 @@
+#### 1.4.13 (2024-12-31)
+
+##### Bug Fixes
+
+*  ensure nearest resolution is selected when desired resolution is unavailable (0e62f1a8)
+
 #### 1.4.12 (2024-12-15)
 
 ##### Chores
