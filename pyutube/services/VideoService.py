@@ -42,10 +42,6 @@ class VideoService:
             sys.exit()
         return video
 
-    @staticmethod
-    def _print_video_info(video: YouTube) -> None:
-        console.print(f"Title: {video.title}\n", style="info")
-
     @yaspin(
         text=colored("Searching for the video", "green"),
         color="green", spinner=Spinners.point
@@ -88,7 +84,6 @@ class VideoService:
                 x[0][:-1]) if x[0][:-1].isdigit() else float('inf')
         )
 
-        # Separate resolutions and sizes without using two loops
         resolutions, sizes = zip(*resolutions_with_sizes)
         resolutions = list(resolutions)
         sizes = list(sizes)
@@ -120,10 +115,15 @@ class VideoService:
 
         if not stream:
             available_qualities = [stream.resolution for stream in streams]
-            available_qualities = list(map(int, available_qualities))
+
+            available_qualities = [int(res.replace("p", "")) for res in available_qualities]
+
+            quality_int = int(quality.replace("p", "")) if "p" in quality else int(quality)
             selected_quality = min(available_qualities,
-                                   key=lambda x: abs(int(quality) - x))
-            stream = streams.filter(res=str(selected_quality)).first()
+                                   key=lambda x: abs(quality_int - x)
+                                   )
+
+            stream = streams.filter(res=str(selected_quality) + "p").first()
 
         return stream
 

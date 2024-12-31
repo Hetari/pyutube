@@ -144,7 +144,7 @@ class DownloadService:
 
     def download_preparing(self):
         video = self.video_service.search_process()
-        self.video_service._print_video_info(video)
+        console.print(f"Title: {video.title}\n", style="info")
         video_id = video.video_id
         streams, video_audio, self.quality = self.video_service.get_selected_stream(video, self.is_audio)
 
