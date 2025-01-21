@@ -16,7 +16,7 @@ from termcolor import colored
 from pytubefix import __version__ as pytubefix_version
 
 
-__version__ = "1.4.14.alpha"
+__version__ = "1.4.15"
 __app__ = "pyutube"
 ABORTED_PREFIX = "Aborted"
 CANCEL_PREFIX = "Cancel"
@@ -246,51 +246,13 @@ def check_for_updates() -> None:
             if r.status_code == 200:
                 latest_version = r.json()['info']['version']
 
-                # Special handling for pytubefix
-                if library == 'pytubefix':
-                    current_version = version['version']
-                    target_version = '8.11.0'
-
-                    # Convert versions to tuples for comparison
-                    current_parts = tuple(map(int, current_version.split('.')))
-                    target_parts = tuple(map(int, target_version.split('.')))
-
-                    # Compare major version (8)
-                    if current_parts[0] < target_parts[0]:
-                        needs_update = True
-                    # If major versions equal, compare minor version (11)
-                    elif current_parts[0] == target_parts[0]:
-                        if current_parts[1] != target_parts[1]:  # Changed from < to !=
-                            needs_update = True
-                        else:
-                            needs_update = False
-                    else:
-                        needs_update = False
-
-                    if needs_update:
-                        try:
-                            subprocess.check_call(
-                                [sys.executable, '-m', 'pip', 'install', 'pytubefix==8.11'],
-                                stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE
-                            )
-
-                        except subprocess.CalledProcessError as e:
-                            error_console.print(
-                                f"❗ Failed to update [blue]pytubefix[/blue]: {e.stderr.decode()}"
-                            )
-                            console.print(
-                                "❗ If you want to use version 8.11 of [blue]pytubefix[/blue], " +
-                                "Update it by running [bold red link=https://github.com/Hetari/pytubefix] " +
-                                "pip install pytubefix==8.11[/bold red link]"
-                            )
-                # Normal handling for other libraries
-                elif latest_version != version['version']:
+                if latest_version != version['version']:
                     console.print(
                         f"👉 A new version of [blue]{library}[/blue] is available: {latest_version} " +
                         f"Updating it now... ",
                         style="warning"
                     )
+                    # auto-update the package
                     try:
                         subprocess.check_call(
                             [sys.executable, '-m', 'pip', 'install', '--upgrade', library],
