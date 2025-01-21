@@ -45,7 +45,6 @@ setup(
         "Programming Language :: Python :: 3",
     ],
 
-
     include_package_data=True,
 
     python_requires=">=3.6",
@@ -63,13 +62,11 @@ setup(
         "setuptools",
     ],
 
-
     entry_points={
         "console_scripts": [
             "pyutube=pyutube:cli.app",
         ],
     },
-
 
     project_urls={
         "Author": "https://github.com/Hetari",
