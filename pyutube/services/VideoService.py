@@ -49,7 +49,7 @@ class VideoService:
     def __video_search(self) -> YouTube:
         return YouTube(
             self.url,
-            use_oauth=False,
+            use_oauth=True,
             allow_oauth_cache=True,
             on_progress_callback=on_progress,
         )
