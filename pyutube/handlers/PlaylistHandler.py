@@ -42,9 +42,11 @@ class PlaylistHandler:
         self.get_all_playlist_videos_title(p_videos)
 
         if make_in_order:
-            for index, video_and_id in enumerate(self.playlist_videos):
-                new_video_title = f"{index + 1}__{video_and_id[0]}"
-                self.playlist_videos[index] = (new_video_title, video_and_id[1])
+            self.playlist_videos.reverse()
+
+        for index, video_and_id in enumerate(self.playlist_videos):
+            new_video_title = f"{index + 1}__{video_and_id[0]}"
+            self.playlist_videos[index] = (new_video_title, video_and_id[1])
 
         console.print("Checking if the videos are already downloaded...")
         new_path = self.check_for_downloaded_videos(p_title, p_total)
