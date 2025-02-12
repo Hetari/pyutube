@@ -1,3 +1,10 @@
+#### 1.4.17 (2025-02-12)
+
+##### Bug Fixes
+
+*  reverse playlist videos order before renaming titles (6ddd018d)
+*  update uninstall command to break system packages (c8ebfcaf)
+
 #### 1.4.16 (2025-01-22)
 
 ##### Bug Fixes
