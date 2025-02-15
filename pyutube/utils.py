@@ -255,7 +255,7 @@ def check_for_updates() -> None:
                     # auto-update the package
                     try:
                         subprocess.check_call(
-                            [sys.executable, '-m', 'pip', 'install', '--upgrade', library],
+                            [sys.executable, '-m', 'pip', 'install', '--upgrade', library, '--break-system-packages'],
                             stdout=subprocess.PIPE,
                             stderr=subprocess.PIPE
                         )
