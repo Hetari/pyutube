@@ -56,7 +56,6 @@ setup(
         "typer",
         "requests",
         "rich",
-        "inquirer",
         "termcolor",
         "moviepy",
         "setuptools",

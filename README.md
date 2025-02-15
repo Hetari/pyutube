@@ -1,6 +1,7 @@
 # 📹 Pyutube - The Simplest YouTube Downloader CLI
 
 ### Enjoying my project? Please show your appreciation by starring it on GitHub! ⭐
+
 <a href="https://github.com/Hetari/pyutube">
   <img src="https://img.shields.io/pypi/v/pyutube.svg?style=flat&label=Version" alt="Version">
 </a>
@@ -17,8 +18,8 @@
 <br />
 <br />
 
-> [!NOTE]
-> `Pyutube` is built on top of `pytubefix`, make sure to have the latest version of `pytubefix` by running:
+> [!NOTE] > `Pyutube` is built on top of `pytubefix`, make sure to have the latest version of `pytubefix` by running:
+>
 > ```bash
 > pip install --upgrade pytubefix
 > ```
@@ -29,7 +30,6 @@
 
 > [!NOTE]
 > Have **a new feature**? Please don't hesitate to [tell me](https://github.com/Hetari/pyutube/issues/new)!
-
 
 ## 🤔 why `pyutube`?
 
@@ -50,7 +50,7 @@ If you see something like `Python 3.x`, you’re all set! If not, head over to [
 Once you’re good to go, install `Pyutube` with a single command:
 
 ```bash
-pip install pyutube
+pip install pyutube --break-system-packages
 ```
 
 And just like that, you’re ready to download some awesome videos! 🎉
@@ -60,11 +60,10 @@ And just like that, you’re ready to download some awesome videos! 🎉
 Stay in the loop with the latest features on [GitHub](https://github.com/Hetari/pyutube)! To upgrade your `Pyutube` tool, simply run:
 
 ```bash
-pip install --upgrade pyutube
+pip install --upgrade pyutube --break-system-packages
 ```
 
 Then you’re all set to keep downloading from your `Terminal`! 🥳
-
 
 ## 🦸 Quick Start
 
@@ -77,7 +76,6 @@ pyutube "YOUTUBE_LINK" [PATH]
 > [!NOTE]
 > The `[URL]` is <span style="color:red">[Required]</span> and it should be between `""`<br/>
 > The `[PATH]` is optional—if you don’t specify one, it’ll save to your current terminal directory. Easy-peasy!
-
 
 ## 👨‍💻 Usage
 
@@ -95,7 +93,6 @@ pyutube "YOUTUBE_LINK" [PATH]
 | `-v` <span style="color:cyan">or</span> `--version` | Displays the current version number.   |
 | `-a` <span style="color:cyan">or</span> `--audio`   | Download audio only, skipping prompts. |
 | `-f` <span style="color:cyan">or</span> `--footage` | Download video only, skipping prompts. |
-
 
 ## 🕵️‍♂️ Examples
 
@@ -138,10 +135,11 @@ This project is licensed under the [MIT License](https://github.com/Hetari/pyutu
 </div>
 
 ## ⏳ Todo List
-- [x] **Notification System**    
+
+- [x] **Notification System**
 - [x] **Auto Update package if new version available**
 - [x] **Support Optional Numbering for Downloaded Playlist Videos**
-- [ ]  **Improve code health**
+- [ ] **Improve code health**
 - [ ] **Support downloading sounds (mp3 format not a audio/mp4)**
 - [ ] **Support Subtitles Download**
 - [ ] **Support setting for downloading folder**
