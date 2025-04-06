@@ -41,8 +41,8 @@ class PlaylistHandler:
         console.print("Fetching playlist videos...")
         self.get_all_playlist_videos_title(p_videos)
 
-        if make_in_order:
-            self.playlist_videos.reverse()
+        # if make_in_order:
+        #     self.playlist_videos.reverse()
 
         for index, video_and_id in enumerate(self.playlist_videos):
             new_video_title = f"{index + 1}__{video_and_id[0]}"

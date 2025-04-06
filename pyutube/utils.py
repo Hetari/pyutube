@@ -16,7 +16,7 @@ from termcolor import colored
 from pytubefix import __version__ as pytubefix_version
 
 
-__version__ = "1.4.18"
+__version__ = "1.4.19"
 __app__ = "pyutube"
 ABORTED_PREFIX = "Aborted"
 CANCEL_PREFIX = "Cancel"
@@ -203,7 +203,7 @@ def ask_for_make_playlist_in_order():
     questions = [
         inquirer.Confirm(
             "ask_for_make_playlist_in_order",
-            message="Do you want the playlist videos in order? ",
+            message="Do you want to add the number order of the videos (ex: 1, 2, ...etc)? ",
             default=False
         ),
     ]
