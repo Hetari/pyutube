@@ -10,6 +10,21 @@
 
 ##### Bug Fixes
 
+*  update version to 1.4.19 and improve prompt message for playlist ordering (1f06e17e)
+*  add --break-system-packages option to pip install for auto-update functionality (dd45d002)
+
+#### 1.4.19 (2025-04-06)
+
+##### Chores
+
+*  replace LICENSE.md with LICENSE and update MANIFEST.in (fd4a005d)
+
+##### Documentation Changes
+
+*  update README.md for installation instructions and formatting improvements (52a44487)
+
+##### Bug Fixes
+
 *  add --break-system-packages option to pip install for auto-update functionality (dd45d002)
 
 #### 1.4.18 (2025-02-15)
