@@ -1,3 +1,10 @@
+## 2.0.0 (2025-06-19)
+
+##### Bug Fixes
+
+*  enhance video download check by cleaning filenames for better matching (d0ec7f11)
+*  improve playlist video naming based on order preference (7f0150b3)
+
 #### 1.4.19 (2025-04-06)
 
 ##### Chores
