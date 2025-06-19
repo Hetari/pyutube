@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 import threading
 
@@ -37,15 +38,19 @@ class PlaylistHandler:
         p_videos = playlist.videos
 
         make_in_order = ask_for_make_playlist_in_order()
-
-        console.print("Fetching playlist videos...")
+        console.print(f"{'✅' if make_in_order else '❌'} Make playlist in order", style="info")
+        console.print()
+        console.print("Fetching playlist videos...", style="info")
         self.get_all_playlist_videos_title(p_videos)
 
         # if make_in_order:
         #     self.playlist_videos.reverse()
 
         for index, video_and_id in enumerate(self.playlist_videos):
-            new_video_title = f"{index + 1}__{video_and_id[0]}"
+            if make_in_order:
+                new_video_title = f"{index + 1}__{video_and_id[0]}"
+            else:
+                new_video_title = video_and_id[0]
             self.playlist_videos[index] = (new_video_title, video_and_id[1])
 
         console.print("Checking if the videos are already downloaded...")
