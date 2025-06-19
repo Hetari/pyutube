@@ -102,10 +102,13 @@ class PlaylistHandler:
 
         # check if there is any video already downloaded in the past
         for file in os.listdir(new_path):
+            fileName = os.path.splitext(file)[0]
+            cleaned_file_name = re.compile(r'(_\d{3,4}p|_\d+k|_(hd|uhd|sd))$').sub('', fileName)
+
             for video in self.playlist_videos:
-                if file.startswith(video[0]):
+                video_name = video[0]
+                if video_name.startswith(cleaned_file_name):
                     self.playlist_videos.remove(video)
-                    # Exit the inner loop since we found a match
                     break
 
         if not self.playlist_videos:
